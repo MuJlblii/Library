@@ -1,0 +1,143 @@
+/* HEADER MIN-WIDTH 1440
+    ############################################################ */
+.wrapper {
+    max-width: 1110px;
+    display: flex;
+    justify-content: center;
+}
+.header {
+    margin-top: 32px;
+    margin-bottom: 15px;
+    width: 97vw;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    transition: 50ms;
+    position: relative;
+}
+.header__title {
+    margin: 0 auto 0 120px;
+    cursor: default;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: 0.1px;
+    color: #363636;
+}
+.header__user {
+    height: 58px;
+    display: flex;
+    gap: 5.5px;
+    align-items: center;
+    justify-content: flex-end;
+}
+.header__user_name {
+    cursor: default;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: right;
+    letter-spacing: 0.1px;
+    color: #363636;
+}
+.menu__btn {
+    display: none
+}
+.menu__btn_rotate {
+    transform: rotate(45deg);
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    transition: 0.3s;
+}
+.menu__btn_rotate_rev {
+    transform: rotate(-45deg);
+    transition: 0.3s;
+    left: 0px;
+    top: -7px;
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+}
+
+@media screen and (min-width: 680px) and (max-width: 949px)  {
+    .wrapper {
+        max-width: 640px;
+    }
+    .header {
+        margin-top: 22px;
+        width: 95vw;
+        gap: 24px
+    }
+    .header__logo {
+        display: none;
+    }
+    .menu__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        width: 26px;
+        height: 26px;
+        flex-direction: column;
+        gap: 5px;
+      }
+    
+    .menu__btn_span{
+        background: rgb(0, 0, 0);
+        height: 2px;
+        width: 100%;
+        position: relative;
+        transition: 0.3s;
+    }
+    .header__title {
+        margin: 0;
+    }
+    .header__user {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 679px)  {
+    .header {
+        max-width: 415px;
+        margin: 8px 0 10px 0;
+        gap: 24px;
+    }
+    .header__logo {
+        display: none;
+    }
+    .menu__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        flex-direction: column;
+        gap: 3.5px;
+      }
+    
+    .menu__btn span{
+        background: rgb(0, 0, 0);
+        height: 2px;
+        width: 100%;
+        position: relative;
+    }
+    .menu__btn_rotate_rev {
+        top: -6px;
+    }
+    .header__title {
+        margin: 0;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 28px;
+        letter-spacing: 0.1px;
+        color: #363636;
+    }
+    .header__user {
+        display: none;
+    }
+}
+@media screen and (max-width: 460px) {
+    .header {
+        max-width: 288px;
+    }
+}

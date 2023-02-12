@@ -1,0 +1,436 @@
+{
+  "business": [
+    {
+      "id": "63ca76277acbfd2757ff0e87",
+      "image": "",
+      "category": "business",
+      "author": "Lola Andrews",
+      "title": "Exeter Street, Linwood, South Dakota",
+      "rating": 4,
+      "year": 1970,
+      "isBooked": false,
+      "bookedTill": "2024-01-26T10:33:38 -03:00"
+    },
+    {
+      "id": "63ca76279b279b3f88322e2e",
+      "image": "../../assets/img/book.png",
+      "category": "business",
+      "author": "Marylou Burton",
+      "title": "Dictum Court, Witmer, Puerto Rico",
+      "rating": 1,
+      "year": 1973,
+      "isBooked": false,
+      "bookedTill": "2024-12-19T10:48:58 -03:00"
+    },
+    {
+      "id": "63ca7627b50fe16d3ce08a55",
+      "image": ["../../assets/img/book.png", "../../assets/img/Book1.jpg", "../../assets/img/Book2.jpg"],
+      "category": "business",
+      "author": "Janie Roman",
+      "title": "McKibben Street, Harrison, Kentucky",
+      "rating": 3,
+      "year": 1971,
+      "isBooked": true,
+      "bookedTill": "2024-11-28T04:56:05 -03:00"
+    },
+    {
+      "id": "63ca76271344102600937710",
+      "image": "http://www.google.com/image.jpg",
+      "category": "business",
+      "author": "Shana Duke",
+      "title": "Hendrix Street, Thermal, Virgin Islands",
+      "rating": 2,
+      "year": 1903,
+      "isBooked": true,
+      "bookedTill": "2024-07-08T02:21:01 -03:00"
+    }
+  ],
+  "detective": [
+    {
+      "id": "63ca76053330907a10bdf44a",
+      "image": "http://www.google.com/image.jpg",
+      "category": "detective",
+      "author": "Cooke Brock",
+      "title": "Oriental Boulevard, Chical, Guam",
+      "rating": 5,
+      "year": 2015,
+      "isBooked": true,
+      "bookedTill": "2023-05-30T11:46:28 -03:00"
+    },
+    {
+      "id": "63ca7605c5739d18039a889c",
+      "image": "http://www.google.com/image.jpg",
+      "category": "detective",
+      "author": "Jeannette Tate",
+      "title": "Cypress Court, Haring, Vermont",
+      "rating": 5,
+      "year": 2003,
+      "isBooked": true,
+      "bookedTill": "2024-03-09T07:12:47 -03:00"
+    }
+  ],
+  "children": [
+    {
+      "id": "63ca716d8bcbab5828dbbcf7",
+      "image": "http://www.google.com/image.jpg",
+      "category": "children",
+      "author": "Miranda Skinner",
+      "title": "Huntington Street, Norwood, Colorado",
+      "rating": 2,
+      "year": 1924,
+      "isBooked": false,
+      "bookedTill": "2024-01-29T06:09:11 -03:00"
+    },
+    {
+      "id": "63ca716de91dfc47b8aed9e4",
+      "image": "http://www.google.com/image.jpg",
+      "category": "children",
+      "author": "Garrison James",
+      "title": "Vanderveer Place, Wiscon, Virginia",
+      "rating": 5,
+      "year": 1995,
+      "isBooked": true,
+      "bookedTill": "2024-10-28T01:37:26 -03:00"
+    },
+    {
+      "id": "63ca716da0490006ecaafde6",
+      "image": "http://www.google.com/image.jpg",
+      "category": "children",
+      "author": "Jarvis Rhodes",
+      "title": "Fenimore Street, Osmond, South Carolina",
+      "rating": 1,
+      "year": 1963,
+      "isBooked": false,
+      "bookedTill": "2024-09-08T06:25:20 -03:00"
+    }
+  ],
+
+  "foreign": [
+    {
+      "id": "63ca717a61030d1acafdfae3",
+      "image": "http://www.google.com/image.jpg",
+      "category": "foreign",
+      "author": "Stephanie Cline",
+      "title": "Sharon Street, Hachita, Wisconsin",
+      "rating": 1,
+      "year": 1965,
+      "isBooked": true,
+      "bookedTill": "2024-01-05T09:12:40 -03:00"
+    },
+    {
+      "id": "63ca717ae8e0419d78a46fbd",
+      "image": "http://www.google.com/image.jpg",
+      "category": "foreign",
+      "author": "Marjorie Alvarez",
+      "title": "Autumn Avenue, Roy, Washington",
+      "rating": 1,
+      "year": 1922,
+      "isBooked": true,
+      "bookedTill": "2024-11-22T09:30:00 -03:00"
+    },
+    {
+      "id": "63ca717a951f09bdf368704b",
+      "image": "http://www.google.com/image.jpg",
+      "category": "foreign",
+      "author": "Booker Pugh",
+      "title": "Voorhies Avenue, Henrietta, Nebraska",
+      "rating": 5,
+      "year": 1955,
+      "isBooked": true,
+      "bookedTill": "2023-04-20T02:49:44 -03:00"
+    }
+  ],
+  "history": [
+    {
+      "id": "63ca718eeed31e23bd2dbf4d",
+      "category": "history",
+      "author": "Hewitt Mendez",
+      "title": "Madoc Avenue, Concho, Virgin Islands",
+      "rating": 1,
+      "year": 1927,
+      "isBooked": false,
+      "bookedTill": "2023-11-10T03:29:34 -03:00"
+    },
+    {
+      "id": "63ca718e5cd3842e55bfd18b",
+      "image": "http://www.google.com/image.jpg",
+      "category": "history",
+      "author": "Antonia Madden",
+      "title": "Troutman Street, Norwood, Ohio",
+      "rating": 0,
+      "year": 1910,
+      "isBooked": false,
+      "bookedTill": "2023-06-26T05:17:04 -03:00"
+    },
+    {
+      "id": "63ca718ea2411d119a0dcb33",
+      "image": "http://www.google.com/image.jpg",
+      "category": "history",
+      "author": "Katharine Higgins",
+      "title": "Rockaway Avenue, Stockwell, Nevada",
+      "rating": 3,
+      "year": 1943,
+      "isBooked": true,
+      "bookedTill": "2024-01-23T02:05:11 -03:00"
+    },
+    {
+      "id": "63ca718e278d4876eae8561f",
+      "image": "http://www.google.com/image.jpg",
+      "category": "history",
+      "author": "Davidson Clemons",
+      "title": "Dodworth Street, Kenwood, Wyoming",
+      "rating": 3,
+      "year": 1922,
+      "isBooked": true,
+      "bookedTill": "2024-09-23T07:35:17 -03:00"
+    }
+  ],
+  "classic": [
+    {
+      "id": "63ca71a5ccf1256a2427ee8e",
+      "image": "http://www.google.com/image.jpg",
+      "category": "classic",
+      "author": "Obrien Atkinson",
+      "title": "Degraw Street, Gulf, Virginia",
+      "rating": 3,
+      "year": 2021,
+      "isBooked": false,
+      "bookedTill": "2023-08-09T07:50:26 -03:00"
+    },
+    {
+      "id": "63ca71a5acbed58e02c3471f",
+      "image": "http://www.google.com/image.jpg",
+      "category": "classic",
+      "author": "Lawanda Beach",
+      "title": "Junius Street, Crown, Maryland",
+      "rating": 5,
+      "year": 1901,
+      "isBooked": true,
+      "bookedTill": "2024-08-19T01:16:15 -03:00"
+    },
+    {
+      "id": "63ca71a5681e3d4b107218e3",
+      "image": "http://www.google.com/image.jpg",
+      "category": "classic",
+      "author": "Marla West",
+      "title": "Calyer Street, Barronett, Northern Mariana Islands",
+      "rating": 0,
+      "year": 1985,
+      "isBooked": true,
+      "bookedTill": "2023-07-02T01:23:52 -03:00"
+    }
+  ],
+  "psychology": [
+    {
+      "id": "63ca71b7fe38a00197d6423b",
+      "image": "http://www.google.com/image.jpg",
+      "category": "psychology",
+      "author": "Abbott Merritt",
+      "title": "Beverly Road, Villarreal, Alabama",
+      "rating": 0,
+      "year": 1907,
+      "isBooked": false,
+      "bookedTill": "2024-05-28T09:20:37 -03:00"
+    }
+  ],
+  "computers": [
+    {
+      "id": "63ca71c9e3e8102997512b5d",
+      "image": "http://www.google.com/image.jpg",
+      "category": "computers",
+      "author": "Alyce Garrison",
+      "title": "Tillary Street, Whitmer, West Virginia",
+      "rating": 5,
+      "year": 1963,
+      "isBooked": true,
+      "bookedTill": "2023-04-12T08:31:26 -03:00"
+    },
+    {
+      "id": "63ca71c969d95b2bbc52ae5c",
+      "category": "computers",
+      "author": "Monroe Bradford",
+      "title": "Cox Place, Coaldale, Idaho",
+      "rating": 3,
+      "year": 1999,
+      "isBooked": false,
+      "bookedTill": "2023-11-09T01:14:06 -03:00"
+    }
+  ],
+  "culture": [
+    {
+      "id": "63ca71e6d970b7f0ae3b8c6b",
+      "image": "http://www.google.com/image.jpg",
+      "category": "culture",
+      "author": "Powers Harrell",
+      "title": "Division Avenue, Cleary, Connecticut",
+      "rating": 4,
+      "year": 1958,
+      "isBooked": false,
+      "bookedTill": "2023-10-05T07:48:25 -03:00"
+    },
+    {
+      "id": "63ca71e6fdfc4f14550fd9cc",
+      "image": "http://www.google.com/image.jpg",
+      "category": "culture",
+      "author": "Garrett Carey",
+      "title": "Lewis Avenue, Cochranville, New Jersey",
+      "rating": 2,
+      "year": 2014,
+      "isBooked": true,
+      "bookedTill": "2024-06-04T07:40:31 -03:00"
+    }
+  ],
+  "science": [
+    {
+      "id": "63ca7214c12cad014deb6ca3",
+      "image": "http://www.google.com/image.jpg",
+      "category": "science",
+      "author": "Hardin Rosales",
+      "title": "Malbone Street, Oberlin, Louisiana",
+      "rating": 3,
+      "year": 1990,
+      "isBooked": false,
+      "bookedTill": "2024-08-31T02:41:51 -03:00"
+    },
+    {
+      "id": "63ca72146fcd182f82671ed7",
+      "image": "http://www.google.com/image.jpg",
+      "category": "science",
+      "author": "Thomas Bright",
+      "title": "Kimball Street, Yardville, Maine",
+      "rating": 0,
+      "year": 2006,
+      "isBooked": true,
+      "bookedTill": "2023-06-23T06:53:04 -03:00"
+    }
+  ],
+  "publicistic": [
+    {
+      "id": "63ca721f13f819f5347e7e06",
+      "image": "http://www.google.com/image.jpg",
+      "category": "publicistic",
+      "author": "Lori Sykes",
+      "title": "Ira Court, Ribera, Federated States Of Micronesia",
+      "rating": 5,
+      "year": 1952,
+      "isBooked": true,
+      "bookedTill": "2023-02-28T07:36:21 -03:00"
+    },
+    {
+      "id": "63ca721fab15225ce20c9926",
+      "image": "http://www.google.com/image.jpg",
+      "category": "publicistic",
+      "author": "Mayer Mckee",
+      "title": "Columbia Place, Waterloo, Alaska",
+      "rating": 2,
+      "year": 1994,
+      "isBooked": true,
+      "bookedTill": "2024-05-30T01:01:40 -03:00"
+    }
+  ],
+  "references": [
+    {
+      "id": "63ca7235890c875463bcb2ac",
+      "image": "http://www.google.com/image.jpg",
+      "category": "references",
+      "author": "Ana Fuentes",
+      "title": "Junius Street, Cazadero, New Hampshire",
+      "rating": 5,
+      "year": 2008,
+      "isBooked": false,
+      "bookedTill": "2023-02-23T09:35:44 -03:00"
+    },
+    {
+      "id": "63ca72356f72ad8fe0b32c17",
+      "image": "http://www.google.com/image.jpg",
+      "category": "references",
+      "author": "Armstrong Hansen",
+      "title": "Bayard Street, Manitou, Kentucky",
+      "rating": 0,
+      "year": 1939,
+      "isBooked": true,
+      "bookedTill": "2023-05-12T08:40:34 -03:00"
+    },
+    {
+      "id": "63ca7235a3cb462432bb1e8e",
+      "image": "http://www.google.com/image.jpg",
+      "category": "references",
+      "author": "Jenna Larson",
+      "title": "Durland Place, Gibsonia, Minnesota",
+      "rating": 0,
+      "year": 2006,
+      "isBooked": true,
+      "bookedTill": "2024-04-11T03:36:07 -03:00"
+    }
+  ],
+  "scifi": [
+    {
+      "id": "63ca7260584997167a862a87",
+      "image": "http://www.google.com/image.jpg",
+      "category": "scifi",
+      "author": "Reyes Bright",
+      "title": "Vermont Street, Rose, Iowa",
+      "rating": 5,
+      "year": 1940,
+      "isBooked": false,
+      "bookedTill": "2023-04-13T01:36:18 -03:00"
+    },
+    {
+      "id": "63ca72603b8d7f0892416c20",
+      "image": "http://www.google.com/image.jpg",
+      "category": "scifi",
+      "author": "Hopkins Kirk",
+      "title": "Mersereau Court, Rehrersburg, Idaho",
+      "rating": 0,
+      "year": 1944,
+      "isBooked": true,
+      "bookedTill": "2023-11-09T12:38:03 -03:00"
+    },
+    {
+      "id": "63ca72605c0341fd05cc2976",
+      "image": "http://www.google.com/image.jpg",
+      "category": "scifi",
+      "author": "Violet Michael",
+      "title": "Everit Street, Coinjock, California",
+      "rating": 0,
+      "year": 1924,
+      "isBooked": false,
+      "bookedTill": "2024-01-28T01:23:02 -03:00"
+    }
+  ],
+  "humor": [
+    {
+      "id": "63ca727213ff27e62c10bfef",
+      "image": "http://www.google.com/image.jpg",
+      "category": "humor",
+      "author": "Garrett Foreman",
+      "title": "Sharon Street, Coyote, Georgia",
+      "rating": 1,
+      "year": 1910,
+      "isBooked": true,
+      "bookedTill": "2023-07-28T01:51:18 -03:00"
+    },
+    {
+      "id": "63ca7272f4d74770f2970871",
+      "image": "http://www.google.com/image.jpg",
+      "category": "humor",
+      "author": "Terri Lyons",
+      "title": "Devon Avenue, Kenvil, American Samoa",
+      "rating": 3,
+      "year": 1959,
+      "isBooked": true,
+      "bookedTill": "2023-11-08T10:56:07 -03:00"
+    },
+    {
+      "id": "63ca727238a2520d3931dad6",
+      "image": "http://www.google.com/image.jpg",
+      "category": "humor",
+      "author": "Rosemarie Johns",
+      "title": "Canton Court, Cressey, Louisiana",
+      "rating": 3,
+      "year": 1919,
+      "isBooked": false,
+      "bookedTill": "2023-04-11T01:20:37 -03:00"
+    }
+  ]
+}

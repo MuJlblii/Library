@@ -1,0 +1,79 @@
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+
+import { useAppSelector } from '../../../app/hook';
+import { IBookType } from '../../../app/reducer';
+import imageDef from '../../../assets/img/image.png';
+import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
+
+import style from './bookcard.module.css';
+import lstyle from './bookcard-list.module.css';
+
+export const Bookcard = (
+    {
+        id,
+        category,
+        author,
+        title,
+        rating,
+        year,
+        isBooked
+    }: IBookType) => {
+
+    const view = useAppSelector((state) => state.main.bookShelfView);
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
+    
+      useEffect(() => {
+        const handleWindowResize = () => {
+          setWindowSize(window.innerWidth);
+        };
+    
+        window.addEventListener('resize', handleWindowResize);
+    
+        return () => {
+          window.removeEventListener('resize', handleWindowResize);
+        };
+      },[]);
+
+    const ratingStars = (rate: number) => {
+        const result = [];
+        const size = {
+            width: (view === 'List' && windowSize < 768) ? '13' : '20',
+            height: (view === 'List' && windowSize < 768) ? '12' : '19'
+        };
+
+        for (let i=1; i<6; i++) {
+            if (i <= rate) {
+                result.push(<Icon fill="#FFBC1F" key={i} {...size} />);
+            } else {
+                result.push(<Icon key={i} {...size}/>);
+            }
+        }
+
+        return result;
+    }
+
+    return (
+        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link}>
+            <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__wrapper} data-test-id='card'>
+                <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__container}>
+                    <img src={imageDef} alt="Nothing" className={view === 'Table' ? style.bookcard__img : lstyle.bookcard__img}/>
+                    <div className={view === 'Table' ? style.bookcard__rating : lstyle.bookcard__rating}>
+                        {rating === 0 && <p className={view === 'Table' ? style.bookcard__footer : lstyle.bookcard__footer}>ещё нет оценок</p>}
+                        {rating !== 0 && (<div className={view === 'Table' ? style.bookcard__rating_star : lstyle.bookcard__rating_star}>{ratingStars((rating)).map(el => el)}</div>)}
+                    </div>
+                    <div className={view === 'Table' ? style.bookcard__text : lstyle.bookcard__text}>
+                        <p className={view === 'Table' ? style.bookcard__title : lstyle.bookcard__title}>{title}</p>
+                        <p className={view === 'Table' ? style.bookcard__footer : lstyle.bookcard__footer}>{author} {year}</p>
+                    </div>
+                    <input 
+                        type="button"
+                        value={isBooked ? 'ЗАБРОНИРОВАНА' : 'ЗАБРОНИРОВАТЬ'}
+                        className={view === 'Table' ? style.bookcard__btn : lstyle.bookcard__btn}
+                        disabled={isBooked}
+                    />
+
+                    </div>
+            </div>
+        </NavLink>
+)}

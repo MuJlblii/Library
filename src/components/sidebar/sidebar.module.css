@@ -1,0 +1,107 @@
+.sidebar__wrapper {
+    width: 279px;
+    display: flex;
+    flex-direction: column;
+}
+.sidebar__category {
+    padding-top: 42px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0.1px;
+    color: #363636;
+    position: relative;
+}
+.sidebar__category_head {
+    display: flex;
+    gap: 87px;
+    align-items: center;
+    cursor: pointer;
+}
+.sidebar__category_spoiler_icon {
+    transform: rotate(0.5turn);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.sidebar__category_spoiler_icon_active {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.sidebar__category:first-of-type {
+    padding-top: 0px;
+}
+
+.sidebar__category_hr {
+    height: 1px;
+    width: 255px;
+    position: relative;
+    left: -13px
+}
+
+.sidebar__category_books {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.1px;
+    color: #363636;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 17px 0 0 23px;
+}
+
+.sidebar__category_active {
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    font-weight: 700;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0.1px;
+    position: relative;
+    margin-bottom: 8px;
+}
+.sidebar__category_active::after {
+    content: '';
+    position: absolute;
+    width: 255px;
+    display: block;
+    height: 1px;
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    bottom: -8px;
+}
+.sidebar__category_books_active {
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    font-weight: 700;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0.1px;
+    margin-left: -3px;
+}
+.sidebar__category_active_hr {
+    height: 1px;
+    width: 255px;
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    border: none;
+    position: relative;
+    left: -13px
+}
+
+.sidebar__category_quantity {
+    color: rgba(167, 167, 167, 1);
+    padding: 0 0 3px 6px;
+}
+.unvisible {
+    display: none;
+}
+@media screen and (max-width: 949px) {
+    .sidebar__wrapper {
+        display: none;
+    }
+}

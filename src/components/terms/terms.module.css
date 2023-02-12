@@ -1,0 +1,31 @@
+.terms__wrapper {
+  width: 825px;
+  margin-bottom: 30px;
+}
+
+.terms__title {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: 0.1px;
+  color: #363636;
+  align-self: start;
+  padding: 0 0 32px 0;
+}
+
+@media screen and (min-width: 680px) and (max-width: 1110px) {
+  .terms__wrapper {
+    width: 640px;
+  }
+}
+
+@media screen and (max-width: 679px){
+  .terms__wrapper {
+    width: 288px;
+  }
+  .terms__title {
+    font-size: 18px;
+    line-height: 28px;
+    padding: 24px 0;
+  }
+}
