@@ -1,0 +1,36 @@
+.layout__wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 47px;
+    max-width: 1110px;
+}
+@media screen and (min-width: 950px) and (max-width: 1130px)  {
+    .layout__wrapper {
+        width: 97vw;
+        margin-top: 30px;
+    }
+}
+@media screen and (min-width: 679px) and (max-width: 949px)  {
+    .layout__wrapper {
+        width: 97vw;
+        margin-top: 30px;
+        justify-content: center;
+    }
+}
+@media screen and (min-width: 321px) and (max-width: 679px)  {
+    .layout__wrapper {
+        width: auto;
+        margin-top: 0px;
+        justify-content: center;
+    }
+}
+
+/* FOOTER MAX-WIDTH 767
+    ############################################################ */
+    
+@media screen and (max-width: 320px)  {
+    .layout__wrapper {
+        width: 288px;
+        margin-top: 0;
+    }
+}
