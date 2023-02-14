@@ -1,25 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import dataJSON from '../assets/mock-data/books.json';
+import { IBooksState } from '../interface/interface';
 
-export interface IBookType {
-    id: string,
-    image: string | string[],
-    category: string,
-    author: string,
-    title: string,
-    rating: number,
-    year: number,
-    isBooked: boolean,
-    bookedTill: string
-}
-type BooksType = {
-    [key: string]: IBookType[]
-}
 export interface IstateRedux {
   main: {
     currentCategory: string,
-    data: BooksType,
+    data: IBooksState[],
     sorting: boolean,
     searching: string,
     bookShelfView: string,
@@ -32,7 +18,7 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState: {
     currentCategory: 'all',
-    data: Object.assign(dataJSON),
+    data: [],
     sorting: false,
     searching: '',
     bookShelfView: 'Table',
@@ -40,6 +26,9 @@ export const mainSlice = createSlice({
     isMobileView: false,
     },
   reducers: {
+    setDataFetch(state, action) {
+        return {...state, data: action.payload };
+    },
     currentCategorySet(state, action) {
         return {...state, currentCategory: action.payload };
     },
