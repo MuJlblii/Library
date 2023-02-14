@@ -95,7 +95,7 @@
 .basic__content_footer_cont {
     display: flex;
     flex-direction: column;
-    height: 240px;
+    min-height: 240px;
     justify-content: space-between;
 }
 .basic__content_footer_paragraph {
@@ -132,12 +132,19 @@
     border: 1px solid #EBEBEB;
     margin: 0;
 }
-.grade {
+.rating__wrapper, .rating__star {
     display: flex;
     gap: 17px;
     align-items: center;
 }
-.grade_num {
+.rating__msg {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.1px;
+    color: #363636;
+}
+.rating__num {
     margin-left: 10px;
     font-style: normal;
     font-weight: 700;
@@ -342,7 +349,7 @@
     }
     .detailed__table_first {
         grid-template-columns: 138px auto;
-        grid-template-rows: repeat(4, 18px);
+        grid-template-rows: repeat(4, auto);
         width: 305px;
         row-gap: 16px;
     }
@@ -465,8 +472,9 @@
     .rating {
         gap: 8px;
     }
-    .grade {
+    .rating__wrapper {
         gap: 19px;
+        flex-wrap: wrap;
     }
     .hr {
         width: 288px;

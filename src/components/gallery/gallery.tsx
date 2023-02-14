@@ -13,45 +13,23 @@ import 'swiper/css/scrollbar';
 
 SwiperCore.use([Navigation, Pagination, Thumbs]);
 type PropsType = {
-  images: string[];
-  id?: string;
+  images: Array<{url: string}>;
+  id?: number;
 };
 
 export const Gallery = ({ images, id }: PropsType) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-  const arrayImages = images.map((el, ind) => {
-    if (ind === 0) {
-      return (
-        <SwiperSlide data-test-id='slide-mini' key={`slide-${id}-${ind+1}`}>
-          <img
-            src={require('../../assets/img/book.png')} // eslint-disable-line global-require
-            alt='Book' 
-          />
-        </SwiperSlide>
-      );
-    }
-    if (ind % 2 === 0) {
-      return (
-        <SwiperSlide data-test-id='slide-mini' key={`slide-${id}-${ind+1}`}>
-          <img
-            src={require('../../assets/img/Book1.jpg')} // eslint-disable-line global-require
-            alt='Book' 
-          />
-        </SwiperSlide>
-      );
-    }
+  const arrayImages = images.map((el, ind) => 
+    <SwiperSlide data-test-id='slide-mini' key={`slide-${id}-${ind+1}`}>
+      <img
+        src={`https://strapi.cleverland.by${el.url}`}
+        alt='Book' 
+      />
+    </SwiperSlide>
 
-    return (
-        <SwiperSlide data-test-id='slide-mini' key={`slide-${id}-${ind+1}`}>
-          <img
-            src={require('../../assets/img/Book2.jpg')} // eslint-disable-line global-require
-            alt='Book' 
-          />
-        </SwiperSlide>
-    )
-  });
-
+  )
+  
   useEffect(() => {
     const handleWindowResize = () => {
       setWindowSize(window.innerWidth);
