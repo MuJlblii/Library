@@ -36,6 +36,11 @@
     align-items: center;
     letter-spacing: 0.1px;
     color: #363636;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .bookcard__footer {
     font-weight: 400;

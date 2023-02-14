@@ -10,14 +10,11 @@ import lstyle from './bookshelf-list.module.css';
 
 export const Bookshelf = () => {
     const state = useSelector((stateRedux: IstateRedux) => stateRedux.main);
-    const allBooks = Object.values(state.data).flat();
     
     return (
         <div className={state.bookShelfView === 'Table' ? style.bookshelf__wrapper : lstyle.bookshelf__wrapper}>
-            {state.currentCategory === 'all'
-                ? allBooks.map((el) => <Bookcard {...el} key={el.id}/>)
-                : Object.values(state.data[state.currentCategory]).map((el) => <Bookcard {...el} key={el.id}/>)
-            }
+            {state.currentCategory === 'all' && state.data.map((el) => el.list?.map(book => <Bookcard {...book} key={book.id} category={el.path}/>))}
+            {state.data !== null && state.data.find(el => el.path === state.currentCategory)?.list?.map((book) => <Bookcard {...book} key={book.id} category={state.currentCategory}/>)}
         </div>
 
 )};
