@@ -16,7 +16,7 @@ export const LayoutMainPage = () => {
 
   const skip = data.length > 0 ? true : false;
   const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetCategoriesQuery(undefined, {skip});
-  const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks } = useGetAllBooksQuery(undefined, {skip});
+  const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks } = useGetAllBooksQuery(undefined, {refetchOnMountOrArgChange: true});
  
   useEffect(() => {
     if (dataCategories && dataBooks) {

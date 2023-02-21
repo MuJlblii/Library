@@ -68,7 +68,11 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
                                     {el.path !== 'all' &&
                                         <span
                                             className={style.sidebar__category_quantity}
-                                            data-test-id={isDesktopView ? `navigation-book-count-for-${el.path === 'all' ? 'books' : el.path}` : `burger-book-count-for${el.path === 'all' ? 'books' : el.path}`}
+                                            data-test-id={
+                                                isDesktopView
+                                                ? `navigation-book-count-for-${el.path === 'all' ? 'books' : el.path}`
+                                                : `burger-book-count-for-${el.path === 'all' ? 'books' : el.path}`
+                                            }
                                         >
                                             {el.list ? el.list.length : '0'}
                                         </span>
