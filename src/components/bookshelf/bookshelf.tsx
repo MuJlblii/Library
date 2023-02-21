@@ -1,3 +1,4 @@
+import {Fragment} from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -35,8 +36,13 @@ export const Bookshelf = () => {
     }
 
     return (
-        <div className={bookShelfView === 'Table' ? style.bookshelf__wrapper : lstyle.bookshelf__wrapper}>
-            {data !== null && data.find(el => el.path === category)?.list?.slice().sort((book1, book2) => sortFunc(book1, book2)).map((book) => <Bookcard {...book} key={book.id} category={category}/>)}
-        </div>
+        <Fragment>
+            {data.find(el => el.path === category)?.list?.length && <div className={bookShelfView === 'Table' ? style.bookshelf__wrapper : lstyle.bookshelf__wrapper}>
+                {data !== null && data.find(el => el.path === category)?.list?.length && data.find(el => el.path === category)?.list?.slice().sort((book1, book2) => sortFunc(book1, book2)).map((book) => <Bookcard {...book} key={book.id} category={category}/>)}
+            </div>}
+            {!data.find(el => el.path === category)?.list?.length && <div className={style.no_books} data-test-id='empty-category'>В этой категории книг ещё нет</div>}
+        </Fragment>
+
+        
 
 )};
