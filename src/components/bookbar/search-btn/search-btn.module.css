@@ -15,6 +15,7 @@
     background:url('../../../assets/img/Icon_Action.svg') no-repeat 16px center;
     width: 350px;
     padding: 0 0 0 40px;
+    caret-color: rgb(248, 54, 0);
 }
 .bookbar__btn_search::placeholder {
     color: rgba(167, 167, 167, 1);

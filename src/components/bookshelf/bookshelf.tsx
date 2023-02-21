@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { IstateRedux } from '../../app/reducer';
 import { IBook } from '../../interface/interface';
+import { useSearchValue } from '../../layouts/layout-main-page/layout-main-page';
 
 import { Bookcard } from './bookcard';
 
@@ -12,6 +13,7 @@ import lstyle from './bookshelf-list.module.css';
 
 
 export const Bookshelf = () => {
+    const { searchValue } = useSearchValue();
     const {data, sorting, bookShelfView } = useSelector((stateRedux: IstateRedux) => stateRedux.main);
     const { category } = useParams();
     const direction = sorting ? -1 : 1;
@@ -37,9 +39,13 @@ export const Bookshelf = () => {
 
     return (
         <Fragment>
-            {data.find(el => el.path === category)?.list?.length && <div className={bookShelfView === 'Table' ? style.bookshelf__wrapper : lstyle.bookshelf__wrapper}>
-                {data !== null && data.find(el => el.path === category)?.list?.length && data.find(el => el.path === category)?.list?.slice().sort((book1, book2) => sortFunc(book1, book2)).map((book) => <Bookcard {...book} key={book.id} category={category}/>)}
-            </div>}
+            {data.find(el => el.path === category)?.list?.length &&
+                <div className={bookShelfView === 'Table' ? style.bookshelf__wrapper : lstyle.bookshelf__wrapper}>
+                    {data !== null && data.find(el => el.path === category)?.list?.length &&
+                        data.find(el => el.path === category)?.list?.slice().sort((book1, book2) => sortFunc(book1, book2)).filter(el => el.title.toLowerCase().includes(searchValue.toLowerCase())).map((book) => <Bookcard {...book} key={book.id} category={category}/>)
+                    }
+                </div>
+            }
             {!data.find(el => el.path === category)?.list?.length && <div className={style.no_books} data-test-id='empty-category'>В этой категории книг ещё нет</div>}
         </Fragment>
 

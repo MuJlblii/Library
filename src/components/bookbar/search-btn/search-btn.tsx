@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import { useAppSelector } from '../../../app/hook';
 import { ReactComponent as SearchIcon } from '../../../assets/img/Icon_Action.svg';
 import { ReactComponent as CloseIcon } from '../../../assets/img/Icon_close.svg';
+import { useSearchValue } from '../../../layouts/layout-main-page/layout-main-page';
 
 import style from './search-btn.module.css';
 
@@ -13,6 +14,7 @@ type PropsType = {
 }
 
 export const SearchBtn = ({isMobileSearch, setMobileSearch} : PropsType) => {
+    const {searchValue, setSearchValue} = useSearchValue();
     const isMobileView = useAppSelector((state) => state.main.isMobileView);
     const refInputSearch = useRef<HTMLInputElement>(null);
     const classes = classNames.bind(style);
@@ -38,8 +40,10 @@ export const SearchBtn = ({isMobileSearch, setMobileSearch} : PropsType) => {
        
             <input
                 type="text"
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
                 id='search'
-                placeholder="Поиск книги или автора..."
+                placeholder="Поиск книги или автора…"
                 data-test-id='input-search'
                 className={classes(
                     'bookbar__btn_search',
@@ -57,7 +61,7 @@ export const SearchBtn = ({isMobileSearch, setMobileSearch} : PropsType) => {
                         ref={refInputSearch}
                         type="text"
                         id='search'
-                        placeholder="Поиск книги или автора..."
+                        placeholder="Поиск книги или автора…"
                         data-test-id='input-search'
                         className={`${style.bookbar__btn_search} ${style.bookbar__btn} ${isMobileSearch ? style.bookbar__btn_search_active : ''}`}
                     />
