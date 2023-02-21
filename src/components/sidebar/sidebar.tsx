@@ -61,14 +61,18 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
                                         onClick={handleClose}
                                         to={`/books/${el.path}`}
                                         className={({ isActive }) => isActive ? style.sidebar__category_books_active : undefined}
+                                        data-test-id={isDesktopView ? `navigation-${el.path === 'all' ? 'books' : el.path}` : `burger-${el.path === 'all' ? 'books' : el.path}`}
                                     >
                                         {el.name}
-                                        {el.path !== 'all' &&
-                                            <span className={style.sidebar__category_quantity}>
-                                                {el.list ? el.list.length : '0'}
-                                            </span>
-                                        }
                                     </NavLink>
+                                    {el.path !== 'all' &&
+                                        <span
+                                            className={style.sidebar__category_quantity}
+                                            data-test-id={isDesktopView ? `navigation-book-count-for-${el.path === 'all' ? 'books' : el.path}` : `burger-book-count-for${el.path === 'all' ? 'books' : el.path}`}
+                                        >
+                                            {el.list ? el.list.length : '0'}
+                                        </span>
+                                    }
                                 </li>
                             ))}
                         </ul>
