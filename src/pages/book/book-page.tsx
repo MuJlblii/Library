@@ -29,11 +29,14 @@ export const BookPage = () => {
       {!isError && 
         <div className={`${style.crumbs}`}>
           <div className={`${style.crumbs_content} ${style.container}`}>
-            <NavLink to={`/books/${category}`}>{dataState.find((el: IBooksState) => el.path === category)?.name}</NavLink>
+            <NavLink
+              to={`/books/${category}`}
+              data-test-id='breadcrumbs-link'
+            >{dataState.find((el: IBooksState) => el.path === category)?.name}</NavLink>
             <span>
               <SlashIcon />
             </span>
-            <p>{data?.title}</p>
+            <p data-test-id='book-name'>{data?.title}</p>
           </div>
         </div>
       }
@@ -46,7 +49,7 @@ export const BookPage = () => {
               {data?.images?.length && data?.images?.length > 1 && <Gallery images={data?.images} id={data?.id}/>}
             </div>
               <div className={style.basic__content_header}>
-                <h3 className={style.basic__content_title}>
+                <h3 className={style.basic__content_title} data-test-id='book-title'>
                   {data?.title}
                 </h3>
                 <p className={style.basic__content_author}>{data?.authors}, {data?.issueYear}</p>
