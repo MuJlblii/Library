@@ -55,22 +55,19 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
                     </div>
                     {state.data.length > 0 && 
                         <ul className={` ${spoiler ? style.unvisible : ''} ${style.sidebar__category_books}`}>
-                            <li>
-                                <NavLink
-                                    onClick={handleClose}
-                                    to='/books/all'
-                                    data-test-id={isDesktopView ? 'navigation-books' : 'burger-books' }
-                                    className={({ isActive }) => isActive ? style.sidebar__category_books_active : undefined}
-                                >Все книги</NavLink>
-                            </li>
-
                             {state.data.map((el: IBooksState) => (
                                 <li key={el.id}>
                                     <NavLink
                                         onClick={handleClose}
                                         to={`/books/${el.path}`}
                                         className={({ isActive }) => isActive ? style.sidebar__category_books_active : undefined}
-                                    >{el.name}<span className={style.sidebar__category_quantity}>{el.list ? el.list.length : '0'}</span>
+                                    >
+                                        {el.name}
+                                        {el.path !== 'all' &&
+                                            <span className={style.sidebar__category_quantity}>
+                                                {el.list ? el.list.length : '0'}
+                                            </span>
+                                        }
                                     </NavLink>
                                 </li>
                             ))}
