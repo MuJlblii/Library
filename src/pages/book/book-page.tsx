@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 import { useGetBookByIdQuery } from '../../app/api';
+import { useAppSelector } from '../../app/hook';
 import image from '../../assets/img/default_book.png';
 import logo from '../../assets/img/Ellipse 10.png';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler_black.svg';
@@ -11,27 +12,31 @@ import { ErrorToaster } from '../../components/error-toaster';
 import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
+import { IBooksState } from '../../interface/interface';
 
 import style from './book-page.module.css';
 
 export const BookPage = () => {
   const [isSpoiler, setIsSpoiler] = useState(false);
-  const {bookId} = useParams();
+  const dataState: IBooksState[] = useAppSelector((state) => state.main.data)
+  const {bookId, category} = useParams();
   const {data, isLoading, isError} = useGetBookByIdQuery(bookId as string);
 
   return (
     <section className={style.section}>
       {isLoading && <Loader />}
       {isError && <ErrorToaster />}
-      <div className={`${style.crumbs}`}>
-        <div className={`${style.crumbs_content} ${style.container}`}>
-          <p>Бизнес книги</p>
-          <span>
-            <SlashIcon />
-          </span>
-          <p>Грокаем алгоритмы. Иллюстрированное пособие для программистов и любопытствующих</p>
+      {!isError && 
+        <div className={`${style.crumbs}`}>
+          <div className={`${style.crumbs_content} ${style.container}`}>
+            <NavLink to={`/books/${category}`}>{dataState.find((el: IBooksState) => el.path === category)?.name}</NavLink>
+            <span>
+              <SlashIcon />
+            </span>
+            <p>{data?.title}</p>
+          </div>
         </div>
-      </div>
+      }
       {data?.id && 
         <div className={`${style.container}`}>
           <div className={style.basic__content}>
