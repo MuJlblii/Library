@@ -38,6 +38,10 @@
         gap: 35px;
         row-gap: 32px;
     }
+    .no_books {
+        font-size: 18px;
+        line-height: 28px;
+    }
 }
 
 @media screen and (max-width: 459px) {
@@ -49,5 +53,9 @@
         grid-auto-rows: 470px;
         gap: 0;
         row-gap: 16px;
+    }
+    .no_books {
+        font-size: 18px;
+        line-height: 28px;
     }
 }

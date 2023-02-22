@@ -36,17 +36,23 @@ export const Bookshelf = () => {
                 return 0
         }
     }
+    const dataState = data.find(el => el.path === category)?.list?.slice();
+    const sortedData = dataState?.sort((book1, book2) => sortFunc(book1, book2));
+    const filteredData = sortedData?.filter(el => el.title.toLowerCase().includes(searchValue.toLowerCase()));
 
     return (
         <Fragment>
-            {data.find(el => el.path === category)?.list?.length &&
+            {dataState?.length && filteredData &&
                 <div className={bookShelfView === 'Table' ? style.bookshelf__wrapper : lstyle.bookshelf__wrapper}>
-                    {data !== null && data.find(el => el.path === category)?.list?.length &&
-                        data.find(el => el.path === category)?.list?.slice().sort((book1, book2) => sortFunc(book1, book2)).filter(el => el.title.toLowerCase().includes(searchValue.toLowerCase())).map((book) => <Bookcard {...book} key={book.id} category={category}/>)
-                    }
+                    {filteredData?.map((book) => <Bookcard {...book} key={book.id} category={category}/>)}
                 </div>
             }
-            {!data.find(el => el.path === category)?.list?.length && <div className={style.no_books} data-test-id='empty-category'>В этой категории книг ещё нет</div>}
+            {!filteredData?.length && searchValue.length > 0 &&
+                <div className={style.no_books} data-test-id='search-result-not-found'>По запросу ничего не найдено</div>
+            }
+            {!dataState?.length && searchValue.length === 0 &&
+                <div className={style.no_books} data-test-id='empty-category'>В этой категории книг ещё нет</div>
+            }
         </Fragment>
 
         
