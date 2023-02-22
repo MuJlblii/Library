@@ -28,10 +28,8 @@ export const Bookbar = () => {
                     className={`${style.bookbar__btn_sort}`}
                     onChange={() => dispatch({type: 'main/sorting', payload: !sorting})}
                 />
-                <label htmlFor="sort" className={`${style.bookbar__btn_sort} ${style.bookbar__btn}`}>
-                    <span className={style.bookbar__btn_sort_svg}>
-                        <SortingIcon fill={sorting ? 'white' : '#A7A7A7'}/>
-                    </span>
+                <label htmlFor="sort" className={`${style.bookbar__btn_sort} ${style.bookbar__btn}` } data-test-id='sort-rating-button' >
+                    <SortingIcon fill='#A7A7A7' className={`${style.bookbar__btn_sort_svg} ${sorting ? style.bookbar__btn_sort_svg_active: ''}`} />
                     <span className={style.bookbar__btn_sort_text}>
                         По рейтингу
                     </span>

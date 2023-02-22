@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { Fragment,useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useAppSelector } from '../../../app/hook';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
 import { IBookCard } from '../../../interface/interface';
+import { useSearchValue } from '../../../layouts/layout-main-page/layout-main-page';
 
 import style from './bookcard.module.css';
 import lstyle from './bookcard-list.module.css';
@@ -20,6 +21,28 @@ export const Bookcard = (
         issueYear: year,
         booking: isBooked
     }: IBookCard) => {
+    const { searchValue } = useSearchValue();
+    const getHighlightedText = (text: string, highlight: string) => {
+        const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+
+        return (
+            <Fragment> 
+                {parts.map((part, ind) => {
+                    if (part.toLowerCase() === highlight.toLowerCase())
+                        return (
+                            <span
+                                key={`${ part}_${Math.random()*ind}_${ new Date().getTime() }`}
+                                style={{ color: '#FF5253' }}
+                                data-test-id='highlight-matches'
+                            >
+                                { part }
+                            </span>)
+
+                    return part
+                })}
+            </Fragment>
+        );
+    };
 
     const view = useAppSelector((state) => state.main.bookShelfView);
     const [windowSize, setWindowSize] = useState(window.innerWidth);
@@ -64,7 +87,7 @@ export const Bookcard = (
                         {rating !== null && (<div className={view === 'Table' ? style.bookcard__rating_star : lstyle.bookcard__rating_star}>{ratingStars((rating)).map(el => el)}</div>)}
                     </div>
                     <div className={view === 'Table' ? style.bookcard__text : lstyle.bookcard__text}>
-                        <p className={view === 'Table' ? style.bookcard__title : lstyle.bookcard__title}>{title}</p>
+                        <p className={view === 'Table' ? style.bookcard__title : lstyle.bookcard__title}>{getHighlightedText(title, searchValue)}</p>
                         <p className={view === 'Table' ? style.bookcard__footer : lstyle.bookcard__footer}>{author}, {year}</p>
                     </div>
                     <input 

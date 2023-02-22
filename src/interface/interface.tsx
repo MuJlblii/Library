@@ -13,7 +13,7 @@ export interface IBook {
     histories: IHistories[] | null,
 }
 export interface IBookCard extends IBook {
-    category: string,
+    category: string | undefined,
 }
 
 export interface IBookPage extends IBook {

@@ -1,7 +1,9 @@
 import { IBook, IBooksState, ICategories } from '../interface/interface';
 
 export const createBooksState = (categories: ICategories[], books: IBook[]) => {
-  const readyBookStateArray: IBooksState[] = categories.map((el) => ({ ...el, list: null }));
+  let readyBookStateArray: IBooksState[] = [{name: 'Все книги', path: 'all', id: 0, list: [...books]}];
+
+  readyBookStateArray = [...readyBookStateArray, ...categories.map((el) => ({ ...el, list: null }))];
 
   if (books) {
     for (let i = 0; i < readyBookStateArray.length; i++) {
