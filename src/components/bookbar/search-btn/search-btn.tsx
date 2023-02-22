@@ -24,12 +24,12 @@ export const SearchBtn = ({isMobileSearch, setMobileSearch} : PropsType) => {
         if (isMobileSearch) {
             refInputSearch.current?.focus();
         }
-    });
+    }, [isMobileSearch]);
     useEffect(() => {
         if (!isMobileView) {
             setMobileSearch(false);
         }
-    })
+    }, [isMobileView, setMobileSearch])
 
     return (
         <Fragment>
@@ -43,7 +43,7 @@ export const SearchBtn = ({isMobileSearch, setMobileSearch} : PropsType) => {
                 })}
                 data-test-id='button-search-open'
             >
-                <SearchIcon />
+                <SearchIcon fill='#A7A7A7'/>
             </button>
             <label className={`${style.bookbar__search}`}>
                 <SearchIcon
