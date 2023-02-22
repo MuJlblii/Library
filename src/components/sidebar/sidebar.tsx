@@ -60,7 +60,7 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
                                     <NavLink
                                         onClick={handleClose}
                                         to={`/books/${el.path}`}
-                                        className={({ isActive }) => isActive ? style.sidebar__category_books_active : undefined}
+                                        className={({ isActive }) => isActive ? style.sidebar__category_books_active : ''}
                                         data-test-id={isDesktopView ? `navigation-${el.path === 'all' ? 'books' : el.path}` : `burger-${el.path === 'all' ? 'books' : el.path}`}
                                     >
                                         {el.name}
@@ -86,7 +86,7 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
                     <NavLink
                         onClick={handleClickTermsContract}
                         to='/terms'
-                        className={({ isActive }) => isActive ? style.sidebar__category_active : undefined}
+                        className={({ isActive }) => isActive ? style.sidebar__category_active : ''}
                         data-test-id={isDesktopView ? 'navigation-terms' : 'burger-terms' }
                     >
                         Правила пользования
@@ -97,7 +97,7 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
                         onClick={handleClickTermsContract}
                         to='/contract' 
                         data-test-id={isDesktopView ? 'navigation-contract' : 'burger-contract'}
-                        className={({ isActive }) => isActive ? style.sidebar__category_active : undefined}
+                        className={({ isActive }) => isActive ? style.sidebar__category_active : ''}
                     >
                         Договор оферты
                     </NavLink>

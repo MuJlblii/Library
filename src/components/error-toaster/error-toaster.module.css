@@ -3,6 +3,7 @@
     position: fixed;
     width: 100%;
     max-width: 1110px;
+    z-index: 3;
 }
 .content {
     position: absolute;
