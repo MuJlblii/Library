@@ -3,11 +3,50 @@
     flex-direction: column;
     padding: 48px 56px;
     width: 100%;
+    gap: 32px;
+}
+.title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 0.1px;
+    color: #363636;
+    cursor: default;
+}
+
+.btn__submit_form {
+    width: 100%;
+    height: 52px;
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    border-radius: 30px;
+    border: none;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.2px;
+    color: #FFFFFF;
+    margin-top: 32px;
+    cursor: pointer;
+}
+.btn__submit_form_disabled {
+    background: #EBEBEB;
+}
+.forgot_link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.2px;
+    color: #A7A7A7;
+    align-self: flex-start;
+    padding-left: 12px;
 }
 
 @media screen and (max-width: 528px) {
     .wrapper {
         padding: 24px 16px;
-        
+
     }
 }
