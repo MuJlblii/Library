@@ -44,7 +44,12 @@
 .sidebar__category:first-of-type {
     padding-top: 0px;
 }
-
+.sidebar__category_btn_exit {
+    border: none;
+    background: none;
+    margin-top: 42px;
+    cursor: pointer;
+}
 .sidebar__category_hr {
     height: 1px;
     width: 255px;
