@@ -1,0 +1,1 @@
+export { HighlightedHintText } from './input-highlighter';
