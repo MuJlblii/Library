@@ -3,10 +3,12 @@ import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 import { libraryApi } from './api';
 import {mainSlice} from './reducer';
+import { userSlice } from './reducer-user';
 
 export const store = configureStore({
   reducer: {
     main: mainSlice.reducer,
+    user: userSlice.reducer,
     [libraryApi.reducerPath]: libraryApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
