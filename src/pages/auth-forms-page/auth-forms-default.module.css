@@ -3,7 +3,7 @@
     flex-direction: column;
     padding: 48px 56px;
     width: 100%;
-    gap: 32px;
+    gap: 8px;
 }
 .title {
     font-style: normal;
@@ -14,7 +14,21 @@
     color: #363636;
     cursor: default;
 }
+.stage {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.1px;
+    color: #363636;
+    /* padding-bottom: 32px; */
+}
 
+.form {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 .btn__submit_form {
     width: 100%;
     height: 52px;
@@ -27,7 +41,7 @@
     line-height: 150%;
     letter-spacing: 0.2px;
     color: #FFFFFF;
-    margin-top: 32px;
+    margin-top: 12px;
     cursor: pointer;
 }
 .btn__submit_form_disabled {

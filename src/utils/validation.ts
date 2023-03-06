@@ -14,3 +14,18 @@ export const passwordValidation = {
         },
     }
 };
+export const loginValidation = {
+    validate: {
+        checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым',
+        validatePass: (value: string) => {
+            const checkConditions = [
+                value.match(/^[a-zA-Z0-9_.-]+$/) === null ? 'Используйте для логина ' : '',
+                value.match(/^[a-zA-Z]/) === null ? 'латинский алфавит' : '',
+                value.match(/[0-9]/) === null ? ' и цифры' : ''
+            ];
+            const result = checkConditions.filter((el) => el !== '').join('\\');
+
+            return result === '' ? true : result
+        },
+    }
+};

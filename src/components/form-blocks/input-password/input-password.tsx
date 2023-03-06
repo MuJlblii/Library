@@ -47,7 +47,7 @@ export const Input = ({
     const classes = classNames.bind(style);
     const [isPassVisible, setIsPassVisible] = useState(false);
     const [isLostedBlurInput, setIsLostedBlurInput] = useState(true);
-    const [isFocusInput, setIsFocusInput] = useState(false);
+    // const [isFocusInput, setIsFocusInput] = useState(false);
 
     return (
         <label className={style.label}>
@@ -55,15 +55,16 @@ export const Input = ({
                 data-test-id={name}
                 name={name}
                 ref={innerRef}
-                onFocus={() => {setIsLostedBlurInput(false); setIsFocusInput(true)}}
-                onBlur={(event) => {setIsLostedBlurInput(true); setIsFocusInput(false); onBlur(event)}}
+                onFocus={() => {setIsLostedBlurInput(false);}}
+                onBlur={(event) => {setIsLostedBlurInput(true); onBlur(event)}}
+                // onFocus={() => {setIsLostedBlurInput(false); setIsFocusInput(true)}}
+                // onBlur={(event) => {setIsLostedBlurInput(true); setIsFocusInput(false); onBlur(event)}}
                 onChange={(event) => onChange(event)}
                 type={(inputType === 'text' || isPassVisible) ? 'text' : 'password'}
                 placeholder={placeholder}
                 className={classes(
                     'input',
-                    {'input__border_without_error': !errors[name]?.message,
-                    'input__margin_without_error': !showDefaultHint && !errors[name]?.message}
+                    {'input__border_without_error': !errors[name]?.message}
                 )}
             />
             <span className={style.placeholder}>{placeholder}</span>
@@ -85,7 +86,10 @@ export const Input = ({
                         {'message_error_active': isLostedBlurInput}
                     )}
                 >
-                    <HighlightedHintText text={defaultHintError} highlight={errors[name]?.message ? errors[name]?.message as string : ''}/>
+                    {isLostedBlurInput
+                        ? defaultHintError
+                        : <HighlightedHintText text={defaultHintError} highlight={errors[name]?.message ? errors[name]?.message as string : ''}/>
+                    }
                 </span>
             }
             
@@ -97,10 +101,8 @@ export const Input = ({
                         {'message_error_active': isLostedBlurInput}
                     )}
                 >
-                    {!isFocusInput && errors[name]?.message as string}
-                    {isFocusInput && 
-                        defaultHint
-                    }
+                    {!dirtyFields[name] && errors[name]?.message as string}
+                    {dirtyFields[name] && defaultHintError}
                 </span>
             }
             {!errors[name] && showDefaultHint && <span className={style.message_error_default} data-test-id='hint'>{defaultHint}</span>}
