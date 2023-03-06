@@ -11,14 +11,11 @@
     border-bottom: 2px solid #F42C4F;
     padding: 15px 0 0 12px;
     transition: padding 0.5s;
-    /* background-color: rgba(249, 249, 250, 1); */
 }
 .input_without_error {
-    /* margin-bottom: 18px; */
     border-bottom: 2px solid #BFC4C9;
 }
 .input_without_error_required {
-    /* margin-bottom: 18px; */
     border-bottom: 2px solid #BFC4C9;
 }
 

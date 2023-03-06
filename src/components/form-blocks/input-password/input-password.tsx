@@ -47,7 +47,6 @@ export const Input = ({
     const classes = classNames.bind(style);
     const [isPassVisible, setIsPassVisible] = useState(false);
     const [isLostedBlurInput, setIsLostedBlurInput] = useState(true);
-    // const [isFocusInput, setIsFocusInput] = useState(false);
 
     return (
         <label className={style.label}>
@@ -57,8 +56,6 @@ export const Input = ({
                 ref={innerRef}
                 onFocus={() => {setIsLostedBlurInput(false);}}
                 onBlur={(event) => {setIsLostedBlurInput(true); onBlur(event)}}
-                // onFocus={() => {setIsLostedBlurInput(false); setIsFocusInput(true)}}
-                // onBlur={(event) => {setIsLostedBlurInput(true); setIsFocusInput(false); onBlur(event)}}
                 onChange={(event) => onChange(event)}
                 type={(inputType === 'text' || isPassVisible) ? 'text' : 'password'}
                 placeholder={placeholder}
