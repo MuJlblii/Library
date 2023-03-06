@@ -11,22 +11,22 @@ import { passwordValidation } from '../../../../utils/validation';
 
 import style from './restore-password.module.css';
 
-export interface IRestorePasswordProps {
+export type RestorePasswordPropsType = {
     code: string;
 }
-export interface IRestorePasswordForm {
+export type RestorePasswordFormType = {
     password: string,
     passwordConfirmation: string,
 }
 
-export const RestorePassword = ({code} : IRestorePasswordProps) => {
+export const RestorePassword = ({code} : RestorePasswordPropsType) => {
     const classes = classNames.bind(style);
-    const { register, getValues, formState: { errors, isValid, dirtyFields }, handleSubmit, reset } = useForm<IRestorePasswordForm>({mode: 'all'});
+    const { register, getValues, formState: { errors, isValid, dirtyFields }, handleSubmit, reset } = useForm<RestorePasswordFormType>({mode: 'all'});
 
     const {onChange: onChangePass1, onBlur: onBlurPass1, name: namePass1, ref: refPass1} = register('password', passwordValidation);
     const {onChange: onChangePass2, onBlur: onBlurPass2, name: namePass2, ref: refPass2} = register('passwordConfirmation', {validate: {checkLength: (value: string) => value?.length > 0 || 'Поле не может быть пустым', checkTheSame: (value: string) => value === getValues('password') ? true : 'Пароли не совпадают'}});
     const [restore, {isLoading, isSuccess, isError}] = useRestorePasswordMutation();
-    const onSubmitForm: SubmitHandler<IRestorePasswordForm> = data => {
+    const onSubmitForm: SubmitHandler<RestorePasswordFormType> = data => {
         restore({...data, code})
     };
     const [isErrorRestoreResponse, setIsErrorRestoreResponse] = useState(false);

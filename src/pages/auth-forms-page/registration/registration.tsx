@@ -6,9 +6,9 @@ import { FormStatusBlock } from '../../../components/form-blocks/form-status-blo
 import { Loader } from '../../../components/loader';
 import { PATHS } from '../../../constants/path-routing';
 
-import { IFormInputsFirstStep, RegistrationFirstSection } from './registration-first-section';
-import { IFormInputsSecondStep, RegistrationSecondSection } from './registration-second-section';
-import { IFormInputsThirdStep, RegistrationThirdSection } from './registration-third-section';
+import { FormInputsFirstStepType, RegistrationFirstSection } from './registration-first-section';
+import { FormInputsSecondStepType, RegistrationSecondSection } from './registration-second-section';
+import { FormInputsThirdStepType, RegistrationThirdSection } from './registration-third-section';
 
 import styleDefault from '../auth-forms-default.module.css';
 
@@ -18,15 +18,15 @@ export const RegistrationPage = () => {
     const [register, {isLoading, isSuccess, error}] = useRegisterMutation();
     const [isErrorRegister, setIsErrorRegister] = useState(false);
     const [isErrorResponse, setIsErrorResponse] = useState(false);
-    const onSubmitFirstStep: SubmitHandler<IFormInputsFirstStep> = data => {
+    const onSubmitFirstStep: SubmitHandler<FormInputsFirstStepType> = data => {
         setDataFromForm({...dataFromForm, ...data});
         setStep(step + 1);
     };
-    const onSubmitSecondStep: SubmitHandler<IFormInputsSecondStep> = data => {
+    const onSubmitSecondStep: SubmitHandler<FormInputsSecondStepType> = data => {
         setDataFromForm({...dataFromForm, ...data});
         setStep(step + 1);
     };
-    const onSubmitThirdStep: SubmitHandler<IFormInputsThirdStep> = data => {
+    const onSubmitThirdStep: SubmitHandler<FormInputsThirdStepType> = data => {
         setDataFromForm({...dataFromForm, ...data});
         setStep(step + 1);
         register(dataFromForm);

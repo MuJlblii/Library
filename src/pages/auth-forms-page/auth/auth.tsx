@@ -15,7 +15,7 @@ import { setJWTtokenToLocalStorage } from '../../../utils/jwt-token';
 import styleDefault from '../auth-forms-default.module.css';
 import style from './auth.module.css';
 
-interface IFormAuthInputs {
+type FormAuthInputsType = {
     identifier: string
     password: string
 }
@@ -25,13 +25,13 @@ export const AuthPage = () => {
     const classesDefault = classNames.bind(styleDefault);
     const [isErrorAuth, setIsErrorAuth] = useState(false);
     const [isErrorResponse, setIsErrorResponse] = useState(false);
-    const { register, formState: { errors, dirtyFields, isValid }, handleSubmit, reset } = useForm<IFormAuthInputs>({mode: 'all'});
+    const { register, formState: { errors, dirtyFields, isValid }, handleSubmit, reset } = useForm<FormAuthInputsType>({mode: 'all'});
     const {onChange: onChangeIdent, onBlur: onBlurIdent, name: nameIdent, ref: refIdent} = register('identifier', {validate: {checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым'}});
     const {onChange: onChangePass, onBlur: onBlurPass, name: namePass, ref: refPass} = register('password', {validate: {checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым'}});
 
     const [auth, {isLoading, data, error}] = useAuthorizationMutation();
     const dispatch = useAppDispatch();
-    const onSubmitForm: SubmitHandler<IFormAuthInputs> = ({identifier, password}) => {
+    const onSubmitForm: SubmitHandler<FormAuthInputsType> = ({identifier, password}) => {
         setIsErrorAuth(false);
         auth({identifier, password})
     };

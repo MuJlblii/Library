@@ -7,16 +7,16 @@ import { PATHS } from '../../../constants/path-routing';
 
 import styleDefault from '../auth-forms-default.module.css';
 
-export interface IFormInputsSecondStep {
+export type FormInputsSecondStepType = {
     firstName: string
     lastName: string
 }
 type PropsType = {
-    onSubmitParent: SubmitHandler<IFormInputsSecondStep>
+    onSubmitParent: SubmitHandler<FormInputsSecondStepType>
 }
 
 export const RegistrationSecondSection = ({onSubmitParent}: PropsType) => {
-    const { register, formState: { errors, isValid, dirtyFields }, handleSubmit } = useForm<IFormInputsSecondStep>({mode: 'all'});
+    const { register, formState: { errors, isValid, dirtyFields }, handleSubmit } = useForm<FormInputsSecondStepType>({mode: 'all'});
     const classesDefault = classNames.bind(styleDefault);
 
     const {onChange: onChangeFirstInput, onBlur: onBlurFirstInput, name: nameFirstInput, ref: refFirstInput} = register('firstName', {required: 'Поле не может быть пустым'});

@@ -8,17 +8,17 @@ import { loginValidation, passwordValidation } from '../../../utils/validation';
 
 import styleDefault from '../auth-forms-default.module.css';
 
-export interface IFormInputsFirstStep {
+export type FormInputsFirstStepType = {
     username: string
     password: string
 }
 type PropsType = {
-    onSubmitParent: SubmitHandler<IFormInputsFirstStep>
+    onSubmitParent: SubmitHandler<FormInputsFirstStepType>
 }
 
 export const RegistrationFirstSection = ({onSubmitParent}: PropsType) => {
     
-    const { register, formState: { errors, isValid, dirtyFields }, handleSubmit } = useForm<IFormInputsFirstStep>({mode: 'all'});
+    const { register, formState: { errors, isValid, dirtyFields }, handleSubmit } = useForm<FormInputsFirstStepType>({mode: 'all'});
     const classesDefault = classNames.bind(styleDefault);
 
     const {onChange: onChangeFirstInput, onBlur: onBlurFirstInput, name: nameFirstInput, ref: refFirstInput} = register('username', loginValidation);

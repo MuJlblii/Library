@@ -17,16 +17,16 @@ import styleDefault from '../auth-forms-default.module.css';
 import style from './forgot-password.module.css';
 
 
-export interface IFormForgotPassword {
+export type FormForgotPasswordType = {
     email: string
 }
 
 export const ForgotPasswordPage = () => {
     const classesDefault = classNames.bind(styleDefault);
     const [forgot, {isSuccess, isLoading, error}] = useForgotPasswordMutation();
-    const { register, formState: { errors, isValid, dirtyFields }, handleSubmit } = useForm<IFormForgotPassword>({mode: 'all'});
+    const { register, formState: { errors, isValid, dirtyFields }, handleSubmit } = useForm<FormForgotPasswordType>({mode: 'all'});
     const classes = classNames.bind(style);
-    const onSubmit: SubmitHandler<IFormForgotPassword> = data => {
+    const onSubmit: SubmitHandler<FormForgotPasswordType> = data => {
         forgot(data);
     };
     const [ searchValue ] = useSearchParams();

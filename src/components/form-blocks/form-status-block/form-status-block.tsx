@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 
 import style from './form-status-block.module.css';
 
-export interface IFormStatusBlockProps {
+type FormStatusBlockPropsType = {
     title: string,
     text: string,
     btnLink?: string,
@@ -11,7 +11,7 @@ export interface IFormStatusBlockProps {
     btnSubmitHandler?: () => void,
 }
 
-export const FormStatusBlock = ({ title, text, btnLink, btnText, btnSubmitHandler }: IFormStatusBlockProps) => {
+export const FormStatusBlock = ({ title, text, btnLink, btnText, btnSubmitHandler }: FormStatusBlockPropsType) => {
     const classes = classNames.bind(style);
 
     return (

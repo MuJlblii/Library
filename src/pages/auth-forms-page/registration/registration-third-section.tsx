@@ -6,21 +6,22 @@ import classNames from 'classnames/bind';
 import { FormFooter } from '../../../components/form-blocks/form-footer';
 import { Input } from '../../../components/form-blocks/input-password';
 import { PATHS } from '../../../constants/path-routing';
+import { EmailRegex, PhoneMasks } from '../../../constants/regex';
 
 import styleDefault from '../auth-forms-default.module.css';
 import style from './registration.module.css';
 
-export interface IFormInputsThirdStep {
+export type FormInputsThirdStepType = {
     number: string
     email: string
     phone: string
 }
 type PropsType = {
-    onSubmitParent: SubmitHandler<IFormInputsThirdStep>
+    onSubmitParent: SubmitHandler<FormInputsThirdStepType>
 }
 
 export const RegistrationThirdSection = ({onSubmitParent}: PropsType) => {
-    const { register, formState: { errors, isValid, dirtyFields }, handleSubmit, control } = useForm<IFormInputsThirdStep>({mode: 'all'});
+    const { register, formState: { errors, isValid, dirtyFields }, handleSubmit, control } = useForm<FormInputsThirdStepType>({mode: 'all'});
     const [isLostedBlurSecondInput] = useState(true);
     const classes = classNames.bind(style);
     const classesDefault = classNames.bind(styleDefault);
@@ -29,7 +30,7 @@ export const RegistrationThirdSection = ({onSubmitParent}: PropsType) => {
         'email', {
         validate: {
             checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым',
-            validateEmail: (value) => value.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/) !== null || 'Введите корректный e-mail'
+            validateEmail: (value) => value.match(EmailRegex) !== null || 'Введите корректный e-mail'
         }}
     );
     
@@ -47,8 +48,8 @@ export const RegistrationThirdSection = ({onSubmitParent}: PropsType) => {
                 rules={{
                     required: 'Поле не может быть пустым',
                     validate: {
-                        hasXsymbols: (value) => value.match(/x/) === null || 'В формате +375 (xx) xxx-xx-xx',
-                        hasWrongCode: (value) => value.match(/^(\+375 \((29|44|25|33)\)\s)/) !== null || 'Проверьте код оператора'}
+                        hasXsymbols: (value) => value.match(PhoneMasks.placeholderChar) === null || 'В формате +375 (xx) xxx-xx-xx',
+                        hasWrongCode: (value) => value.match(PhoneMasks.codePhoneRegex) !== null || 'Проверьте код оператора'}
                     }}
                 render={({
                     field,
@@ -59,7 +60,7 @@ export const RegistrationThirdSection = ({onSubmitParent}: PropsType) => {
                             value={field.value}
                             type='tel'
                             inputMode='tel'
-                            mask={['+','3', '7', '5', ' ', '(', /[2,3,4]/, /[5,9,3,4]/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
+                            mask={PhoneMasks.phoneMask}
                             placeholderChar='x'
                             className={classes(
                                 'input',

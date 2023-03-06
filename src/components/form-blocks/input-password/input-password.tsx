@@ -9,7 +9,7 @@ import { HighlightedHintText } from '../input-highlighter';
 
 import style from './input-password.module.css';
 
-export interface IInputProps {
+export type InputPropsType = {
     inputType: string,
     showEyesIcon: boolean,
     innerRef: RefCallBack,
@@ -43,7 +43,7 @@ export const Input = ({
         showCheckMark,
         onChangeMode,
         checkOnDirtyEyesIcon
-    }: IInputProps) => {
+    }: InputPropsType) => {
     const classes = classNames.bind(style);
     const [isPassVisible, setIsPassVisible] = useState(false);
     const [isLostedBlurInput, setIsLostedBlurInput] = useState(true);
