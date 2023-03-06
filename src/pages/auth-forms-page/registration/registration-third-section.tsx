@@ -21,7 +21,7 @@ type PropsType = {
 
 export const RegistrationThirdSection = ({onSubmitParent}: PropsType) => {
     const { register, formState: { errors, isValid, dirtyFields }, handleSubmit, control } = useForm<IFormInputsThirdStep>({mode: 'all'});
-    const [isLostedBlurSecondInput, setIsLostedBlurSecondInput] = useState(true);
+    const [isLostedBlurSecondInput] = useState(true);
     const classes = classNames.bind(style);
     const classesDefault = classNames.bind(styleDefault);
 

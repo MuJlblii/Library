@@ -13,7 +13,6 @@ export const libraryApi = createApi({
 
       if (user.JWTtoken) {
         headers.set('authorization', `Bearer ${user.JWTtoken}`);
-        // sessionStorage.setItem()
       }
     }
   }),

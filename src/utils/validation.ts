@@ -1,6 +1,6 @@
 export const passwordValidation = {
     validate: {
-        checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым',
+        checkLength: (value: string) => value?.length > 0 || 'Поле не может быть пустым',
         validatePass: (value: string) => {
             const checkConditions = [
                 value.length < 8 && value.match(/[A-Z0-9]/) === null ? 'Пароль' : '',
@@ -16,7 +16,7 @@ export const passwordValidation = {
 };
 export const loginValidation = {
     validate: {
-        checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым',
+        checkLength: (value: string) => value?.length > 0 || 'Поле не может быть пустым',
         validatePass: (value: string) => {
             const checkConditions = [
                 value.match(/^[a-zA-Z0-9_.-]+$/) === null ? 'Используйте для логина ' : '',
