@@ -3,6 +3,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { useGetAllBooksQuery, useGetCategoriesQuery } from '../../app/api';
 import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { setDataFetch } from '../../app/reducer';
 import { createBooksState } from '../../app/utils';
 import { ErrorToaster } from '../../components/error-toaster';
 import { Loader } from '../../components/loader';
@@ -25,7 +26,7 @@ export const LayoutMainPage = () => {
     if (dataCategories && dataBooks) {
       const dataFetch = createBooksState(dataCategories, dataBooks);
 
-      dispatch({type: 'main/setDataFetch', payload: dataFetch})
+      dispatch(setDataFetch(dataFetch))
     }
   }, [dataBooks, dataCategories, dispatch])
 

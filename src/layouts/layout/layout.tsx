@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { useAppDispatch, useCheckDesktopView } from '../../app/hook';
+import { setDesktopView, setMobileView } from '../../app/reducer';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
 
@@ -13,11 +14,11 @@ export const Layout = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch({type: 'main/setDesktopView', payload: checkDesktopView})
+        dispatch(setDesktopView(checkDesktopView))
     },[checkDesktopView, dispatch]);
 
     useEffect(() => {
-        dispatch({type: 'main/setMobileView', payload: checkMobileView})
+        dispatch(setMobileView(checkMobileView))
     },[checkMobileView, dispatch]);
 
     return (

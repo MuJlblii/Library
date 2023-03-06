@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { setBookShelfView } from '../../app/reducer';
 import { ReactComponent as ListIcon } from '../../assets/img/Icon_list.svg';
 import { ReactComponent as TableIcon } from '../../assets/img/Icon_plate.svg';
 import { ReactComponent as SortingIcon } from '../../assets/img/Icon_sort.svg';
@@ -41,7 +42,7 @@ export const Bookbar = () => {
                         id='tableView'
                         checked={bookShelfView === 'Table' && true}
                         className={style.bookbar__btn_radio}
-                        onChange={() => dispatch({type: 'main/setBookShelfView', payload: 'Table'})}
+                        onChange={() => dispatch(setBookShelfView('Table'))}
                     />
                     <label
                         htmlFor="tableView"
@@ -56,7 +57,7 @@ export const Bookbar = () => {
                         id='ListView'
                         checked={bookShelfView === 'List' && true}
                         className={style.bookbar__btn_radio}
-                        onChange={() => dispatch({type: 'main/setBookShelfView', payload: 'List'})}
+                        onChange={() => dispatch(setBookShelfView('List'))}
                     />
                     <label
                         htmlFor="ListView"

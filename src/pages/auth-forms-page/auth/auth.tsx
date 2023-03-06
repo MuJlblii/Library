@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 
 import { useAuthorizationMutation } from '../../../app/api';
 import { useAppDispatch } from '../../../app/hook';
+import { setJWTtoken } from '../../../app/reducer-user';
 import { FormFooter } from '../../../components/form-blocks/form-footer';
 import { FormStatusBlock } from '../../../components/form-blocks/form-status-block';
 import { Input } from '../../../components/form-blocks/input-password';
@@ -38,7 +39,7 @@ export const AuthPage = () => {
     
     useEffect(() => {
         if (data?.jwt) {
-            dispatch({type: 'user/setJWTtoken', payload: data.jwt});
+            dispatch(setJWTtoken(data.jwt));
             setJWTtokenToLocalStorage('set', data.jwt);
         }
     }, [data, dispatch]);

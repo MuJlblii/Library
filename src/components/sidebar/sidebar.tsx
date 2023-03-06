@@ -4,7 +4,8 @@ import { NavLink, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import { useAppDispatch, useAppSelector } from '../../app/hook';
-import { IstateRedux } from '../../app/reducer';
+import { currentCategorySet, IstateRedux } from '../../app/reducer';
+import { setJWTtoken } from '../../app/reducer-user';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler.svg';
 import { IBooksState } from '../../interface/interface';
 import { setJWTtokenToLocalStorage } from '../../utils/jwt-token';
@@ -33,12 +34,12 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
         setSpoiler(true);
     }
     const handleClickExitBtn = () => {
-        dispatch({type: 'user/setJWTtoken', payload: null});
+        dispatch(setJWTtoken(null));
         setJWTtokenToLocalStorage('remove');
     }
 
     useEffect(() => {
-        if (category !== state.currentCategory && category !== undefined) {dispatch({type: 'main/currentCategorySet', payload: category})};
+        if (category !== state.currentCategory && category !== undefined) {dispatch(currentCategorySet(category))};
     },[category, dispatch, state]);
 
     useEffect(() => 
