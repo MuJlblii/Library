@@ -49,3 +49,13 @@ export const mainSlice = createSlice({
   },
 }
 })
+
+export const {
+  setDataFetch,
+  currentCategorySet,
+  sorting,
+  searching,
+  setBookShelfView,
+  setDesktopView,
+  setMobileView
+} = mainSlice.actions;

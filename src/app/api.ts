@@ -2,9 +2,20 @@ import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit
 
 import { IBook, IBookPage, IBooksState, ICategories } from '../interface/interface';
 
+import { store } from './store';
+
 export const libraryApi = createApi({
   reducerPath: 'fetch',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://strapi.cleverland.by' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://strapi.cleverland.by',
+    prepareHeaders: (headers, {getState}) => {
+      const { user } = (getState() as ReturnType<typeof store.getState>);
+
+      if (user.JWTtoken) {
+        headers.set('authorization', `Bearer ${user.JWTtoken}`);
+      }
+    }
+  }),
   tagTypes: [],
   endpoints: (builder) => ({
     getBookById: builder.query<IBookPage, string>({
@@ -44,7 +55,52 @@ export const libraryApi = createApi({
         return { error: booksResp.error as FetchBaseQueryError };
       },
     }),
+    authorization: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/auth/local',
+          method: 'POST',
+          body,
+        }
+      }
+    }),
+    register: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/auth/local/register',
+          method: 'POST',
+          body,
+        }
+      }
+    }),
+    forgotPassword: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/auth/forgot-password',
+          method: 'POST',
+          body,
+        }
+      }
+    }),
+    restorePassword: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/auth/reset-password',
+          method: 'POST',
+          body,
+        }
+      }
+    })
   }),
 });
 
-export const { useGetBookByIdQuery, useGetCategoriesQuery, useGetBooksQuery, useGetAllBooksQuery } = libraryApi;
+export const {
+  useGetBookByIdQuery,
+  useGetCategoriesQuery,
+  useGetBooksQuery,
+  useGetAllBooksQuery,
+  useAuthorizationMutation,
+  useRegisterMutation,
+  useForgotPasswordMutation,
+  useRestorePasswordMutation,
+} = libraryApi;

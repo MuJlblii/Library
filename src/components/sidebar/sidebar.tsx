@@ -1,11 +1,14 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
+import classNames from 'classnames/bind';
 
 import { useAppDispatch, useAppSelector } from '../../app/hook';
-import { IstateRedux } from '../../app/reducer';
+import { currentCategorySet, IstateRedux } from '../../app/reducer';
+import { setJWTtoken } from '../../app/reducer-user';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler.svg';
 import { IBooksState } from '../../interface/interface';
+import { setJWTtokenToLocalStorage } from '../../utils/jwt-token';
 
 import defaultStyle from './sidebar.module.css';
 
@@ -15,6 +18,7 @@ type PropsType = {
 }
 
 export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
+    const classes = classNames.bind(style);
     const isDesktopView = useAppSelector((state) => state.main.isDesktopView);
     const state = useSelector((stateRedux: IstateRedux) => stateRedux.main);
     const {category} = useParams();
@@ -29,9 +33,13 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
         }
         setSpoiler(true);
     }
+    const handleClickExitBtn = () => {
+        dispatch(setJWTtoken(null));
+        setJWTtokenToLocalStorage('remove');
+    }
 
     useEffect(() => {
-        if (category !== state.currentCategory && category !== undefined) {dispatch({type: 'main/currentCategorySet', payload: category})};
+        if (category !== state.currentCategory && category !== undefined) {dispatch(currentCategorySet(category))};
     },[category, dispatch, state]);
 
     useEffect(() => 
@@ -106,7 +114,12 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
             {!isDesktopView &&
                 <ul className={style.sidebar__category_additional}>
                     <li className={style.sidebar__category}>Профиль</li>
-                    <li className={style.sidebar__category}>Выход</li>
+                    <button
+                        type='button'
+                        onClick={handleClickExitBtn}
+                        className={classes('sidebar__category', 'sidebar__category_btn_exit')}
+                        data-test-id='exit-button'
+                    >Выход</button>
                 </ul>
             }
         </Fragment>

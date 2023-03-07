@@ -1,0 +1,46 @@
+.form__footer {
+    display: flex;
+    gap: 16px;
+    align-self: flex-start;
+    padding-top: 16px;
+    align-items: center;
+}
+.form__footer_msg {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    color: #727272;
+    cursor: default;
+}
+.form__footer_link {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #363636;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 528px) {
+    .form__footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 0px;
+    }
+    .form__footer_msg {
+        text-align: left;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 20px;
+    }
+    .form__footer_link {
+        justify-content: start;
+    }
+}
