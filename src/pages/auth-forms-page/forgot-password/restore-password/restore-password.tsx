@@ -21,7 +21,7 @@ export type RestorePasswordFormType = {
 
 export const RestorePassword = ({code} : RestorePasswordPropsType) => {
     const classes = classNames.bind(style);
-    const { register, getValues, formState: { errors, isValid, dirtyFields }, handleSubmit, reset } = useForm<RestorePasswordFormType>({mode: 'all'});
+    const { register, getValues, formState: { errors, isValid, dirtyFields }, handleSubmit, reset, } = useForm<RestorePasswordFormType>({mode: 'all'});
 
     const {onChange: onChangePass1, onBlur: onBlurPass1, name: namePass1, ref: refPass1} = register('password', passwordValidation);
     const {onChange: onChangePass2, onBlur: onBlurPass2, name: namePass2, ref: refPass2} = register('passwordConfirmation', {validate: {checkLength: (value: string) => value?.length > 0 || 'Поле не может быть пустым', checkTheSame: (value: string) => value === getValues('password') ? true : 'Пароли не совпадают'}});
@@ -30,7 +30,8 @@ export const RestorePassword = ({code} : RestorePasswordPropsType) => {
         restore({...data, code})
     };
     const [isErrorRestoreResponse, setIsErrorRestoreResponse] = useState(false);
-    
+    const [isInFocus, setIsInFocus] = useState(false);
+
     useEffect(() => {
         if (isError) {
             setIsErrorRestoreResponse(true);
@@ -63,31 +64,43 @@ export const RestorePassword = ({code} : RestorePasswordPropsType) => {
                         checkOnDirtyEyesIcon={true}
                         inputType='password'
                         showEyesIcon={true}
+                        // triggerForm={trigger}
                     />
-                    <Input
-                        onChange={onChangePass2}
-                        onBlur={onBlurPass2}
-                        name={namePass2}
-                        innerRef={refPass2}
-                        dirtyFields={dirtyFields}
-                        errors={errors}
-                        placeholder='Повторите пароль'
-                        defaultHint='Поле не может быть пустым'
-                        defaultHintError='Пароли не совпадают'
-                        showDefaultHint={false}
-                        showCheckMark={false}
-                        onChangeMode={true}
-                        checkOnDirtyEyesIcon={true}
-                        inputType='password'
-                        showEyesIcon={true}
-                    />
+                    <span
+                        onFocus={() => setIsInFocus(true)}
+                        onBlur={() => setIsInFocus(false)}
+                    >
+                        <Input
+                            onChange={onChangePass2}
+                            // onChangePass={onChangePass2}
+                            onBlur={onBlurPass2}
+                            // onBlurPass={onBlurPass2}
+                            name={namePass2}
+                            // namePass={namePass2}
+                            innerRef={refPass2}
+                            dirtyFields={dirtyFields}
+                            errors={errors}
+                            placeholder='Повторите пароль'
+                            // placeholderPass='Повторите пароль'
+                            defaultHint='Поле не может быть пустым'
+                            defaultHintError='Пароли не совпадают'
+                            showDefaultHint={false}
+                            showCheckMark={false}
+                            onChangeMode={false}
+                            checkOnDirtyEyesIcon={true}
+                            inputType='password'
+                            showEyesIcon={true}
+                            // triggerForm={trigger}
+                        />
+                    </span>
+                    
                     <button
                         type="submit"
                         className={classes(
                             'btn_submit',
-                            {'btn_disabled': !isValid}
+                            {'btn_disabled': !isValid && !isInFocus}
                         )}
-                        disabled={!isValid}
+                        disabled={!isValid && !isInFocus}
                     >СОХРАНИТЬ ИЗМЕНЕНИЯ</button>
                 </form>
             </Fragment>

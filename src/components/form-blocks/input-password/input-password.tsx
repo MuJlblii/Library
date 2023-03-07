@@ -42,11 +42,13 @@ export const Input = ({
         showDefaultHint,
         showCheckMark,
         onChangeMode,
-        checkOnDirtyEyesIcon
+        checkOnDirtyEyesIcon,
     }: InputPropsType) => {
     const classes = classNames.bind(style);
     const [isPassVisible, setIsPassVisible] = useState(false);
     const [isLostedBlurInput, setIsLostedBlurInput] = useState(true);
+    const [isInFocus, setIsInFocus] = useState(false);
+    const confirmValidationCheck = onChangeMode || !isInFocus;
 
     return (
         <label className={style.label}>
@@ -54,9 +56,9 @@ export const Input = ({
                 data-test-id={name}
                 name={name}
                 ref={innerRef}
-                onFocus={() => {setIsLostedBlurInput(false);}}
-                onBlur={(event) => {setIsLostedBlurInput(true); onBlur(event)}}
-                onChange={(event) => onChange(event)}
+                onFocus={() => {setIsLostedBlurInput(false); setIsInFocus(true)}}
+                onBlur={(event) => {setIsLostedBlurInput(true); setIsInFocus(false); onBlur(event);}}
+                onChange={(event) => {onChange(event); }}
                 type={(inputType === 'text' || isPassVisible) ? 'text' : 'password'}
                 placeholder={placeholder}
                 className={classes(
@@ -75,7 +77,7 @@ export const Input = ({
                 </button>
             }
 
-            {errors[name] && errors[name]?.type !== 'checkLength' && 
+            {confirmValidationCheck && errors[name] && errors[name]?.type !== 'checkLength' && 
                 <span
                     data-test-id='hint'
                     className={classes(
@@ -90,7 +92,7 @@ export const Input = ({
                 </span>
             }
             
-            {errors[name] && errors[name]?.type === 'checkLength' &&
+            {confirmValidationCheck && errors[name] && errors[name]?.type === 'checkLength' &&
                 <span
                     data-test-id='hint'
                     className={classes(
