@@ -116,11 +116,10 @@ export const RegistrationThirdSection = ({onSubmitParent}: PropsType) => {
                 placeholder='E-mail'
                 showCheckMark={false}
                 showDefaultHint={true}
-                onChangeMode={false}
+                onChangeMode={true}
                 checkOnDirtyEyesIcon={false}
                 inputType='text'
                 showEyesIcon={false}
-                
             />
 
             <button

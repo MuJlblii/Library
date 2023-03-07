@@ -64,7 +64,6 @@ export const RestorePassword = ({code} : RestorePasswordPropsType) => {
                         checkOnDirtyEyesIcon={true}
                         inputType='password'
                         showEyesIcon={true}
-                        // triggerForm={trigger}
                     />
                     <span
                         onFocus={() => setIsInFocus(true)}
@@ -72,16 +71,12 @@ export const RestorePassword = ({code} : RestorePasswordPropsType) => {
                     >
                         <Input
                             onChange={onChangePass2}
-                            // onChangePass={onChangePass2}
                             onBlur={onBlurPass2}
-                            // onBlurPass={onBlurPass2}
                             name={namePass2}
-                            // namePass={namePass2}
                             innerRef={refPass2}
                             dirtyFields={dirtyFields}
                             errors={errors}
                             placeholder='Повторите пароль'
-                            // placeholderPass='Повторите пароль'
                             defaultHint='Поле не может быть пустым'
                             defaultHintError='Пароли не совпадают'
                             showDefaultHint={false}
@@ -90,7 +85,6 @@ export const RestorePassword = ({code} : RestorePasswordPropsType) => {
                             checkOnDirtyEyesIcon={true}
                             inputType='password'
                             showEyesIcon={true}
-                            // triggerForm={trigger}
                         />
                     </span>
                     

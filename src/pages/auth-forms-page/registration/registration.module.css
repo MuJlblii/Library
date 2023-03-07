@@ -1,5 +1,6 @@
 .label {
     height: 72px;
+    position: relative;
 }
 .input {
     width: 416px;
@@ -53,4 +54,10 @@
 }
 .label:first-child {
     margin-bottom: 18px;
+}
+
+@media screen and (max-width: 528px) {
+    .input {
+        width: 256px;
+    }
 }
