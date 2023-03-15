@@ -109,6 +109,6 @@ export const Bookcard = (
                     </div>
             </div>
         </NavLink>
-        {isShowingBooking && <Booking setIsShowingBooking={setIsShowingBooking} isShowingBooking={isShowingBooking}/>}
+        {isShowingBooking && <Booking setIsShowingBooking={setIsShowingBooking} isShowingBooking={isShowingBooking} bookCardId={id}/>}
         </Fragment>
 )}

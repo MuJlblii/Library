@@ -90,6 +90,15 @@ export const libraryApi = createApi({
           body,
         }
       }
+    }),
+    booking: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/bookings',
+          method: 'POST',
+          body,
+        }
+      }
     })
   }),
 });
@@ -103,4 +112,5 @@ export const {
   useRegisterMutation,
   useForgotPasswordMutation,
   useRestorePasswordMutation,
+  useBookingMutation,
 } = libraryApi;
