@@ -1,0 +1,72 @@
+.MainWrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(54, 54, 54, 0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 256px;
+    /* height: 240px; */
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
+    border-radius: 8px;
+}
+.header {
+    display: flex;
+    gap: 10px;
+}
+.navigation {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.calendar__week_title {
+    display: flex;
+}
+.calendar__days {
+    display: flex;
+    flex-direction: column;
+}
+.calendar__week {
+    display: flex;
+}
+.calendar__cell {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.2px;
+    color: #BFC4C9;
+    border: none;
+    background-color: #FFFFFF;
+}
+
+.calendar__cell_current_day {
+    color: #F83600;
+}
+.calendar__cell_weekend {
+    background: #FEEBEA;
+    border-radius: 16px;
+}
+
+.calendar__cell_selected_day {
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    border-radius: 16px;
+    color: #FFFFFF;
+}

@@ -11,6 +11,7 @@ import { useSearchValue } from '../../../layouts/layout-main-page/layout-main-pa
 
 import style from './bookcard.module.css';
 import lstyle from './bookcard-list.module.css';
+import { Calendar } from '../../calendar';
 
 export const Bookcard = (
     {
@@ -24,9 +25,10 @@ export const Bookcard = (
         booking: isBooked
     }: IBookCard) => {
     const { searchValue } = useSearchValue();
+    const [isShowingCalendar, setIsShowingCalendar] = useState(false);
     const {User} = useSelector((state: UserStateType) => state.user);
     const isBookedCurrentUser = isBooked && (isBooked.customerId === User?.id) ? true : false;
-
+    // console.log('isBookedCurrentUser', isBookedCurrentUser, '// isBooked?.customerId', isBooked?.customerId, '// User?.id', User?.id)
     const getHighlightedText = (text: string, highlight: string) => {
         const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
 
@@ -83,7 +85,8 @@ export const Bookcard = (
     }
 
     return (
-        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link}>
+        <Fragment>
+        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link} >
             <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__wrapper} data-test-id='card'>
                 <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__container}>
                     <img src={image === null ? imageDef : `https://strapi.cleverland.by${image.url}`} alt="Nothing" className={view === 'Table' ? style.bookcard__img : lstyle.bookcard__img}/>
@@ -100,9 +103,12 @@ export const Bookcard = (
                         value={isBooked && !isBookedCurrentUser ? 'ЗАБРОНИРОВАНА' : 'ЗАБРОНИРОВАТЬ'}
                         className={view === 'Table' ? style.bookcard__btn : lstyle.bookcard__btn}
                         disabled={isBooked !== null}
+                        onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowingCalendar(!isShowingCalendar)}}
                     />
 
                     </div>
             </div>
         </NavLink>
+        {isShowingCalendar && <Calendar />}
+        </Fragment>
 )}
