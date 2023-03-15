@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 
 import { useAuthorizationMutation } from '../../../app/api';
 import { useAppDispatch } from '../../../app/hook';
-import { setJWTtoken } from '../../../app/reducer-user';
+import { setJWTtoken, setUser } from '../../../app/reducer-user';
 import { FormFooter } from '../../../components/form-blocks/form-footer';
 import { FormStatusBlock } from '../../../components/form-blocks/form-status-block';
 import { Input } from '../../../components/form-blocks/input-password';
@@ -38,11 +38,22 @@ export const AuthPage = () => {
     };
     
     useEffect(() => {
+        // console.log('data from auth', data);
         if (data?.jwt) {
             dispatch(setJWTtoken(data.jwt));
             setJWTtokenToLocalStorage('set', data.jwt);
         }
+        if (data?.user) {
+            dispatch(setUser(data.user));
+        }
     }, [data, dispatch]);
+
+    // useEffect(() => {
+    //     console.log('data from auth', data);
+    //     if (data?.user) {
+    //         dispatch(setUser(data.user));
+    //     }
+    // }, [data, dispatch]);
 
     useEffect(() => {
         if (error && 'status' in error && error.status === 400) {

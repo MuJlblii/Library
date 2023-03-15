@@ -1,7 +1,9 @@
 import { Fragment,useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { useAppSelector } from '../../../app/hook';
+import { UserStateType } from '../../../app/reducer-user';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
 import { IBookCard } from '../../../interface/interface';
@@ -22,6 +24,9 @@ export const Bookcard = (
         booking: isBooked
     }: IBookCard) => {
     const { searchValue } = useSearchValue();
+    const {User} = useSelector((state: UserStateType) => state.user);
+    const isBookedCurrentUser = isBooked && (isBooked.customerId === User?.id) ? true : false;
+
     const getHighlightedText = (text: string, highlight: string) => {
         const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
 
@@ -92,7 +97,7 @@ export const Bookcard = (
                     </div>
                     <input 
                         type="button"
-                        value={isBooked ? 'ЗАБРОНИРОВАНА' : 'ЗАБРОНИРОВАТЬ'}
+                        value={isBooked && !isBookedCurrentUser ? 'ЗАБРОНИРОВАНА' : 'ЗАБРОНИРОВАТЬ'}
                         className={view === 'Table' ? style.bookcard__btn : lstyle.bookcard__btn}
                         disabled={isBooked !== null}
                     />

@@ -70,7 +70,7 @@
 }
 .bookcard__btn:disabled {
     border: 1px solid #BFC4C9;
-    background: rgba(255, 255, 255, 1);
+    background: #F9F9FA;
     color: rgba(54, 54, 54, 1);
     color: #A7A7A7;
 }
