@@ -62,4 +62,9 @@
         padding: 24px 16px;
 
     }
+    .btn__submit_form {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 18px;
+    }
 }
