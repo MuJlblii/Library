@@ -12,6 +12,7 @@ import { Input } from '../../../components/form-blocks/input-password';
 import { Loader } from '../../../components/loader';
 import { PATHS } from '../../../constants/path-routing';
 import { setJWTtokenToLocalStorage } from '../../../utils/jwt-token';
+import { setUserToLocalStorage } from '../../../utils/user-local-storage';
 
 import styleDefault from '../auth-forms-default.module.css';
 import style from './auth.module.css';
@@ -38,22 +39,15 @@ export const AuthPage = () => {
     };
     
     useEffect(() => {
-        // console.log('data from auth', data);
         if (data?.jwt) {
             dispatch(setJWTtoken(data.jwt));
             setJWTtokenToLocalStorage('set', data.jwt);
         }
         if (data?.user) {
             dispatch(setUser(data.user));
+            setUserToLocalStorage('set', data.user);
         }
     }, [data, dispatch]);
-
-    // useEffect(() => {
-    //     console.log('data from auth', data);
-    //     if (data?.user) {
-    //         dispatch(setUser(data.user));
-    //     }
-    // }, [data, dispatch]);
 
     useEffect(() => {
         if (error && 'status' in error && error.status === 400) {

@@ -23,7 +23,7 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: {
       JWTtoken: localStorage.getItem('JWTtoken') ? localStorage.JWTtoken : null,
-      User: null
+      User: localStorage.getItem('user') ? JSON.parse(localStorage.user) : null,
       },
     reducers: {
       setJWTtoken(state, action) {
