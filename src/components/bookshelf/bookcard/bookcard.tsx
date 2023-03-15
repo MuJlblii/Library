@@ -8,10 +8,10 @@ import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
 import { IBookCard } from '../../../interface/interface';
 import { useSearchValue } from '../../../layouts/layout-main-page/layout-main-page';
+import { Booking } from '../../booking';
 
 import style from './bookcard.module.css';
 import lstyle from './bookcard-list.module.css';
-import { Calendar } from '../../calendar';
 
 export const Bookcard = (
     {
@@ -25,7 +25,7 @@ export const Bookcard = (
         booking: isBooked
     }: IBookCard) => {
     const { searchValue } = useSearchValue();
-    const [isShowingCalendar, setIsShowingCalendar] = useState(false);
+    const [isShowingBooking, setIsShowingBooking] = useState(false);
     const {User} = useSelector((state: UserStateType) => state.user);
     const isBookedCurrentUser = isBooked && (isBooked.customerId === User?.id) ? true : false;
     // console.log('isBookedCurrentUser', isBookedCurrentUser, '// isBooked?.customerId', isBooked?.customerId, '// User?.id', User?.id)
@@ -103,12 +103,12 @@ export const Bookcard = (
                         value={isBooked && !isBookedCurrentUser ? 'ЗАБРОНИРОВАНА' : 'ЗАБРОНИРОВАТЬ'}
                         className={view === 'Table' ? style.bookcard__btn : lstyle.bookcard__btn}
                         disabled={isBooked !== null}
-                        onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowingCalendar(!isShowingCalendar)}}
+                        onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowingBooking(!isShowingBooking)}}
                     />
 
                     </div>
             </div>
         </NavLink>
-        {isShowingCalendar && <Calendar />}
+        {isShowingBooking && <Booking setIsShowingBooking={setIsShowingBooking} isShowingBooking={isShowingBooking}/>}
         </Fragment>
 )}
