@@ -5,6 +5,7 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import weekday from 'dayjs/plugin/weekday';
 
 import { ReactComponent as NavCalendar } from '../../assets/img/Icon_calendar.svg';
+import { months } from '../../constants/month';
 
 import { useGenerateCalendarDates } from './utils/utils';
 
@@ -21,23 +22,7 @@ export const Calendar = ({selectedDay, setSelectedDay}: CalendarPropsType) => {
 	dayjs.locale('ru');
 	dayjs.extend(updateLocale);
 	dayjs.extend(weekday);
-	dayjs.updateLocale('ru', {
-		months: [
-			'Январь',
-			'Февраль',
-			'Март',
-			'Апрель',
-			'Май',
-			'Июнь',
-			'Июль',
-			'Август',
-			'Сентябрь',
-			'Октябрь',
-			'Ноябрь',
-			'Декабрь',
-		],
-		weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-	});
+
 	const weekend = [0, 6];
 	const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
 	const currentDay = useMemo(() => dayjs().toDate(), []);
@@ -50,21 +35,44 @@ export const Calendar = ({selectedDay, setSelectedDay}: CalendarPropsType) => {
 
 	return (
 		<div className={style.MainWrapper}>
-			<div className={style.content}>
+			<div className={style.content} data-test-id='calendar'>
 				<div className={style.header}>
-					<h3>{selectedDate.clone().format('MMMM YYYY')}</h3>
+					<select
+						className={style.month_select}
+						data-test-id='month-select'
+						onChange={(e) => setSelectedDate(dayjs().month(e.target.selectedIndex))}
+						value={selectedDate.month()}
+					>
+						{months.map((el, index) => (
+							<option value={index} key={el}>{el} {selectedDate.year()}</option>
+						))}
+					</select>
 					<div className={style.navigation}>
-						<NavCalendar onClick={() => setSelectedDate((date) => date.subtract(1, 'month'))} />
-						<NavCalendar style={{ rotate: '180deg' }} onClick={() => setSelectedDate((date) => date.add(1, 'month'))} />
+						<button
+							type='submit'
+							data-test-id='button-prev-month'
+							onClick={() => setSelectedDate((date) => date.subtract(1, 'month'))}
+							className={style.btn__select_month}
+						>
+							<NavCalendar />
+						</button>
+						<button
+							type='submit'
+							data-test-id='button-next-month'
+							onClick={() => setSelectedDate((date) => date.add(1, 'month'))}
+							className={style.btn__select_month}
+						>
+							<NavCalendar style={{ rotate: '180deg' }} />
+						</button>
 					</div>
 				</div>
 				<div className={style.calendar__week_title}>
 					{generateWeeksOfTheMonth[0].map((day, index) => (
 						<div
-							className={classNames(style.calendar__cell)}
+							className={classNames(style.calendar__cell, style.calendar__cell_weekday)}
 							key={`week-day-${Math.random() * index}_${new Date().getTime()}`}
 						>
-							{dayjs(day).format('ddd')}
+							{dayjs(day).format('dd')}
 						</div>
 					))}
 				</div>
@@ -77,11 +85,11 @@ export const Calendar = ({selectedDay, setSelectedDay}: CalendarPropsType) => {
 								return (
 									<button
 										type='submit'
+										data-test-id='day-button'
 										onClick={(e) => {
 											e.preventDefault();
 											e.stopPropagation();
 											handleDayClick(day);
-											console.log(day.toDate());
 										}}
 										disabled={!acceptableDate.includes(day.format('DD/MM/YY'))}
 										className={classNames(style.calendar__cell, {
@@ -90,6 +98,7 @@ export const Calendar = ({selectedDay, setSelectedDay}: CalendarPropsType) => {
 											[style.calendar__cell_weekend]:
 												weekend.includes(day.day()) && day.month() === selectedDate.month(),
 											[style.calendar__cell_selected_day]: day.format('DD/MM/YY') === selectedDay?.format('DD/MM/YY'),
+											[style.calendar__cell_available_day]: acceptableDate.includes(day.format('DD/MM/YY'))
 										})}
 										key={`day-${Math.random() * dayIndex}_${new Date().getTime()}`}
 									>

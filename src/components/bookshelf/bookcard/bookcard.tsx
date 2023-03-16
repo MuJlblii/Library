@@ -103,6 +103,7 @@ export const Bookcard = (
                         value={isBooked && !isBookedCurrentUser ? 'ЗАБРОНИРОВАНА' : 'ЗАБРОНИРОВАТЬ'}
                         className={view === 'Table' ? style.bookcard__btn : lstyle.bookcard__btn}
                         disabled={isBooked !== null}
+                        data-test-id='booking-button'
                         onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowingBooking(!isShowingBooking)}}
                     />
 

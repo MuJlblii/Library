@@ -16,16 +16,18 @@ export const libraryApi = createApi({
       }
     }
   }),
-  tagTypes: [],
+  tagTypes: ['User', 'Books', 'Book'],
   endpoints: (builder) => ({
     getBookById: builder.query<IBookPage, string>({
       query: (id) => `/api/books/${id}`,
+      providesTags: ['Book']
     }),
     getCategories: builder.query({
       query: () => '/api/categories',
     }),
     getAllBooks: builder.query({
       query: () => '/api/books',
+      providesTags: ['Books']
     }),
     getBooks: builder.query({
       async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
@@ -98,7 +100,8 @@ export const libraryApi = createApi({
           method: 'POST',
           body,
         }
-      }
+      },
+      invalidatesTags: ['Books']
     })
   }),
 });

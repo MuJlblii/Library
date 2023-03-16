@@ -12,7 +12,7 @@ export const useGenerateCalendarDates = (currentDay: Date, selectedDate: Dayjs) 
 			for (let i = 1; i < 6; i++) {
 				const date = day.clone().add(i, 'week');
 
-				if (date.month() > selectedDate.month()) break;
+				if (date.month() > selectedDate.month() || date.year() > selectedDate.year()) break;
 				dates.push(date);
 			}
 

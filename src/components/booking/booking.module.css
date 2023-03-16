@@ -14,9 +14,23 @@
 }
 .wrapper {
     width: 528px;
-    
+    position: relative;
     background: #FFFFFF;
     border-radius: 16px;
+}
+.close_icon {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+    border: none;
+    background: #F9F9FA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 .modal {
     display: flex;
@@ -34,6 +48,7 @@
     text-align: center;
     letter-spacing: 0.1px;
     color: #363636;
+    padding: 0 50px;
 }
 
 .btn {
@@ -49,11 +64,13 @@
     letter-spacing: 0.2px;
     color: #FFFFFF;
     background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    cursor: pointer;
 }
 .btn_delete {
     background: #FFFFFF;
     color: #363636;
 }
 .btn:disabled {
-    background: #EBEBEB;;
+    background: #EBEBEB;
+    cursor: default;
 }
