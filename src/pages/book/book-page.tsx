@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
+import classNames from 'classnames';
+import dayjs from 'dayjs';
 
 import { useGetBookByIdQuery } from '../../app/api';
 import { useAppSelector } from '../../app/hook';
@@ -8,6 +10,7 @@ import logo from '../../assets/img/Ellipse 10.png';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler_black.svg';
 import {ReactComponent as SlashIcon} from '../../assets/img/Slash.svg';
 import {ReactComponent as StarIcon} from '../../assets/img/Star.svg'; 
+import { Booking } from '../../components/booking';
 import { ErrorToaster } from '../../components/error-toaster';
 import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
@@ -18,14 +21,22 @@ import style from './book-page.module.css';
 
 export const BookPage = () => {
   const [isSpoiler, setIsSpoiler] = useState(false);
-  const dataState: IBooksState[] = useAppSelector((state) => state.main.data)
+  const [isShowingBooking, setIsShowingBooking] = useState(false);
+  const dataState: IBooksState[] = useAppSelector((state) => state.main.data);
+  const userId: number | null = useAppSelector((state) => state.user.User?.id) || null;
   const {bookId, category} = useParams();
   const {data, isLoading, isError} = useGetBookByIdQuery(bookId as string);
+  const isBooked = data?.booking;
+  const isBookedCurrentUser = isBooked && (isBooked.customerId === userId) ? true : false;
+  const isBookedAnotherUser = isBooked && (isBooked.customerId !== userId) ? true : false;
+  const dateDelivery = dayjs(data?.delivery?.dateHandedTo).format('DD.MM');
+  const isOnDelivery = typeof data?.delivery?.dateHandedTo === 'string';
 
   return (
     <section className={style.section}>
       {isLoading && <Loader />}
       {isError && <ErrorToaster />}
+      {isShowingBooking && <Booking isShowingBooking={isShowingBooking} setIsShowingBooking={setIsShowingBooking} bookCardId={Number(bookId)}/>}
       {!isError && 
         <div className={`${style.crumbs}`}>
           <div className={`${style.crumbs_content} ${style.container}`}>
@@ -53,7 +64,23 @@ export const BookPage = () => {
                   {data?.title}
                 </h3>
                 <p className={style.basic__content_author}>{data?.authors}, {data?.issueYear}</p>
-                <input type='button' className={style.basic__content_bill} value='ЗАБРОНИРОВАТЬ' />
+                <button
+                  type='submit'
+                  onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowingBooking(true)}}
+                  className={classNames(
+                    style.basic__content_bill,
+                    {[style.basic__content_bill_available]: isBookedCurrentUser,}
+                  )}
+                  data-test-id='booking-button'
+                  disabled={isOnDelivery || isBookedAnotherUser}
+                >
+                  {isOnDelivery
+                    ? `Занята до ${dateDelivery}`
+                    : isBooked
+                    ? 'ЗАБРОНИРОВАНА'
+                    : 'ЗАБРОНИРОВАТЬ'
+                  }
+                </button>
               </div>
               <div className={style.basic__content_footer}>
                 <p className={style.basic__content_footer_title}>О книге</p>

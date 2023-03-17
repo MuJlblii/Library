@@ -1,6 +1,8 @@
 import { Fragment,useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
+import dayjs from 'dayjs';
 
 import { useAppSelector } from '../../../app/hook';
 import { UserStateType } from '../../../app/reducer-user';
@@ -22,13 +24,16 @@ export const Bookcard = (
         title,
         rating,
         issueYear: year,
-        booking: isBooked
+        booking: isBooked,
+        delivery
     }: IBookCard) => {
     const { searchValue } = useSearchValue();
     const [isShowingBooking, setIsShowingBooking] = useState(false);
     const {User} = useSelector((state: UserStateType) => state.user);
     const isBookedCurrentUser = isBooked && (isBooked.customerId === User?.id) ? true : false;
-    // console.log('isBookedCurrentUser', isBookedCurrentUser, '// isBooked?.customerId', isBooked?.customerId, '// User?.id', User?.id)
+    const isBookedAnotherUser = isBooked && (isBooked.customerId !== User?.id) ? true : false;
+    const dateDelivery = dayjs(delivery?.dateHandedTo).format('DD.MM');
+    const isOnDelivery = typeof delivery?.dateHandedTo === 'string';
     const getHighlightedText = (text: string, highlight: string) => {
         const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
 
@@ -86,7 +91,7 @@ export const Bookcard = (
 
     return (
         <Fragment>
-        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link} >
+        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link} data-test-id='card'>
             <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__wrapper} data-test-id='card'>
                 <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__container}>
                     <img src={image === null ? imageDef : `https://strapi.cleverland.by${image.url}`} alt="Nothing" className={view === 'Table' ? style.bookcard__img : lstyle.bookcard__img}/>
@@ -98,14 +103,23 @@ export const Bookcard = (
                         <p className={view === 'Table' ? style.bookcard__title : lstyle.bookcard__title}>{getHighlightedText(title, searchValue)}</p>
                         <p className={view === 'Table' ? style.bookcard__footer : lstyle.bookcard__footer}>{author}, {year}</p>
                     </div>
-                    <input 
-                        type="button"
-                        value={isBooked && !isBookedCurrentUser ? 'ЗАБРОНИРОВАНА' : 'ЗАБРОНИРОВАТЬ'}
-                        className={view === 'Table' ? style.bookcard__btn : lstyle.bookcard__btn}
-                        disabled={isBooked !== null}
+                    <button 
+                        type="submit"
+                        className={classNames({
+                            [style.bookcard__btn]: view === 'Table',
+                            [lstyle.bookcard__btn]: view !== 'Table',
+                            [style.bookcard__btn_available]: isBookedCurrentUser,
+
+                        })}
+                        disabled={isOnDelivery || isBookedAnotherUser}
                         data-test-id='booking-button'
                         onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowingBooking(!isShowingBooking)}}
-                    />
+                    >{isOnDelivery
+                        ? `Занята до ${dateDelivery}`
+                        : isBooked
+                        ? 'забронирована'
+                        : 'забронировать'
+                      }</button>
 
                     </div>
             </div>
