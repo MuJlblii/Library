@@ -101,7 +101,7 @@ export const libraryApi = createApi({
           body,
         }
       },
-      invalidatesTags: ['Books']
+      invalidatesTags: ['Book', 'Books']
     })
   }),
 });
