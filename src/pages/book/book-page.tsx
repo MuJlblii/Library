@@ -36,7 +36,13 @@ export const BookPage = () => {
     <section className={style.section}>
       {isLoading && <Loader />}
       {isError && <ErrorToaster />}
-      {isShowingBooking && <Booking isShowingBooking={isShowingBooking} setIsShowingBooking={setIsShowingBooking} bookCardId={Number(bookId)}/>}
+      {isShowingBooking &&
+        <Booking
+          isShowingBooking={isShowingBooking}
+          setIsShowingBooking={setIsShowingBooking}
+          bookCardId={Number(bookId)}
+          isBooked={isBookedCurrentUser}
+        />}
       {!isError && 
         <div className={`${style.crumbs}`}>
           <div className={`${style.crumbs_content} ${style.container}`}>

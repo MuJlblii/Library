@@ -93,5 +93,5 @@
 .calendar__cell_selected_day {
     background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
     border-radius: 16px;
-    color: #FFFFFF;
+    color: rgb(255, 255, 255)
 }

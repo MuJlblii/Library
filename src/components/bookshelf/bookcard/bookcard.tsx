@@ -124,6 +124,14 @@ export const Bookcard = (
                     </div>
             </div>
         </NavLink>
-        {isShowingBooking && <Booking setIsShowingBooking={setIsShowingBooking} isShowingBooking={isShowingBooking} bookCardId={id}/>}
+        {isShowingBooking &&
+            <Booking
+                setIsShowingBooking={setIsShowingBooking}
+                isShowingBooking={isShowingBooking}
+                bookCardId={id}
+                isBooked={isBookedCurrentUser}
+                bookingObj={isBooked}
+            />
+        }
         </Fragment>
 )}

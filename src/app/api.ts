@@ -102,7 +102,27 @@ export const libraryApi = createApi({
         }
       },
       invalidatesTags: ['Book', 'Books']
-    })
+    }),
+    changeBooking: builder.mutation({
+      query({id, ...put}) {
+        return {
+          url: `/api/bookings/${id}`,
+          method: 'PUT',
+          body: put,
+        }
+      },
+      invalidatesTags: ['Book', 'Books']
+    }),
+    deleteBooking: builder.mutation({
+      query({id, ...put}) {
+        return {
+          url: `/api/bookings/${id}`,
+          method: 'DELETE',
+          body: put,
+        }
+      },
+      invalidatesTags: ['Book', 'Books']
+    }),
   }),
 });
 
@@ -116,4 +136,6 @@ export const {
   useForgotPasswordMutation,
   useRestorePasswordMutation,
   useBookingMutation,
+  useChangeBookingMutation,
+  useDeleteBookingMutation,
 } = libraryApi;

@@ -16,9 +16,10 @@ import 'dayjs/locale/ru';
 type CalendarPropsType = {
 	selectedDay: Dayjs | null,
 	setSelectedDay: (arg: Dayjs) => void,
+	setIsCalendarClicked: (arg: boolean) => void,
 }
 
-export const Calendar = ({selectedDay, setSelectedDay}: CalendarPropsType) => {
+export const Calendar = ({selectedDay, setSelectedDay, setIsCalendarClicked}: CalendarPropsType) => {
 	dayjs.locale('ru');
 	dayjs.extend(updateLocale);
 	dayjs.extend(weekday);
@@ -29,7 +30,7 @@ export const Calendar = ({selectedDay, setSelectedDay}: CalendarPropsType) => {
 	const { acceptableDate, generateWeeksOfTheMonth } = useGenerateCalendarDates(currentDay, selectedDate);
 
 	const handleDayClick = (day: Dayjs) => {
-		
+		setIsCalendarClicked(true);
 		setSelectedDay(day);
 	};
 
