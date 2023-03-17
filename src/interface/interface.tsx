@@ -78,3 +78,8 @@ export interface IBooksState extends ICategories {
     list: IBook[] | null,
 
 }
+
+export interface IToaster {
+    type: string,
+    message: string,
+}
