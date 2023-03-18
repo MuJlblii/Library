@@ -19,7 +19,7 @@ export const LayoutMainPage = () => {
   const [searchValue, setSearchValue] = useState<string>('');
 
   const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetCategoriesQuery(undefined);
-  const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks } = useGetAllBooksQuery(undefined);
+  const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching } = useGetAllBooksQuery(undefined);
  
   useEffect(() => {
     if (dataCategories && dataBooks) {
@@ -32,7 +32,7 @@ export const LayoutMainPage = () => {
   return (
     <div className={style.layout__wrapper}>
       {(isErrorCategories || isErrorAllBooks) && <ErrorToaster />}
-      {(isLoadingCategories || isLoadingAllBooks) && <Loader />}
+      {(isLoadingCategories || isLoadingAllBooks || isFetching) && <Loader />}
       {isDesktopView && <Sidebar />}
       <Outlet context={{searchValue, setSearchValue}}/>
     </div>
