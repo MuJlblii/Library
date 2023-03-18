@@ -2,26 +2,31 @@ import { useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale';
 
 import { useGetBookByIdQuery } from '../../app/api';
 import { useAppSelector } from '../../app/hook';
 import image from '../../assets/img/default_book.png';
-import logo from '../../assets/img/Ellipse 10.png';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler_black.svg';
 import {ReactComponent as SlashIcon} from '../../assets/img/Slash.svg';
-import {ReactComponent as StarIcon} from '../../assets/img/Star.svg'; 
 import { Booking } from '../../components/booking';
 import { ErrorToaster } from '../../components/error-toaster';
 import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
-import { IBooksState } from '../../interface/interface';
+import { IBooksState, IComments } from '../../interface/interface';
+
+import { Comment } from './comment';
+import { CommentModal } from './comment-modal';
 
 import style from './book-page.module.css';
 
 export const BookPage = () => {
+  dayjs.locale('ru');
+	dayjs.extend(updateLocale);
   const [isSpoiler, setIsSpoiler] = useState(false);
   const [isShowingBooking, setIsShowingBooking] = useState(false);
+  const [isShowCommentModal, setIsShowCommentModal] = useState(false);
   const dataState: IBooksState[] = useAppSelector((state) => state.main.data);
   const userId: number | null = useAppSelector((state) => state.user.User?.id) || null;
   const {bookId, category} = useParams();
@@ -43,6 +48,14 @@ export const BookPage = () => {
           bookCardId={Number(bookId)}
           isBooked={isBookedCurrentUser}
         />}
+      {isShowCommentModal &&
+        <CommentModal
+          isShowingModal={isShowCommentModal}
+          setIsShowingModal={setIsShowCommentModal}
+          bookId={Number(bookId)}
+          userId={userId}
+        />
+      }
       {!isError && 
         <div className={`${style.crumbs}`}>
           <div className={`${style.crumbs_content} ${style.container}`}>
@@ -135,7 +148,7 @@ export const BookPage = () => {
             <div className={style.feedback}>
               <div className={style.feedback__header}>
                 <p className={style.feedback__title}>
-                  Отзывы<span className={style.feedback__title_total}>2</span>
+                  Отзывы<span className={style.feedback__title_total}>{data.comments.length}</span>
                 </p>
                 <IconSpoiler
                   onClick={() => setIsSpoiler(!isSpoiler)}
@@ -143,57 +156,15 @@ export const BookPage = () => {
                   data-test-id='button-hide-reviews'
                 />
               </div>
-              {isSpoiler && 
-                  <div className={style.feedback__detailed_wrapper}>
-                    <div className={style.feedback__detailed}>
-                      <div className={style.feedback__detailed_header}>
-                        <img src={logo} alt='Logo' />
-                        <div className={style.feedback__detailed_text_wrapper}>
-                          <p className={style.feedback__detailed_text}>Иван Иванов</p>
-                          <p className={style.feedback__detailed_text}>5 января 2019</p>
-                        </div>
-                      </div>
-                      <div className={style.grade}>
-                        <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon />
-                      </div>
-                    </div>
-                    <div className={style.feedback__detailed}>
-                      <div className={style.feedback__detailed_header}>
-                        <img src={logo} alt='Logo' />
-                        <div className={style.feedback__detailed_text_wrapper}>
-                          <p className={style.feedback__detailed_text}>Николай Качков</p>
-                          <p className={style.feedback__detailed_text}>20 июня 2018</p>
-                        </div>
-                      </div>
-                      <div className={style.grade}>
-                        <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon />
-                      </div>
-                      <p className={style.feedback__detailed_text}>
-                        Учитывая ключевые сценарии поведения, курс на социально-ориентированный национальный проект не
-                        оставляет шанса для анализа существующих паттернов поведения. Для современного мира внедрение
-                        современных методик предоставляет широкие возможности для позиций, занимаемых участниками в отношении
-                        поставленных задач. Как уже неоднократно упомянуто, сделанные на базе интернет-аналитики выводы будут
-                        в равной степени предоставлены сами себе. Вот вам яркий пример современных тенденций — глубокий
-                        уровень погружения создаёт предпосылки для своевременного выполнения сверхзадачи. И нет сомнений, что
-                        акционеры крупнейших компаний, инициированные исключительно синтетически, превращены в посмешище, хотя
-                        само их существование приносит несомненную пользу обществу.
-                      </p>
-                    </div>
-                    <div className={style.feedback__detailed}>
-                      <div className={style.feedback__detailed_header}>
-                        <img src={logo} alt='Logo' />
-                        <div className={style.feedback__detailed_text_wrapper}>
-                          <p className={style.feedback__detailed_text}>Екатерина Беляева</p>
-                          <p className={style.feedback__detailed_text}>18 февраля 2018</p>
-                        </div>
-                      </div>
-                      <div className={style.grade}>
-                        <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon fill='#FFBC1F' /> <StarIcon />
-                      </div>
-                    </div>
+                  <div className={style.feedback__detailed_wrapper} data-test-id='reviews'>
+                    {[...data.comments].sort((a, b) => dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1).map((comment: IComments, ind) => <Comment {...comment}/>)}
+                    <button
+                      type='submit'
+                      className={style.feedback_btn}
+                      data-test-id='button-rate-book'
+                      onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowCommentModal(true)}}
+                    >оценить книгу</button>
                   </div>
-              }
-              <input type='button' value='оценить книгу' className={style.feedback_btn} />
             </div>
           </div>
         </div>

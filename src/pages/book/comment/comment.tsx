@@ -16,9 +16,17 @@ export const Comment = ({id, createdAt, rating, text, user} : IComments) => {
 
         for (let i=1; i<6; i++) {
             if (rate !== null && i <= rate ) {
-                result.push(<Icon fill="#FFBC1F" key={i} {...size} />);
+                result.push(
+                    <button className={style.grade_btn} type='submit' data-test-id='star'>
+                        <Icon fill="#FFBC1F" key={i} {...size} data-test-id='star-active'/>
+                    </button>
+                );
             } else {
-                result.push(<Icon key={i} {...size}/>);
+                result.push(
+                    <button className={style.grade_btn} type='submit' data-test-id='star'>
+                        <Icon key={i} {...size} />
+                    </button>
+                );
             }
         }
 
@@ -35,7 +43,7 @@ export const Comment = ({id, createdAt, rating, text, user} : IComments) => {
                 </div>
             </div>
             <div className={style.feedback__grade} data-test-id='rating'>
-                {ratingStars((rating)).map(el => el)}
+                {ratingStars(rating)}
             </div>
             <p className={style.feedback__detailed_text} data-test-id='comment-text'>
                 {text}
