@@ -123,6 +123,16 @@ export const libraryApi = createApi({
       },
       invalidatesTags: ['Book', 'Books']
     }),
+    addComment: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/comments',
+          method: 'POST',
+          body,
+        }
+      },
+      invalidatesTags: ['Book', 'Books']
+    }),
   }),
 });
 
@@ -138,4 +148,5 @@ export const {
   useBookingMutation,
   useChangeBookingMutation,
   useDeleteBookingMutation,
+  useAddCommentMutation,
 } = libraryApi;
