@@ -30,16 +30,17 @@ export const BookPage = () => {
   const dataState: IBooksState[] = useAppSelector((state) => state.main.data);
   const userId: number | null = useAppSelector((state) => state.user.User?.id) || null;
   const {bookId, category} = useParams();
-  const {data, isLoading, isError} = useGetBookByIdQuery(bookId as string);
+  const {data, isLoading, isError, isFetching} = useGetBookByIdQuery(bookId as string);
   const isBooked = data?.booking;
   const isBookedCurrentUser = isBooked && (isBooked.customerId === userId) ? true : false;
   const isBookedAnotherUser = isBooked && (isBooked.customerId !== userId) ? true : false;
   const dateDelivery = dayjs(data?.delivery?.dateHandedTo).format('DD.MM');
   const isOnDelivery = typeof data?.delivery?.dateHandedTo === 'string';
+  const isCommentExist = data && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0;
 
   return (
     <section className={style.section}>
-      {isLoading && <Loader />}
+      {(isLoading || isFetching) && <Loader />}
       {isError && <ErrorToaster />}
       {isShowingBooking &&
         <Booking
@@ -157,9 +158,13 @@ export const BookPage = () => {
                 />
               </div>
                   <div className={style.feedback__detailed_wrapper} data-test-id='reviews'>
-                    {[...data.comments].sort((a, b) => dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1).map((comment: IComments, ind) => <Comment {...comment}/>)}
+                    {[...data.comments].sort((a, b) => 
+                        dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1).map((comment: IComments, ind) =>
+                        <Comment {...comment} key={`comment-${Math.random() * ind}_${new Date().getTime()}`}
+                        />)}
                     <button
                       type='submit'
+                      disabled={isCommentExist}
                       className={style.feedback_btn}
                       data-test-id='button-rate-book'
                       onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowCommentModal(true)}}

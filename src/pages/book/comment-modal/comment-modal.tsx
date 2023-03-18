@@ -32,13 +32,25 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId}
         for (let i=1; i<6; i++) {
             if (rate !== null && i <= rate ) {
                 result.push(
-                    <button className={style.grade_btn} type='submit' onClick={() => setRating(i)} data-test-id='star'>
+                    <button
+                        className={style.grade_btn}
+                        type='submit'
+                        onClick={() => setRating(i)}
+                        data-test-id='star'
+                        key={`comment-star-${Math.random() * i}_${new Date().getTime()}`}
+                    >
                         <Icon fill="#FFBC1F" key={i} {...size} data-test-id='star-active'/>
                     </button>
                 );
             } else {
                 result.push(
-                    <button className={style.grade_btn} type='submit' onClick={() => setRating(i)} data-test-id='star'>
+                    <button
+                        className={style.grade_btn}
+                        type='submit'
+                        onClick={() => setRating(i)}
+                        data-test-id='star'
+                        key={`comment-star-${Math.random() * i}_${new Date().getTime()}`}
+                    >
                         <Icon key={i} {...size} onClick={() => setRating(i)} />
                     </button>
                 );

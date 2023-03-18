@@ -276,6 +276,10 @@
     letter-spacing: 0.2px;
     color: #FFFFFF;
 }
+.feedback_btn:disabled {
+    background: #EBEBEB;
+    color: rgb(167, 167, 167);
+}
 @media screen and (min-width: 680px) and (max-width: 1150px) {
     .crumbs {
         height: 88px;
