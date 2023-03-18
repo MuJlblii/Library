@@ -29,11 +29,16 @@ export const RegistrationPage = () => {
     const onSubmitThirdStep: SubmitHandler<FormInputsThirdStepType> = data => {
         setDataFromForm({...dataFromForm, ...data});
         setStep(step + 1);
-        register(dataFromForm);
     };
     const resendRegister = () => {
         register(dataFromForm);
     }
+    
+    useEffect(() => {
+        if (step === 4 && dataFromForm) {
+            register(dataFromForm);
+        }
+    }, [dataFromForm, step, register])
 
     useEffect(() => {
         if (error && 'status' in error && error.status === 400) {
@@ -49,8 +54,8 @@ export const RegistrationPage = () => {
             {isLoading && <Loader />}
             {!isErrorRegister && !isErrorResponse &&
                 <Fragment>
-                    {!isSuccess && <p className={styleDefault.title}>Регистрация</p>}
-                    {!isSuccess && <p className={styleDefault.stage}>{step} шаг из 3</p>}
+                    {!isSuccess && step <= 3 && <p className={styleDefault.title}>Регистрация</p>}
+                    {!isSuccess && step <= 3 && <p className={styleDefault.stage}>{step} шаг из 3</p>}
                     {step === 1 && <RegistrationFirstSection onSubmitParent={onSubmitFirstStep}/>}
                     {step === 2 && <RegistrationSecondSection onSubmitParent={onSubmitSecondStep}/>}
                     {step === 3 && <RegistrationThirdSection onSubmitParent={onSubmitThirdStep}/>}
@@ -69,7 +74,7 @@ export const RegistrationPage = () => {
                 <FormStatusBlock
                     text='Такой логин или e-mail уже записан в системе. Попробуйте зарегистрироваться по другому логину или e-mail'
                     title='Данные не сохранились'
-                    btnSubmitHandler={() => {setStep(1); setDataFromForm({})}}
+                    btnSubmitHandler={() => {setStep(1); setDataFromForm({}); setIsErrorRegister(false); setIsErrorResponse(false)}}
                     btnText='назад к регистрации'
                 />
             }
