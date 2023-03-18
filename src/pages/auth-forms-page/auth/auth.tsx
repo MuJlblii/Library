@@ -5,13 +5,14 @@ import classNames from 'classnames/bind';
 
 import { useAuthorizationMutation } from '../../../app/api';
 import { useAppDispatch } from '../../../app/hook';
-import { setJWTtoken } from '../../../app/reducer-user';
+import { setJWTtoken, setUser } from '../../../app/reducer-user';
 import { FormFooter } from '../../../components/form-blocks/form-footer';
 import { FormStatusBlock } from '../../../components/form-blocks/form-status-block';
 import { Input } from '../../../components/form-blocks/input-password';
 import { Loader } from '../../../components/loader';
 import { PATHS } from '../../../constants/path-routing';
 import { setJWTtokenToLocalStorage } from '../../../utils/jwt-token';
+import { setUserToLocalStorage } from '../../../utils/user-local-storage';
 
 import styleDefault from '../auth-forms-default.module.css';
 import style from './auth.module.css';
@@ -41,6 +42,10 @@ export const AuthPage = () => {
         if (data?.jwt) {
             dispatch(setJWTtoken(data.jwt));
             setJWTtokenToLocalStorage('set', data.jwt);
+        }
+        if (data?.user) {
+            dispatch(setUser(data.user));
+            setUserToLocalStorage('set', data.user);
         }
     }, [data, dispatch]);
 

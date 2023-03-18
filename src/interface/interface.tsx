@@ -9,7 +9,7 @@ export interface IBook {
     categories: string[],
     id: number,
     booking: IBooking | null,
-    delivery: any | null,
+    delivery: IDelivery | null,
     histories: IHistories[] | null,
 }
 export interface IBookCard extends IBook {
@@ -53,6 +53,16 @@ export interface IBooking {
     customerLastName: string
 }
 
+export interface IDelivery {
+    id: number,
+    handed: boolean,
+    dateHandedFrom: string,
+    dateHandedTo: string,
+    recipientId: number,
+    recipientFirstName: string,
+    recipientLastName: string,
+}
+
 export interface IHistories {
     id: number,
     userId: number,
@@ -67,4 +77,9 @@ export interface ICategories {
 export interface IBooksState extends ICategories {
     list: IBook[] | null,
 
+}
+
+export interface IToaster {
+    type: string,
+    message: string,
 }

@@ -14,13 +14,12 @@ import style from './layout-main-page.module.css';
 type ContextType = {searchValue: string, setSearchValue: (arg: string) => void}
 
 export const LayoutMainPage = () => {
-  const { isDesktopView, data } = useAppSelector((state) => state.main);
+  const { isDesktopView } = useAppSelector((state) => state.main);
   const dispatch = useAppDispatch();
   const [searchValue, setSearchValue] = useState<string>('');
 
-  const skip = data.length > 0 ? true : false;
-  const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetCategoriesQuery(undefined, {skip});
-  const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks } = useGetAllBooksQuery(undefined, {refetchOnMountOrArgChange: true});
+  const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetCategoriesQuery(undefined);
+  const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching } = useGetAllBooksQuery(undefined);
  
   useEffect(() => {
     if (dataCategories && dataBooks) {
@@ -30,12 +29,10 @@ export const LayoutMainPage = () => {
     }
   }, [dataBooks, dataCategories, dispatch])
 
-
-
   return (
     <div className={style.layout__wrapper}>
       {(isErrorCategories || isErrorAllBooks) && <ErrorToaster />}
-      {(isLoadingCategories || isLoadingAllBooks) && <Loader />}
+      {(isLoadingCategories || isLoadingAllBooks || isFetching) && <Loader />}
       {isDesktopView && <Sidebar />}
       <Outlet context={{searchValue, setSearchValue}}/>
     </div>

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { IBooksState } from '../interface/interface';
+import { IBooksState, IToaster } from '../interface/interface';
 
 export interface IstateRedux {
   main: {
@@ -11,6 +11,7 @@ export interface IstateRedux {
     bookShelfView: string,
     isDesktopView: boolean,
     isMobileView: boolean,
+    toasterMsg: IToaster | null,
   }
 }
 
@@ -24,6 +25,7 @@ export const mainSlice = createSlice({
     bookShelfView: 'Table',
     isDesktopView: true,
     isMobileView: false,
+    toasterMsg: null,
     },
   reducers: {
     setDataFetch(state, action) {
@@ -46,7 +48,10 @@ export const mainSlice = createSlice({
     },
     setMobileView(state, action) {
       return {...state, isMobileView: action.payload}
-  },
+    },
+    setToasterMsg(state, action) {
+      return {...state, toasterMsg: action.payload}
+    }
 }
 })
 
@@ -57,5 +62,6 @@ export const {
   searching,
   setBookShelfView,
   setDesktopView,
-  setMobileView
+  setMobileView,
+  setToasterMsg,
 } = mainSlice.actions;

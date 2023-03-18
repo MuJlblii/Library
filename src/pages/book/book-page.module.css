@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 .container {
     width: 1110px;
@@ -66,13 +67,24 @@
     height: 52px;
     background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
     border-radius: 30px;
+    font-weight: 600;
     border: none;
     color: rgba(255, 255, 255, 1);
+    
     font-style: normal;
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0.2px;
     text-transform: uppercase;
+}
+.basic__content_bill:disabled {
+    background: #EBEBEB;
+    color: rgb(167, 167, 167);
+}
+.basic__content_bill_available {
+    color: #363636;
+    background: #FFFFFF;
+    border: 1px solid #BFC4C9;
 }
 .basic__content_footer {
     display: flex;
@@ -249,28 +261,6 @@
     background: #EBEBEB;
     top: -16px;
 }
-.feedback__detailed {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.feedback__detailed_text_wrapper {
-    display: flex;
-    gap: 24px;
-}
-.feedback__detailed_header {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-}
-.feedback__detailed_text {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: 0.1px;
-    color: #727272;
-}
 .feedback_btn {
     margin-top: 12px;
     width: 350px;
@@ -285,6 +275,10 @@
     line-height: 150%;
     letter-spacing: 0.2px;
     color: #FFFFFF;
+}
+.feedback_btn:disabled {
+    background: #EBEBEB;
+    color: rgb(167, 167, 167);
 }
 @media screen and (min-width: 680px) and (max-width: 1150px) {
     .crumbs {
@@ -527,25 +521,6 @@
     }
     .feedback__detailed_wrapper::before {
         width: 288px;
-    }
-    .feedback__detailed {
-        gap: 8px;
-    }
-    .feedback__detailed_header {
-        gap: 18px;
-    }
-    .grade {
-        gap: 13px;
-    }
-    .feedback__detailed_text_wrapper {
-        flex-direction: column;
-        gap: 0px;
-    }
-    .feedback__detailed_text {
-        font-weight: 400;
-        font-size: 15px;
-        line-height: 20px;
-        letter-spacing: 0.1px;
     }
     .feedback_btn {
         margin-top: -12px;

@@ -43,7 +43,10 @@ export const Bookshelf = () => {
     return (
         <Fragment>
             {dataState?.length && filteredData &&
-                <div className={bookShelfView === 'Table' ? style.bookshelf__wrapper : lstyle.bookshelf__wrapper}>
+                <div
+                    className={bookShelfView === 'Table' ? style.bookshelf__wrapper : lstyle.bookshelf__wrapper}
+                    data-test-id='content'
+                >
                     {filteredData?.map((book) => <Bookcard {...book} key={book.id} category={category}/>)}
                 </div>
             }

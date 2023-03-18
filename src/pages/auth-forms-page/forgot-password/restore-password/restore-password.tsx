@@ -97,6 +97,7 @@ export const RestorePassword = ({code} : RestorePasswordPropsType) => {
                         disabled={!isValid && !isInFocus}
                     >СОХРАНИТЬ ИЗМЕНЕНИЯ</button>
                 </form>
+                <p className={style.additional_msg}>После сохранения войдите в библиотеку, используя новый пароль</p>
             </Fragment>
             }
             {isSuccess &&

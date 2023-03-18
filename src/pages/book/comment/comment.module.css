@@ -1,0 +1,48 @@
+.feedback__detailed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.feedback__detailed_text_wrapper {
+    display: flex;
+    gap: 24px;
+}
+.feedback__detailed_header {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+.feedback__detailed_text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.1px;
+    color: #727272;
+}
+.grade_btn {
+    border: none;
+    background: none;
+}
+
+@media screen and (max-width: 679px) {
+    .feedback__detailed {
+        gap: 8px;
+    }
+    .feedback__detailed_header {
+        gap: 18px;
+    }
+    .feedback__grade {
+        gap: 13px;
+    }
+    .feedback__detailed_text_wrapper {
+        flex-direction: column;
+        gap: 0px;
+    }
+    .feedback__detailed_text {
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+    }
+}

@@ -16,16 +16,18 @@ export const libraryApi = createApi({
       }
     }
   }),
-  tagTypes: [],
+  tagTypes: ['User', 'Books', 'Book'],
   endpoints: (builder) => ({
     getBookById: builder.query<IBookPage, string>({
       query: (id) => `/api/books/${id}`,
+      providesTags: ['Book']
     }),
     getCategories: builder.query({
       query: () => '/api/categories',
     }),
     getAllBooks: builder.query({
       query: () => '/api/books',
+      providesTags: ['Books']
     }),
     getBooks: builder.query({
       async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
@@ -90,7 +92,47 @@ export const libraryApi = createApi({
           body,
         }
       }
-    })
+    }),
+    booking: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/bookings',
+          method: 'POST',
+          body,
+        }
+      },
+      invalidatesTags: ['Book', 'Books']
+    }),
+    changeBooking: builder.mutation({
+      query({id, ...put}) {
+        return {
+          url: `/api/bookings/${id}`,
+          method: 'PUT',
+          body: put,
+        }
+      },
+      invalidatesTags: ['Book', 'Books']
+    }),
+    deleteBooking: builder.mutation({
+      query({id, ...put}) {
+        return {
+          url: `/api/bookings/${id}`,
+          method: 'DELETE',
+          body: put,
+        }
+      },
+      invalidatesTags: ['Book', 'Books']
+    }),
+    addComment: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/comments',
+          method: 'POST',
+          body,
+        }
+      },
+      invalidatesTags: ['Book', 'Books']
+    }),
   }),
 });
 
@@ -103,4 +145,8 @@ export const {
   useRegisterMutation,
   useForgotPasswordMutation,
   useRestorePasswordMutation,
+  useBookingMutation,
+  useChangeBookingMutation,
+  useDeleteBookingMutation,
+  useAddCommentMutation,
 } = libraryApi;
