@@ -78,3 +78,29 @@
     background: #EBEBEB;
     cursor: default;
 }
+
+@media screen and (max-width: 528px) {
+    .wrapper {
+        width: 288px;
+    }
+    .modal {
+        width: 288px;
+    }
+    .close_icon {
+        width: 32px;
+        height: 32px;
+        top: 16px;
+        right: 16px;
+    }
+    .title {
+        font-size: 18px;
+        line-height: 28px;
+    }
+    .btn {
+        width: 256px;
+        height: 40px;
+        font-style: normal;
+        font-size: 12px;
+        line-height: 18px;
+    }
+}

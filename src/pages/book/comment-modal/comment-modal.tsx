@@ -2,7 +2,7 @@ import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { useAddCommentMutation } from '../../../app/api';
-import { useAppDispatch } from '../../../app/hook';
+import { useAppDispatch, useAppSelector } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
 import { ReactComponent as CloseIcon } from '../../../assets/img/Icon_close_toaster.svg';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg';
@@ -19,13 +19,14 @@ export type CommentModalPropsType = {
 
 export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId}: CommentModalPropsType) => {
     const calendarRef = useRef<HTMLDivElement>(null);
+    const isMobileView = useAppSelector((state) => state.main.isMobileView);
     const [commentText, setCommentText] = useState('');
     const [rating, setRating] = useState(0);
     const ratingStars = (rate: number | null) => {
         const result = [];
         const size = {
-            width: '35',
-            height: '32.5',
+            width: isMobileView ? '26' :'35',
+            height: isMobileView ? '25': '32.5',
         };
 
         for (let i=1; i<6; i++) {
