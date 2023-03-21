@@ -91,7 +91,7 @@ export const Bookcard = (
 
     return (
         <Fragment>
-        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link} data-test-id='card'>
+        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link}>
             <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__wrapper} data-test-id='card'>
                 <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__container}>
                     <img src={image === null ? imageDef : `https://strapi.cleverland.by${image.url}`} alt="Nothing" className={view === 'Table' ? style.bookcard__img : lstyle.bookcard__img}/>

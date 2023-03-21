@@ -2,6 +2,7 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
     e2e: {
+        experimentalSessionAndOrigin: true,
         screenshotsFolder: "cypress/report/screenshots",
         reporter: "mochawesome",
         reporterOptions: {
