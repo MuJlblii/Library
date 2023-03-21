@@ -1,20 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
-import { useGetBookByIdQuery, useGetCategoriesQuery, useGetProfileUserQuery } from '../../app/api';
-import { useAppSelector } from '../../app/hook';
+import { useGetBookByIdQuery } from '../../app/api';
+import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { currentCategorySet, setToasterMsg } from '../../app/reducer';
 import image from '../../assets/img/default_book.png';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler_black.svg';
 import {ReactComponent as SlashIcon} from '../../assets/img/Slash.svg';
 import { Booking } from '../../components/booking';
-import { ErrorToaster } from '../../components/error-toaster';
 import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
-import { IBooksState, ICategories, IComments } from '../../interface/interface';
+import { IBookPage, ICategories, IComments } from '../../interface/interface';
 
 import { Comment } from './comment';
 import { CommentModal } from './comment-modal';
@@ -27,24 +27,41 @@ export const BookPage = () => {
   const [isSpoiler, setIsSpoiler] = useState(false);
   const [isShowingBooking, setIsShowingBooking] = useState(false);
   const [isShowCommentModal, setIsShowCommentModal] = useState(false);
-  const dataState: IBooksState[] = useAppSelector((state) => state.main.data);
+  const categories: ICategories[] = useAppSelector((state) => state.main.categories);
   const userId: number | null = useAppSelector((state) => state.user.User?.id) || null;
   const {bookId, category} = useParams();
-  const {data: dataUserProfile, isLoading: isLoadingUserProfile, isError: isErrorUserProfile} = useGetProfileUserQuery(undefined);
-  const {data, isLoading, isError, isFetching} = useGetBookByIdQuery(bookId as string);
-  const {data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories} = useGetCategoriesQuery(undefined);
+  const dispatch = useAppDispatch();
+  const [data, setData] = useState<IBookPage | null>(null);
+  const {data: BookDataFetch, isLoading, isError, isFetching} = useGetBookByIdQuery(bookId as string);
   const isBooked = data?.booking;
   const isBookedCurrentUser = isBooked && (isBooked.customerId === userId) ? true : false;
   const isBookedAnotherUser = isBooked && (isBooked.customerId !== userId) ? true : false;
   const dateDelivery = dayjs(data?.delivery?.dateHandedTo).format('DD.MM');
   const isOnDelivery = typeof data?.delivery?.dateHandedTo === 'string';
   const isCommentExist = data?.comments && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0;
-  const categoryCrumbsName = category === 'all' ? 'Все книги' : (dataCategories as ICategories[])?.filter((el) => el.path === category)[0]?.name;
+  const categoryCrumbsName = category === 'all' ? 'Все книги' : categories?.filter((el) => el.path === category)[0]?.name;
+
+  useEffect(() => {
+    if (BookDataFetch) {
+      setData({...BookDataFetch});
+    }
+  }, [BookDataFetch]);
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(setToasterMsg({type: 'error', message: 'Что-то пошло не так. Обновите страницу через некоторое время.'}))
+    }
+  }, [isError, dispatch])
+
+  useEffect(() => {
+    if (category) {
+      dispatch(currentCategorySet(category));
+    }
+  }, [dispatch, category])
 
   return (
     <section className={style.section}>
-      {(isLoading || isFetching || isLoadingCategories || isLoadingUserProfile) && <Loader />}
-      {(isError || isErrorCategories || isErrorUserProfile) && <ErrorToaster />}
+      {(isLoading || isFetching ) && <Loader />}
       {isShowingBooking &&
         <Booking
           isShowingBooking={isShowingBooking}
