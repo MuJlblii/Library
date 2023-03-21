@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { IBooksState, IToaster } from '../interface/interface';
+import { IBooksState, ICategories, IToaster } from '../interface/interface';
 
 export interface IstateRedux {
   main: {
     currentCategory: string,
+    categories: ICategories[],
     data: IBooksState[],
     sorting: boolean,
     searching: string,
@@ -19,6 +20,7 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState: {
     currentCategory: 'all',
+    categories: [],
     data: [],
     sorting: false,
     searching: '',
@@ -31,6 +33,9 @@ export const mainSlice = createSlice({
     setDataFetch(state, action) {
         return {...state, data: action.payload };
     },
+    setCategories(state, action) {
+      return {...state, categories: action.payload };
+  },
     currentCategorySet(state, action) {
         return {...state, currentCategory: action.payload };
     },
@@ -64,4 +69,5 @@ export const {
   setDesktopView,
   setMobileView,
   setToasterMsg,
+  setCategories,
 } = mainSlice.actions;
