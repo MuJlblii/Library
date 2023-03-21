@@ -19,8 +19,8 @@ export const LayoutMainPage = () => {
   const [searchValue, setSearchValue] = useState<string>('');
 
   const { isLoading: isLoadingUserProfile, isError: isErrorUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined); 
-  const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetCategoriesQuery(undefined);
-  const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching } = useGetAllBooksQuery(undefined);
+  const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories, isFetching: isFetchingCategories } = useGetCategoriesQuery(undefined);
+  const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching: isFetchingAllBooks } = useGetAllBooksQuery(undefined);
  
   useEffect(() => {
     if (dataCategories && dataBooks) {
@@ -33,7 +33,7 @@ export const LayoutMainPage = () => {
   return (
     <div className={style.layout__wrapper}>
       {(isErrorCategories || isErrorAllBooks || isErrorUserProfile) && <ErrorToaster />}
-      {(isLoadingCategories || isLoadingAllBooks || isFetching || isLoadingUserProfile || isFetchingUserProfile) && <Loader />}
+      {(isLoadingCategories || isLoadingAllBooks || isFetchingAllBooks || isLoadingUserProfile || isFetchingUserProfile || isFetchingCategories) && <Loader />}
       {isDesktopView && <Sidebar />}
       <Outlet context={{searchValue, setSearchValue}}/>
     </div>
