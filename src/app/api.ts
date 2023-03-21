@@ -133,6 +133,9 @@ export const libraryApi = createApi({
       },
       invalidatesTags: ['Book', 'Books']
     }),
+    getProfileUser: builder.query({
+      query: () => '/api/users/me',
+    }),
   }),
 });
 
@@ -149,4 +152,5 @@ export const {
   useChangeBookingMutation,
   useDeleteBookingMutation,
   useAddCommentMutation,
+  useGetProfileUserQuery,
 } = libraryApi;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
-import { useGetAllBooksQuery, useGetCategoriesQuery } from '../../app/api';
+import { useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery } from '../../app/api';
 import { useAppDispatch, useAppSelector } from '../../app/hook';
 import { setDataFetch } from '../../app/reducer';
 import { createBooksState } from '../../app/utils';
@@ -18,6 +18,7 @@ export const LayoutMainPage = () => {
   const dispatch = useAppDispatch();
   const [searchValue, setSearchValue] = useState<string>('');
 
+  const { isLoading: isLoadingUserProfile, isError: isErrorUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined); 
   const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetCategoriesQuery(undefined);
   const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching } = useGetAllBooksQuery(undefined);
  
@@ -31,8 +32,8 @@ export const LayoutMainPage = () => {
 
   return (
     <div className={style.layout__wrapper}>
-      {(isErrorCategories || isErrorAllBooks) && <ErrorToaster />}
-      {(isLoadingCategories || isLoadingAllBooks || isFetching) && <Loader />}
+      {(isErrorCategories || isErrorAllBooks || isErrorUserProfile) && <ErrorToaster />}
+      {(isLoadingCategories || isLoadingAllBooks || isFetching || isLoadingUserProfile || isFetchingUserProfile) && <Loader />}
       {isDesktopView && <Sidebar />}
       <Outlet context={{searchValue, setSearchValue}}/>
     </div>
