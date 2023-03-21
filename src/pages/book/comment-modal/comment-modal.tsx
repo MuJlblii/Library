@@ -35,7 +35,7 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId}
                     <button
                         className={style.grade_btn}
                         type='submit'
-                        onClick={() => setRating(i)}
+                        onClick={(e) => {e.preventDefault(); e.stopPropagation(); setRating(i)}}
                         data-test-id='star'
                         key={`comment-star-${Math.random() * i}_${new Date().getTime()}`}
                     >
@@ -51,7 +51,7 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId}
                         data-test-id='star'
                         key={`comment-star-${Math.random() * i}_${new Date().getTime()}`}
                     >
-                        <Icon key={i} {...size} onClick={() => setRating(i)} />
+                        <Icon key={i} {...size} onClick={(e) => {e.preventDefault(); e.stopPropagation(); setRating(i)}} />
                     </button>
                 );
             }
@@ -68,11 +68,11 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId}
 
     useEffect(() => {
         if (isError) {
-            dispatch(setToasterMsg({type: 'error', message: 'Что-то пошло не так, книга не забронирована. Попробуйте позже!'}));
+            dispatch(setToasterMsg({type: 'error', message: 'Оценка не была отправлена. Попробуйте позже!'}));
             setIsShowingModal(false);
         }
         if (isSuccess) {
-            dispatch(setToasterMsg({type: 'success', message: 'Книга забронирована. Подробности можно посмотреть на странице Профиль'}))
+            dispatch(setToasterMsg({type: 'success', message: 'Спасибо, что нашли время оценить книгу!'}))
             setIsShowingModal(false);
         }
     }, [dispatch, isError, isSuccess, setIsShowingModal]);
