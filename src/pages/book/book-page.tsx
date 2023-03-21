@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
-import { useGetBookByIdQuery } from '../../app/api';
+import { useGetBookByIdQuery, useGetCategoriesQuery, useGetProfileUserQuery } from '../../app/api';
 import { useAppSelector } from '../../app/hook';
 import image from '../../assets/img/default_book.png';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler_black.svg';
@@ -14,7 +14,7 @@ import { ErrorToaster } from '../../components/error-toaster';
 import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
-import { IBooksState, IComments } from '../../interface/interface';
+import { IBooksState, ICategories, IComments } from '../../interface/interface';
 
 import { Comment } from './comment';
 import { CommentModal } from './comment-modal';
@@ -30,18 +30,21 @@ export const BookPage = () => {
   const dataState: IBooksState[] = useAppSelector((state) => state.main.data);
   const userId: number | null = useAppSelector((state) => state.user.User?.id) || null;
   const {bookId, category} = useParams();
+  const {data: dataUserProfile, isLoading: isLoadingUserProfile, isError: isErrorUserProfile} = useGetProfileUserQuery(undefined);
   const {data, isLoading, isError, isFetching} = useGetBookByIdQuery(bookId as string);
+  const {data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories} = useGetCategoriesQuery(undefined);
   const isBooked = data?.booking;
   const isBookedCurrentUser = isBooked && (isBooked.customerId === userId) ? true : false;
   const isBookedAnotherUser = isBooked && (isBooked.customerId !== userId) ? true : false;
   const dateDelivery = dayjs(data?.delivery?.dateHandedTo).format('DD.MM');
   const isOnDelivery = typeof data?.delivery?.dateHandedTo === 'string';
-  const isCommentExist = data && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0;
+  const isCommentExist = data?.comments && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0;
+  const categoryCrumbsName = category === 'all' ? 'Все книги' : (dataCategories as ICategories[])?.filter((el) => el.path === category)[0]?.name;
 
   return (
     <section className={style.section}>
-      {(isLoading || isFetching) && <Loader />}
-      {isError && <ErrorToaster />}
+      {(isLoading || isFetching || isLoadingCategories || isLoadingUserProfile) && <Loader />}
+      {(isError || isErrorCategories || isErrorUserProfile) && <ErrorToaster />}
       {isShowingBooking &&
         <Booking
           isShowingBooking={isShowingBooking}
@@ -63,7 +66,7 @@ export const BookPage = () => {
             <NavLink
               to={`/books/${category}`}
               data-test-id='breadcrumbs-link'
-            >{dataState.find((el: IBooksState) => el.path === category)?.name}</NavLink>
+            >{categoryCrumbsName}</NavLink>
             <span>
               <SlashIcon />
             </span>
@@ -149,7 +152,7 @@ export const BookPage = () => {
             <div className={style.feedback}>
               <div className={style.feedback__header}>
                 <p className={style.feedback__title}>
-                  Отзывы<span className={style.feedback__title_total}>{data.comments.length}</span>
+                  Отзывы<span className={style.feedback__title_total}>{data?.comments ? data?.comments?.length : 0}</span>
                 </p>
                 <IconSpoiler
                   onClick={() => setIsSpoiler(!isSpoiler)}
@@ -158,7 +161,7 @@ export const BookPage = () => {
                 />
               </div>
                   <div className={style.feedback__detailed_wrapper} data-test-id='reviews'>
-                    {[...data.comments].sort((a, b) => 
+                    {data?.comments && [...data.comments].sort((a, b) => 
                         dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1).map((comment: IComments, ind) =>
                         <Comment {...comment} key={`comment-${Math.random() * ind}_${new Date().getTime()}`}
                         />)}
