@@ -1,9 +1,10 @@
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { useBookingMutation, useChangeBookingMutation, useDeleteBookingMutation } from '../../app/api';
-import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { useAppDispatch } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
 import { UserStateType } from '../../app/reducer-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
@@ -25,7 +26,7 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
     const calendarRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch();
     const [selectedDay, setSelectedDay] = useState<Dayjs | null>(bookingObj ? dayjs(bookingObj?.dateOrder) : null);
-    const {User} = useAppSelector((state: UserStateType) => state.user)
+    const {User} = useSelector((state: UserStateType) => state.user)
     const [isCalendarClicked, setIsCalendarClicked] = useState(false);
     const [booking, {isLoading, isError, isSuccess }] = useBookingMutation();
     const [deleteBooking, {isLoading: isLoadingDelete, isError: isErrorDelete, isSuccess: isSuccessDelete}] = useDeleteBookingMutation();

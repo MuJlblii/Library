@@ -5,6 +5,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import { useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery } from '../../app/api';
 import { useAppDispatch, useCheckDesktopView } from '../../app/hook';
 import { IstateRedux, setCategories, setDataFetch, setDesktopView, setMobileView, setToasterMsg } from '../../app/reducer';
+import { setUserProfile } from '../../app/reducer-user';
 import { createBooksState } from '../../app/utils';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
@@ -24,7 +25,7 @@ export const Layout = () => {
     const checkMobileView = useCheckDesktopView('(max-width: 679px)');
     const dispatch = useAppDispatch();
 
-    const { isLoading: isLoadingUserProfile, isError: isErrorUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined); 
+    const { data: dataUserProfile, isLoading: isLoadingUserProfile, isError: isErrorUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined); 
     const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories, isFetching: isFetchingCategories } = useGetCategoriesQuery(undefined);
     const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching: isFetchingAllBooks } = useGetAllBooksQuery(undefined, {skip: skipFetchBooks});
 
@@ -44,6 +45,12 @@ export const Layout = () => {
             dispatch(setCategories(dataCategories));
         }
     }, [dataBooks, dataCategories, dispatch])
+
+    useEffect(() => {
+        if (dataUserProfile) {
+            dispatch(setUserProfile(dataUserProfile));
+        }
+    }, [dispatch, dataUserProfile]);
     
     useEffect(() => {
         if (toasterMsg) {

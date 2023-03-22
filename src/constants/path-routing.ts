@@ -7,6 +7,7 @@ export enum PATHS {
     registration = '/registration',
     restorePass = '/forgot-pass',
     error = '/error',
+    profile = '/profile',
     notFound = '*',
   }
   

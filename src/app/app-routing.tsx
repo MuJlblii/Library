@@ -28,6 +28,7 @@ export const App = () => {
                             <Route path={PATHS.terms} element={<Terms contentView='terms' />} />
                             <Route path={PATHS.contract} element={<Terms contentView='contract' />} />
                         </Route>
+                        <Route path={PATHS.profile} element='' />
                         <Route path={`${PATHS.books}/:category/:bookId`} element={<BookPage />} />
                     </Route>
                 </Route>
