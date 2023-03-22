@@ -14,7 +14,7 @@ import { Booking } from '../../components/booking';
 import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
-import { IBookPage, ICategories, IComments } from '../../interface/interface';
+import { IBookPage, IBooksState,ICategories, IComments } from '../../interface/interface';
 
 import { Comment } from './comment';
 import { CommentModal } from './comment-modal';
@@ -28,8 +28,11 @@ export const BookPage = () => {
   const [isShowingBooking, setIsShowingBooking] = useState(false);
   const [isShowCommentModal, setIsShowCommentModal] = useState(false);
   const categories: ICategories[] = useAppSelector((state) => state.main.categories);
+  const books: IBooksState[] = useAppSelector((state) => state.main.data);
   const userId: number | null = useAppSelector((state) => state.user.User?.id) || null;
   const {bookId, category} = useParams();
+  const backupBookData = books?.filter((el) => el.path === category)[0]?.list?.filter((book) => book.id === Number(bookId))[0];
+
   const dispatch = useAppDispatch();
   const [data, setData] = useState<IBookPage | null>(null);
   const {data: BookDataFetch, isLoading, isError, isFetching} = useGetBookByIdQuery(bookId as string);
@@ -87,11 +90,11 @@ export const BookPage = () => {
             <span>
               <SlashIcon />
             </span>
-            <p data-test-id='book-name'>{data?.title}</p>
+            <p data-test-id='book-name'>{data?.title || backupBookData?.title}</p>
           </div>
         </div>
       }
-      {data?.id && 
+      {/* {data?.id &&  */}
         <div className={`${style.container}`}>
           <div className={style.basic__content}>
             <div className={style.basic__content_img}>
@@ -101,7 +104,7 @@ export const BookPage = () => {
             </div>
               <div className={style.basic__content_header}>
                 <h3 className={style.basic__content_title} data-test-id='book-title'>
-                  {data?.title}
+                  {data?.title || backupBookData?.title}
                 </h3>
                 <p className={style.basic__content_author}>{data?.authors}, {data?.issueYear}</p>
                 <button
@@ -193,7 +196,7 @@ export const BookPage = () => {
             </div>
           </div>
         </div>
-      }
+      {/* // } */}
     </section>
   )
 };
