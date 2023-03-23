@@ -135,6 +135,26 @@ export const libraryApi = createApi({
     }),
     getProfileUser: builder.query({
       query: () => '/api/users/me',
+      providesTags: ['User']
+    }),
+    imageUpload: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/upload',
+          method: 'POST',
+          body,
+        }
+      },
+    }),
+    changeImageAvatar: builder.mutation({
+      query({userId, ...put}) {
+        return {
+          url: `/api/users/${userId}`,
+          method: 'PUT',
+          body: put,
+        }
+      },
+      invalidatesTags: ['User']
     }),
   }),
 });
@@ -153,4 +173,6 @@ export const {
   useDeleteBookingMutation,
   useAddCommentMutation,
   useGetProfileUserQuery,
+  useImageUploadMutation,
+  useChangeImageAvatarMutation,
 } = libraryApi;
