@@ -156,6 +156,16 @@ export const libraryApi = createApi({
       },
       invalidatesTags: ['User']
     }),
+    changeProfileInfo: builder.mutation({
+      query({userId, ...put}) {
+        return {
+          url: `/api/users/${userId}`,
+          method: 'PUT',
+          body: put,
+        }
+      },
+      invalidatesTags: ['User']
+    }),
   }),
 });
 
@@ -175,4 +185,5 @@ export const {
   useGetProfileUserQuery,
   useImageUploadMutation,
   useChangeImageAvatarMutation,
+  useChangeProfileInfoMutation,
 } = libraryApi;

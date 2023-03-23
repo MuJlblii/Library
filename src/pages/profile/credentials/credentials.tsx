@@ -1,63 +1,84 @@
-import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import MaskedInput from 'react-text-mask';
+import classNames from 'classnames';
+
+import { useChangeProfileInfoMutation } from '../../../app/api';
+import { useAppDispatch } from '../../../app/hook';
+import { setToasterMsg } from '../../../app/reducer';
+import { UserProfileType } from '../../../app/reducer-user';
 import { Input } from '../../../components/form-blocks/input-password';
 import { EmailRegex, PhoneMasks } from '../../../constants/regex';
 import { loginValidation, passwordValidation } from '../../../utils/validation';
+import { InputProfile } from '../input-profile';
 
 import styleParent from '../profile.module.css';
 import style from './credentials.module.css';
 
 export type CredentialsPropsType = {
-    // id: number,
+    id: number,
     username: string,
     email: string,
-    // provider: string,
-    // confirmed: boolean,
-    // blocked: boolean,
-    // createdAt: string,
-    // updatedAt: string,
     firstName: string,
     lastName: string,
     phone: string,
 }
 type FormAuthInputsType = {
-    identifier: string
+    login: string
     password: string,
     firstName: string,
     lastName: string,
     email: string,
     phone: string,
 }
-export const Credentials = ({username, firstName, lastName, phone, email}: CredentialsPropsType) => {
+export const Credentials = ({username, firstName, lastName, phone, email, id: userId }: UserProfileType) => {
     const [isDisabled, setIsDisabled] = useState(true);
-    const { register, formState: { errors, dirtyFields, isValid }, handleSubmit, reset, control } = useForm<FormAuthInputsType>({mode: 'all'});
-    const {onChange: onChangeIdent, onBlur: onBlurIdent, name: nameIdent, ref: refIdent} = register('identifier', loginValidation);
+    const [changeProfileInfo, {isError, isSuccess}] = useChangeProfileInfoMutation();
+    const dispatch = useAppDispatch();
+    const { register, formState: { errors, dirtyFields }, control, getValues } = useForm<FormAuthInputsType>({mode: 'all'});
+    const {onChange: onChangeIdent, onBlur: onBlurIdent, name: nameIdent, ref: refIdent} = register('login', loginValidation);
     const {onChange: onChangePass, onBlur: onBlurPass, name: namePass, ref: refPass} = register('password', passwordValidation);
     const {onChange: onChangeFirstInput, onBlur: onBlurFirstInput, name: nameFirstInput, ref: refFirstInput} = register('firstName', {required: 'Поле не может быть пустым'});
     const {onChange: onChangeSecondInput, onBlur: onBlurSecondInput, name: nameSecondInput, ref: refSecondInput} = register('lastName', {required: 'Поле не может быть пустым'});
     const {onChange: onChangeEmailInput, onBlur: onBlurEmailInput, name: nameEmailInput, ref: refEmailInput} = register(
         'email', {
         validate: {
-            checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым',
+            checkLength: (value: string) => value?.length > 0 || 'Поле не может быть пустым',
             validateEmail: (value) => value.match(EmailRegex) !== null || 'Введите корректный e-mail'
         }}
     );
+
+    const handleUpdateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); e.stopPropagation();
+        const valueFields = getValues();
+        const arrValueFields = Object.entries(valueFields);
+        const clearArrValueFields = arrValueFields.filter((el: [string, string | undefined]) => el[1] !== undefined);
+        const result = clearArrValueFields.reduce((obj, element) => ({ ...obj, [element[0]]: element[1]}), {})
+        
+        await changeProfileInfo({userId, ...result});
+    }
     
+    useEffect(() => {
+        if (isError) {
+            dispatch(setToasterMsg({type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!'}))
+        }
+        if (isSuccess) {
+            dispatch(setToasterMsg({type: 'success', message: 'Изменения успешно сохранены!'}));
+            setIsDisabled(true);
+        }
+    }, [dispatch, isError, isSuccess])
+
     return (
         <div className={classNames(style.profile__credentials, styleParent.section__container)}>
             <p className={styleParent.profile__section_title}>Учётные данные</p>
             <p className={styleParent.profile__section_comment}>Здесь вы можете отредактировать информацию о себе</p>
             <div className={style.profile__credentials_form_wrapper}>
                 <form
-                    onSubmit={() => console.log('handle form')}
-                    // autoComplete='on'
+                    onSubmit={(e) => handleUpdateSubmit(e)}
                     data-test-id='profile-form'
                     className={style.form}
                 >
-                    <Input
-                        defaultHint='Используйте для логина латинский алфавит и цифры'
+                    <InputProfile
                         defaultHintError='Используйте для логина латинский алфавит и цифры'
                         inputType='text'
                         showEyesIcon={false}
@@ -68,29 +89,24 @@ export const Credentials = ({username, firstName, lastName, phone, email}: Crede
                         dirtyFields={dirtyFields}
                         errors={errors}
                         placeholder='Логин'
-                        showDefaultHint={false}
-                        showCheckMark={false}
-                        onChangeMode={true}
                         checkOnDirtyEyesIcon={false}
                         isDisabled={isDisabled}
+                        defaultValue={username}
                     />
-                    <Input
+                    <InputProfile
                         name={namePass}
                         innerRef={refPass}
                         onBlur={onBlurPass}
                         onChange={onChangePass}
-                        defaultHint='Пароль не менее 8 символов, с заглавной буквой и цифрой'
                         defaultHintError='Пароль не менее 8 символов, с заглавной буквой и цифрой'
                         dirtyFields={dirtyFields}
                         errors={errors}
                         placeholder='Пароль'
-                        showCheckMark={false}
-                        showDefaultHint={false}
-                        onChangeMode={true}
                         checkOnDirtyEyesIcon={false}
                         inputType='password'
                         showEyesIcon={true}
                         isDisabled={isDisabled}
+                        defaultValue='HelloWorld123'
                     />
 
                     <Input
@@ -110,33 +126,29 @@ export const Credentials = ({username, firstName, lastName, phone, email}: Crede
                         showEyesIcon={false}
                         onChangeMode={true}
                         isDisabled={isDisabled}
+                        defaultValue={firstName}
                     />
                     
-                    <Input 
+                    <InputProfile 
                         name={nameSecondInput}
                         innerRef={refSecondInput}
                         onBlur={onBlurSecondInput}
                         onChange={onChangeSecondInput}
-                        defaultHint=''
                         defaultHintError='Поле не может быть пустым'
                         dirtyFields={dirtyFields}
                         errors={errors}
                         placeholder='Фамилия'
-                        showCheckMark={false}
-                        showDefaultHint={false}
-                        onChangeMode={true}
                         checkOnDirtyEyesIcon={false}
                         inputType='text'
                         showEyesIcon={false}
                         isDisabled={isDisabled}
-                        
+                        defaultValue={lastName}
                     />
 
 
                     <Controller
                         control={control}
                         name="phone"
-                        defaultValue=''
                         rules={{
                             required: 'Поле не может быть пустым',
                             validate: {
@@ -155,9 +167,9 @@ export const Credentials = ({username, firstName, lastName, phone, email}: Crede
                                     inputMode='tel'
                                     mask={PhoneMasks.phoneMask}
                                     placeholderChar='x'
-                                    className={classNames(
-                                        'input',
-                                        {'input_without_error_required': !errors.phone || errors.phone?.message === ''}
+                                    defaultValue={phone}
+                                    className={classNames(style.input,
+                                        {[style.input_without_error_required]: !errors.phone || errors.phone?.message === ''}
                                     )}
                                     placeholder='Номер телефона'
                                     guide={true}
@@ -168,10 +180,7 @@ export const Credentials = ({username, firstName, lastName, phone, email}: Crede
                                 {errors.phone?.type === 'required' &&
                                     <span
                                         data-test-id='hint'
-                                        className={classNames(
-                                            'message_error_default',
-                                            'message_error_active',
-                                        )}
+                                        className={classNames(style.message_error_default,style.message_error_active)}
                                     >
                                         {errors.phone.message}
                                     </span>
@@ -179,9 +188,7 @@ export const Credentials = ({username, firstName, lastName, phone, email}: Crede
                                 {errors.phone && errors.phone?.type !== 'required' &&
                                     <span
                                         data-test-id='hint'
-                                        className={classNames(
-                                            'message_error_default',
-                                            // {'message_error_active': isLostedBlurSecondInput}
+                                        className={classNames(style.message_error_default,style.message_error_active
                                         )}
                                         >
                                             {errors.phone.message}
@@ -197,40 +204,37 @@ export const Credentials = ({username, firstName, lastName, phone, email}: Crede
                         )}
                     />
 
-                    <Input 
+                    <InputProfile 
                         name={nameEmailInput}
                         innerRef={refEmailInput}
                         onBlur={onBlurEmailInput}
-                        onChange={onChangeSecondInput}
-                        defaultHint=''
+                        onChange={onChangeEmailInput}
                         defaultHintError='Введите корректный e-mail'
                         dirtyFields={dirtyFields}
                         errors={errors}
                         placeholder='E-mail'
-                        showCheckMark={false}
-                        showDefaultHint={true}
-                        onChangeMode={true}
                         checkOnDirtyEyesIcon={false}
                         inputType='text'
                         showEyesIcon={false}
                         isDisabled={isDisabled}
+                        defaultValue={email}
                     />
 
-                    <button
-                        type='button'
-                        data-test-id='edit-button'
-                        onClick={() => setIsDisabled(!isDisabled)}
-                    >редактировать</button>
+                    <div className={style.btns_wrapper}>
+                        <button
+                            type='button'
+                            className={classNames(style.btn, style.btn_edit)}
+                            data-test-id='edit-button'
+                            onClick={() => setIsDisabled(!isDisabled)}
+                        >Редактировать</button>
 
-                    <button
-                        type="submit"
-                        data-test-id='save-button'
-                        className={classNames(
-                            'btn__submit_form',
-                            {'btn__submit_form_disabled': !isValid }
-                        )}
-                        disabled={!isValid}
-                    >вход</button>
+                        <button
+                            type="submit"
+                            data-test-id='save-button'
+                            className={classNames(style.btn, style.btn_submit)}
+                            disabled={isDisabled || Object.keys(errors)?.length > 0}
+                        >сохранить изменения</button>
+                    </div>
 
                 </form>
             </div>
