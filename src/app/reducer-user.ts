@@ -37,29 +37,33 @@ export type UserProfileType = UserType & {
     description: string,
     type: string,
   },
-  comments: Array<{
-    id: number,
-    rating: number,
-    text: string,
-  }>,
+  comments: ProfileCommentType[],
   avatar: string,
-  booking: {
+  booking: ProfileBookingType,
+  delivery: ProfileDeliveryType,
+  history: ProfileHistoryType,
+}
+export type ProfileBookingType = {
     id: number,
     order: boolean,
     dateOrder: string,
     book: BookProfileType
-  },
-  delivery: {
+}
+export type ProfileDeliveryType = {
     id: number,
     handed: boolean,
     dateHandedFrom: string,
     dateHandedTo: string,
     book: BookProfileType
-  },
-  history: {
+}
+export type ProfileHistoryType = {
     id: number,
     books: BookProfileType[]
-  }
+}
+export type ProfileCommentType = {
+    id: number,
+    rating: number,
+    text: string,
 }
 
 export const userSlice = createSlice({

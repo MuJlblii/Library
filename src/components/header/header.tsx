@@ -80,26 +80,23 @@ export const Header = () => {
             }
             <h3 className={style.header__title}>Библиотека</h3>
             <div
-                data-test-id='profile-avatar'
                 className={style.header__user}
                 onMouseEnter={(e) => {e.preventDefault(); e.stopPropagation(); setShowProfile(true)}}
                 onMouseLeave={(e) => {e.preventDefault(); e.stopPropagation(); setShowProfile(false)}}
             >
-                <p className={style.header__user_name}>Привет, {userProfile?.firstName}!</p>
+                <p className={style.header__user_name}>Привет, {userProfile?.firstName} {userProfile?.lastName}!</p>
                 {userProfile?.avatar
                     ? <img className={style.header__avatar} src={`https://strapi.cleverland.by${userProfile.avatar}`} alt="Avatar" />
                     : <img className={style.header__avatar} src={avatar} alt="Avatar" />}
-                {showProfile &&
-                    <div className={style.header__profile}>
-                        <NavLink to={PATHS.profile} data-test-id='profile-button'>Профиль</NavLink>
-                        <button
-                            type='button'
-                            onClick={handleClickExitBtn}
-                            className={style.header__profile_btn_exit}
-                            data-test-id='exit-button'
-                        >Выход</button>
-                    </div>
-                }
+                <div className={classes({'header__profile': showProfile, 'header__profile_hidden': !showProfile})}>
+                    <NavLink to={PATHS.profile} data-test-id='profile-button'>Профиль</NavLink>
+                    <button
+                        type='button'
+                        onClick={handleClickExitBtn}
+                        className={style.header__profile_btn_exit}
+                        data-test-id='exit-button'
+                    >Выход</button>
+                </div>
             </div>
         </div>
     </header>

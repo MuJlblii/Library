@@ -69,6 +69,9 @@
     letter-spacing: 0.1px;
     color: #363636;
 }
+.header__profile_hidden {
+    display: none;
+}
 .header__profile_btn_exit {
     background: none;
     border: none;

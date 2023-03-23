@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, useParams } from 'react-router-dom';
 
-import { useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery } from '../../app/api';
+import { useChangeImageAvatarMutation, useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery, useImageUploadMutation } from '../../app/api';
 import { useAppDispatch, useCheckDesktopView } from '../../app/hook';
 import { IstateRedux, setCategories, setDataFetch, setDesktopView, setMobileView, setToasterMsg } from '../../app/reducer';
 import { setUserProfile } from '../../app/reducer-user';
@@ -25,7 +25,9 @@ export const Layout = () => {
     const checkMobileView = useCheckDesktopView('(max-width: 679px)');
     const dispatch = useAppDispatch();
 
-    const { data: dataUserProfile, isLoading: isLoadingUserProfile, isError: isErrorUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined); 
+    const { data: dataUserProfile, isLoading: isLoadingUserProfile, isError: isErrorUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined);
+    const [, {isLoading: isLoadingImageUpload}] = useImageUploadMutation();
+    const [, {isLoading: isLoadingUpdateImageProfile}] = useChangeImageAvatarMutation(); 
     const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories, isFetching: isFetchingCategories } = useGetCategoriesQuery(undefined);
     const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching: isFetchingAllBooks } = useGetAllBooksQuery(undefined, {skip: skipFetchBooks});
 
@@ -68,8 +70,17 @@ export const Layout = () => {
     },[checkMobileView, dispatch]);
 
     return (
-        <div className={style.layout__wrapper}>
-            {(isLoadingCategories || isLoadingAllBooks || isFetchingAllBooks || isLoadingUserProfile || isFetchingUserProfile || isFetchingCategories) && <Loader />}
+        <div className={style.layout__wrapper} data-test-id='main-page'>
+            {(
+                isLoadingCategories
+                || isLoadingAllBooks
+                || isFetchingAllBooks
+                || isLoadingUserProfile
+                || isFetchingUserProfile
+                || isFetchingCategories
+                || isLoadingImageUpload
+                || isLoadingUpdateImageProfile
+                ) && <Loader />}
             {isShowingToaster && toasterMsg && <Toaster message={toasterMsg.message} type={toasterMsg.type}/>}
             <Header />
             <Outlet />

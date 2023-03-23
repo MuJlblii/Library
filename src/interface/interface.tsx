@@ -26,7 +26,7 @@ export interface IBookPage extends IBook {
     ISBN: string,
     producer: string,
     images: Array<{url: string}> | null,
-    comments: IComments[]
+    comments: IComments[] | null
 }
 
 export interface IComments {

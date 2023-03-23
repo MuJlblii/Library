@@ -10,6 +10,7 @@ import { ForgotPasswordPage } from '../pages/auth-forms-page/forgot-password';
 import { RegistrationPage } from '../pages/auth-forms-page/registration';
 import { BookPage } from '../pages/book';
 import { MainPage } from '../pages/main';
+import { Profile } from '../pages/profile';
 
 import { useAppSelector } from './hook';
 import { PrivateRoute } from './privacy-routing';
@@ -28,7 +29,7 @@ export const App = () => {
                             <Route path={PATHS.terms} element={<Terms contentView='terms' />} />
                             <Route path={PATHS.contract} element={<Terms contentView='contract' />} />
                         </Route>
-                        <Route path={PATHS.profile} element='' />
+                        <Route path={PATHS.profile} element={<Profile />} />
                         <Route path={`${PATHS.books}/:category/:bookId`} element={<BookPage />} />
                     </Route>
                 </Route>
