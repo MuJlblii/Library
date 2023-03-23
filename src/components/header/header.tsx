@@ -90,12 +90,14 @@ export const Header = () => {
                     : <img className={style.header__avatar} src={avatar} alt="Avatar" />}
                 <div className={classes({'header__profile': showProfile, 'header__profile_hidden': !showProfile})}>
                     <NavLink to={PATHS.profile} data-test-id='profile-button'>Профиль</NavLink>
-                    <button
-                        type='button'
-                        onClick={handleClickExitBtn}
-                        className={style.header__profile_btn_exit}
-                        data-test-id='exit-button'
-                    >Выход</button>
+                    {showProfile && 
+                        <button
+                            type='button'
+                            onClick={handleClickExitBtn}
+                            className={style.header__profile_btn_exit}
+                            data-test-id='exit-button'
+                        >Выход</button>
+                    }
                 </div>
             </div>
         </div>
