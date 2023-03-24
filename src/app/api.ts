@@ -101,7 +101,7 @@ export const libraryApi = createApi({
           body,
         }
       },
-      invalidatesTags: ['Book', 'Books']
+      invalidatesTags: ['Book', 'Books', 'User']
     }),
     changeBooking: builder.mutation({
       query({id, ...put}) {
@@ -111,7 +111,7 @@ export const libraryApi = createApi({
           body: put,
         }
       },
-      invalidatesTags: ['Book', 'Books']
+      invalidatesTags: ['Book', 'Books', 'User']
     }),
     deleteBooking: builder.mutation({
       query({id, ...put}) {
@@ -121,7 +121,7 @@ export const libraryApi = createApi({
           body: put,
         }
       },
-      invalidatesTags: ['Book', 'Books']
+      invalidatesTags: ['Book', 'Books', 'User']
     }),
     addComment: builder.mutation({
       query(body) {
