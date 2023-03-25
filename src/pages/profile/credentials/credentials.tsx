@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import MaskedInput from 'react-text-mask';
 import classNames from 'classnames';
@@ -7,7 +7,6 @@ import { useChangeProfileInfoMutation } from '../../../app/api';
 import { useAppDispatch } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
 import { UserProfileType } from '../../../app/reducer-user';
-import { Input } from '../../../components/form-blocks/input-password';
 import { EmailRegex, PhoneMasks } from '../../../constants/regex';
 import { loginValidation, passwordValidation } from '../../../utils/validation';
 import { InputProfile } from '../input-profile';
@@ -31,21 +30,22 @@ type FormAuthInputsType = {
     email: string,
     phone: string,
 }
-export const Credentials = ({username, firstName, lastName, phone, email, id: userId }: UserProfileType) => {
+export const Credentials = ({ username, firstName, lastName, phone, email, id: userId }: UserProfileType) => {
     const [isDisabled, setIsDisabled] = useState(true);
-    const [changeProfileInfo, {isError, isSuccess}] = useChangeProfileInfoMutation();
+    const [changeProfileInfo, { isError, isSuccess }] = useChangeProfileInfoMutation();
     const dispatch = useAppDispatch();
-    const { register, formState: { errors, dirtyFields }, control, getValues } = useForm<FormAuthInputsType>({mode: 'all'});
-    const {onChange: onChangeIdent, onBlur: onBlurIdent, name: nameIdent, ref: refIdent} = register('login', loginValidation);
-    const {onChange: onChangePass, onBlur: onBlurPass, name: namePass, ref: refPass} = register('password', passwordValidation);
-    const {onChange: onChangeFirstInput, onBlur: onBlurFirstInput, name: nameFirstInput, ref: refFirstInput} = register('firstName', {required: 'Поле не может быть пустым'});
-    const {onChange: onChangeSecondInput, onBlur: onBlurSecondInput, name: nameSecondInput, ref: refSecondInput} = register('lastName', {required: 'Поле не может быть пустым'});
-    const {onChange: onChangeEmailInput, onBlur: onBlurEmailInput, name: nameEmailInput, ref: refEmailInput} = register(
+    const { register, formState: { errors, dirtyFields }, control, getValues, reset } = useForm<FormAuthInputsType>({ mode: 'all', defaultValues: { phone } });
+    const { onChange: onChangeIdent, onBlur: onBlurIdent, name: nameIdent, ref: refIdent } = register('login', loginValidation);
+    const { onChange: onChangePass, onBlur: onBlurPass, name: namePass, ref: refPass } = register('password', passwordValidation);
+    const { onChange: onChangeFirstInput, onBlur: onBlurFirstInput, name: nameFirstInput, ref: refFirstInput } = register('firstName', { required: 'Поле не может быть пустым' });
+    const { onChange: onChangeSecondInput, onBlur: onBlurSecondInput, name: nameSecondInput, ref: refSecondInput } = register('lastName', { required: 'Поле не может быть пустым' });
+    const { onChange: onChangeEmailInput, onBlur: onBlurEmailInput, name: nameEmailInput, ref: refEmailInput } = register(
         'email', {
         validate: {
             checkLength: (value: string) => value?.length > 0 || 'Поле не может быть пустым',
             validateEmail: (value) => value.match(EmailRegex) !== null || 'Введите корректный e-mail'
-        }}
+        }
+    }
     );
 
     const handleUpdateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,20 +53,24 @@ export const Credentials = ({username, firstName, lastName, phone, email, id: us
         const valueFields = getValues();
         const arrValueFields = Object.entries(valueFields);
         const clearArrValueFields = arrValueFields.filter((el: [string, string | undefined]) => el[1] !== undefined);
-        const result = clearArrValueFields.reduce((obj, element) => ({ ...obj, [element[0]]: element[1]}), {})
-        
-        await changeProfileInfo({userId, ...result});
+        const result = clearArrValueFields.reduce((obj, element) => ({ ...obj, [element[0]]: element[1] }), {})
+
+        await changeProfileInfo({ userId, ...result });
     }
-    
+
     useEffect(() => {
         if (isError) {
-            dispatch(setToasterMsg({type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!'}))
+            dispatch(setToasterMsg({ type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!' }))
         }
         if (isSuccess) {
-            dispatch(setToasterMsg({type: 'success', message: 'Изменения успешно сохранены!'}));
+            dispatch(setToasterMsg({ type: 'success', message: 'Изменения успешно сохранены!' }));
             setIsDisabled(true);
         }
-    }, [dispatch, isError, isSuccess])
+    }, [dispatch, isError, isSuccess]);
+
+    useLayoutEffect(() => {
+        reset({ phone })
+    }, [phone, reset])
 
     return (
         <div className={classNames(style.profile__credentials, styleParent.section__container)}>
@@ -109,27 +113,23 @@ export const Credentials = ({username, firstName, lastName, phone, email, id: us
                         defaultValue='HelloWorld123'
                     />
 
-                    <Input
+                    <InputProfile
                         name={nameFirstInput}
                         innerRef={refFirstInput}
                         errors={errors}
                         onBlur={onBlurFirstInput}
                         onChange={onChangeFirstInput}
-                        defaultHint=''
                         defaultHintError='Поле не может быть пустым'
                         checkOnDirtyEyesIcon={false}
                         placeholder='Имя'
                         dirtyFields={dirtyFields}
                         inputType='text'
-                        showCheckMark={false}
-                        showDefaultHint={true}
                         showEyesIcon={false}
-                        onChangeMode={true}
                         isDisabled={isDisabled}
                         defaultValue={firstName}
                     />
-                    
-                    <InputProfile 
+
+                    <InputProfile
                         name={nameSecondInput}
                         innerRef={refSecondInput}
                         onBlur={onBlurSecondInput}
@@ -149,6 +149,7 @@ export const Credentials = ({username, firstName, lastName, phone, email, id: us
                     <Controller
                         control={control}
                         name="phone"
+                        // defaultValue={phone}
                         rules={{
                             required: 'Поле не может быть пустым',
                             validate: {
@@ -167,7 +168,7 @@ export const Credentials = ({username, firstName, lastName, phone, email, id: us
                                     inputMode='tel'
                                     mask={PhoneMasks.phoneMask}
                                     placeholderChar='x'
-                                    defaultValue={phone}
+                                    // defaultValue={phone}
                                     className={classNames(style.input,
                                         {[style.input_without_error_required]: !errors.phone || errors.phone?.message === ''}
                                     )}
@@ -204,7 +205,7 @@ export const Credentials = ({username, firstName, lastName, phone, email, id: us
                         )}
                     />
 
-                    <InputProfile 
+                    <InputProfile
                         name={nameEmailInput}
                         innerRef={refEmailInput}
                         onBlur={onBlurEmailInput}

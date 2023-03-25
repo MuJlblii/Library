@@ -12,14 +12,12 @@
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    /* z-index: 2; */
     overflow: hidden;
 }
 .head__avatar_img {
     vertical-align: middle;
     width: 160px;
     height: 160px;
-    /* border-radius: 50%; */
 }
 .head__avatar_blur {
     position: absolute;
@@ -28,12 +26,8 @@
     width: 150px;
     height: 42px;
     opacity: 50%;
-    /* z-index: 1; */
-
-    /* filter: blur(10px); */
     background: #363636;
     display: block;
-    /* overflow: hidden; */
 }
 .head_name {
     font-style: normal;
@@ -53,6 +47,11 @@
 }
 
 @media screen and (max-width: 528px) {
+    .head {
+        flex-direction: column;
+        gap: 24px;
+        align-items: center;
+    }
     .head_name {
         font-weight: 500;
         font-size: 26px;

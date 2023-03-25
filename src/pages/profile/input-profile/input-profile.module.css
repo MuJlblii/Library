@@ -1,8 +1,8 @@
 .label {
     position: relative;
     display: flex;
+    width: 100%;
     flex-direction: column;
-    height: 72px;
 }
 .placeholder {
     position: absolute;
@@ -24,7 +24,7 @@
 }
 
 .input {
-    width: 416px;
+    width: 100%;
     height: 56px;
     background: #F9F9FA;
     border-radius: 4px;
@@ -49,7 +49,6 @@
     mix-blend-mode: normal;
 }
 .message_error_active {
-    /* color: #F42C4F; */
     color: rgb(244, 44, 79);
 }
 .password_check_icon {
@@ -63,19 +62,4 @@
     position: absolute;
     top: 14px;
     left: 370px;
-}
-
-@media screen and (max-width: 528px) {
-    .label {
-        height: 88px;
-    }
-    .input {
-        width: 256px;
-    }
-    .password_check_icon {
-        left:196px;
-    }
-    .btn_hide {
-        left: 219px;
-    }
 }

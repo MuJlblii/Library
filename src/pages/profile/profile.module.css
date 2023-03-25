@@ -1,9 +1,14 @@
 .profile__section {
     max-width: 1110px;
 }
+.section__container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 
 .profile__wrapper {
-    width: 97vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 92px;
@@ -25,4 +30,38 @@
     letter-spacing: 0.1px;
     color: #A7A7A7;
 
+}
+@media screen and (max-width: 1110px) {
+    .profile__section {
+        margin: 0 20px;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .profile__section {
+        margin: 0 64px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .profile__section {
+        margin: 0 16.5px;
+    }
+    .profile__wrapper {
+        gap: 64px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .profile__wrapper {
+        gap: 42px;
+    }
+    .profile__section_title {
+        font-size: 18px;
+        line-height: 28px;
+    }
+    .profile__section_comment {
+        font-size: 15px;
+        line-height: 20px;
+    }
 }

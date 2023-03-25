@@ -21,6 +21,7 @@ export type InputPropsType = {
     dirtyFields: {[key: string]: boolean},
     defaultHint: string,
     defaultHintError: string,
+    defaultValue?: string
     showDefaultHint: boolean,
     showCheckMark: boolean,
     onChangeMode: boolean,
@@ -40,6 +41,7 @@ export const Input = ({
         dirtyFields,
         defaultHint,
         defaultHintError,
+        defaultValue='',
         showDefaultHint,
         showCheckMark,
         onChangeMode,
@@ -63,6 +65,7 @@ export const Input = ({
                 onBlur={(event) => {setIsLostedBlurInput(true); setIsInFocus(false); onBlur(event);}}
                 onChange={(event) => {onChange(event); }}
                 type={(inputType === 'text' || isPassVisible) ? 'text' : 'password'}
+                defaultValue={defaultValue}
                 placeholder={placeholder}
                 className={classes(
                     'input',
