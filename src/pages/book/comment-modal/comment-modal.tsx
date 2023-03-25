@@ -1,9 +1,10 @@
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { useAddCommentMutation } from '../../../app/api';
+import { useAddCommentMutation, useGetBookByIdQuery, useUpdateCommentMutation } from '../../../app/api';
 import { useAppDispatch, useAppSelector } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
+import { ProfileCommentType } from '../../../app/reducer-user';
 import { ReactComponent as CloseIcon } from '../../../assets/img/Icon_close_toaster.svg';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg';
 import { Loader } from '../../../components/loader';
@@ -15,13 +16,15 @@ export type CommentModalPropsType = {
     setIsShowingModal: (arg: boolean) => void,
     userId: number | null,
     bookId: number,
+    commentExisted?: ProfileCommentType | null
 }
 
-export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId}: CommentModalPropsType) => {
+export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId, commentExisted}: CommentModalPropsType) => {
     const calendarRef = useRef<HTMLDivElement>(null);
+    const {data: BookDataFetch} = useGetBookByIdQuery(bookId.toString());
     const isMobileView = useAppSelector((state) => state.main.isMobileView);
-    const [commentText, setCommentText] = useState('');
-    const [rating, setRating] = useState(0);
+    const [commentText, setCommentText] = useState(commentExisted? commentExisted.text : '');
+    const [rating, setRating] = useState(commentExisted? commentExisted.rating : 0);
     const ratingStars = (rate: number | null) => {
         const result = [];
         const size = {
@@ -60,10 +63,15 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId}
         return result;
     }
     const dispatch = useAppDispatch();
-    const [addComment, {isLoading, isError, isSuccess}] = useAddCommentMutation()
+    const [addComment, {isLoading, isError, isSuccess}] = useAddCommentMutation();
+    const [updateComment, { isError: isErrorUpdate, isSuccess: isSuccessUpdate}] = useUpdateCommentMutation()
     
     const submitHandler = () => {
-        addComment({data: {rating, text: commentText, book: bookId, user: userId}})
+        if (commentExisted) {
+            updateComment({id: commentExisted.bookId, data: {rating, text: commentText, book: bookId, user: userId}});
+        } else {
+            addComment({data: {rating, text: commentText, book: bookId, user: userId}})
+        }
     }
 
     useEffect(() => {
@@ -75,7 +83,15 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId}
             dispatch(setToasterMsg({type: 'success', message: 'Спасибо, что нашли время оценить книгу!'}))
             setIsShowingModal(false);
         }
-    }, [dispatch, isError, isSuccess, setIsShowingModal]);
+        if (isErrorUpdate) {
+            dispatch(setToasterMsg({type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!'}));
+            setIsShowingModal(false);
+        }
+        if (isSuccessUpdate) {
+            dispatch(setToasterMsg({type: 'success', message: 'Спасибо, что нашли время изменить оценку!'}))
+            setIsShowingModal(false);
+        }
+    }, [dispatch, isError, isSuccess, setIsShowingModal, isErrorUpdate, isSuccessUpdate]);
 
     useLayoutEffect(() => {
         const closeModal = (e: Event): void => {

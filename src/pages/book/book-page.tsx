@@ -35,14 +35,22 @@ export const BookPage = () => {
 
   const dispatch = useAppDispatch();
   const [data, setData] = useState<IBookPage | null>(null);
-  const {data: BookDataFetch, isLoading, isError, isFetching} = useGetBookByIdQuery(bookId as string);
+  const {data: BookDataFetch, isLoading, isError, isFetching, isSuccess} = useGetBookByIdQuery(bookId as string);
   const isBooked = data?.booking;
   const isBookedCurrentUser = isBooked && (isBooked.customerId === userId) ? true : false;
   const isBookedAnotherUser = isBooked && (isBooked.customerId !== userId) ? true : false;
   const dateDelivery = dayjs(data?.delivery?.dateHandedTo).format('DD.MM');
   const isOnDelivery = typeof data?.delivery?.dateHandedTo === 'string';
-  const isCommentExist = data?.comments && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0;
+  const isCommentExist = data?.comments !== null ?  data?.comments && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0 : false;
   const categoryCrumbsName = category === 'all' ? 'Все книги' : categories?.filter((el) => el.path === category)[0]?.name;
+
+  const ratingsComment = () => {
+    const comments = data?.comments && [...data.comments].sort((a, b) => 
+        dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1);
+
+    return (comments !== (null || undefined)) && comments?.map((comment: IComments, ind) =>
+          <Comment {...comment} key={`comment-${Math.random() * ind}_${new Date().getTime()}`} />)
+  }
 
   useEffect(() => {
     if (BookDataFetch) {
@@ -94,7 +102,7 @@ export const BookPage = () => {
           </div>
         </div>
       }
-      {/* {data?.id &&  */}
+      {isSuccess && 
         <div className={`${style.container}`}>
           <div className={style.basic__content}>
             <div className={style.basic__content_img}>
@@ -181,22 +189,18 @@ export const BookPage = () => {
                 />
               </div>
                   <div className={style.feedback__detailed_wrapper} data-test-id='reviews'>
-                    {data?.comments && [...data.comments].sort((a, b) => 
-                        dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1).map((comment: IComments, ind) =>
-                        <Comment {...comment} key={`comment-${Math.random() * ind}_${new Date().getTime()}`}
-                        />)}
+                    {ratingsComment()}
                     <button
                       type='submit'
-                      disabled={isCommentExist}
-                      className={style.feedback_btn}
+                      className={classNames(style.feedback_btn, {[style.feedback_btn_available]: isCommentExist})}
                       data-test-id='button-rate-book'
                       onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowCommentModal(true)}}
-                    >оценить книгу</button>
+                    >{isCommentExist ? 'изменить оценку' : 'оценить книгу'}</button>
                   </div>
             </div>
           </div>
         </div>
-      {/* // } */}
+      }
     </section>
   )
 };

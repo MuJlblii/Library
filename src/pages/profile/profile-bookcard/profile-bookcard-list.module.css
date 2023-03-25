@@ -3,13 +3,12 @@
 }
 .bookcard__wrapper {
     max-width: 1110px;
-    /* width: 825px; */
     display: flex;
-    /* justify-content: flex-end; */
     padding: 24px 16px;
     background: #FFFFFF;
     box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
     border-radius: 12px;
+    position: relative;
 }
 .bookcard__container {
     width: 785px;

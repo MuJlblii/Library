@@ -280,6 +280,11 @@
     background: #EBEBEB;
     color: rgb(167, 167, 167);
 }
+.feedback_btn_available {
+    color: rgb(54, 54, 54);
+    background: rgba(0, 0, 0, 0);
+    border: 1px solid #BFC4C9;
+}
 @media screen and (min-width: 680px) and (max-width: 1150px) {
     .crumbs {
         height: 88px;
