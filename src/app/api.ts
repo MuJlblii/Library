@@ -131,7 +131,17 @@ export const libraryApi = createApi({
           body,
         }
       },
-      invalidatesTags: ['Book', 'Books']
+      invalidatesTags: ['Book', 'Books', 'User']
+    }),
+    updateComment: builder.mutation({
+      query({id, ...body}) {
+        return {
+          url: `/api/comments/${id}`,
+          method: 'PUT',
+          body,
+        }
+      },
+      invalidatesTags: ['Book', 'Books', 'User']
     }),
     getProfileUser: builder.query({
       query: () => '/api/users/me',
@@ -186,4 +196,5 @@ export const {
   useImageUploadMutation,
   useChangeImageAvatarMutation,
   useChangeProfileInfoMutation,
+  useUpdateCommentMutation,
 } = libraryApi;
