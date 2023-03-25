@@ -64,6 +64,7 @@ export type ProfileCommentType = {
     id: number,
     rating: number,
     text: string,
+    bookId: number,
 }
 
 export const userSlice = createSlice({
