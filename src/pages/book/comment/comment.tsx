@@ -36,7 +36,7 @@ export const Comment = ({id, createdAt, rating, text, user} : IComments) => {
     return (
         <div className={style.feedback__detailed} data-test-id='comment-wrapper'>
             <div className={style.feedback__detailed_header}>
-                <img src={user.avatarUrl ? `https://strapi.cleverland.by${user.avatarUrl}` : logo} alt='Logo' />
+                <img className={style.avatar_img} src={user.avatarUrl ? `https://strapi.cleverland.by${user.avatarUrl}` : logo} alt='Logo' />
                 <div className={style.feedback__detailed_text_wrapper}>
                     <p className={style.feedback__detailed_text} data-test-id='comment-author'>{user.firstName} {user.lastName}</p>
                     <p className={style.feedback__detailed_text} data-test-id='comment-date'>{dayjs(createdAt).format('DD MMMM YYYY')}</p>
