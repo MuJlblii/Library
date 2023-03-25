@@ -126,7 +126,7 @@ export const ProfileBookcard = (
                         </button>
                     }
                     {type==='delivery' &&
-                        <p className={style.delivery_date}>Возврат {dayjs(date).format('DD.MM')}</p>
+                        <p className={lstyle.delivery_date}>Возврат {dayjs(date).format('DD.MM')}</p>
                     }
                     {type==='comment' && setIsShowingComment && setBookIdForComment &&
                         <button

@@ -1,5 +1,6 @@
 .profile__section {
     max-width: 1110px;
+    padding-bottom: 62px;
 }
 .section__container {
     display: flex;

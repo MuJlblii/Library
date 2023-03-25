@@ -1,5 +1,5 @@
 .bookcard__wrapper {
-    width: 100%;
+    width: 250px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -53,7 +53,7 @@
     color: #727272;
 }
 .bookcard__btn {
-    width: 166px;
+    width: 231px;
     height: 40px;
     background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
     border-radius: 20px;
@@ -79,16 +79,18 @@
     background: #FFFFFF;
     border: 1px solid #BFC4C9;
 }
-.delivery_date {
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 30px;
-    letter-spacing: 0.1px;
-    text-transform: uppercase;
-    color: #FF5253;
+@media screen and (max-width: 768px) {
+    .bookcard__wrapper {
+        width: 185px;
+    }
+    .bookcard__btn {
+        width: 166px;
+    }
 }
-
 @media screen and (max-width: 459px) {
+    .bookcard__wrapper {
+        width: 283px;
+    }
     .bookcard__btn {
         width: 256px;
     }

@@ -1,5 +1,14 @@
-.profile__history_form_wrapper {
-    /* display: grid;
-    grid-template-columns: 190px auto; */
-    /* flex-wrap: wrap; */
+.profile {
+    max-width: 1100px;
+}
+
+@media screen and (max-width:768px) {
+    .profile {
+        max-width: 718px;
+    }
+}
+@media screen and (max-width: 320px) {
+    .profile {
+        max-width: 288px;
+    }
 }

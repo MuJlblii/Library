@@ -11,7 +11,7 @@ export type ProfileHandedType = {
 
 
 export const ProfileHanded = ({delivery}: ProfileHandedType) => (
-    <div className={parentStyle.profile__delivery}>
+    <div className={parentStyle.section__container}>
         <p className={parentStyle.profile__section_title}>Книга которую взяли</p>
         <p className={parentStyle.profile__section_comment}>Здесь можете просмотреть информацию о книге и узнать сроки возврата</p>
         <div className={parentStyle.profile__delivery_form_wrapper}>

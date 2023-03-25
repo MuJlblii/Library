@@ -11,9 +11,9 @@
     position: relative;
 }
 .bookcard__container {
-    width: 785px;
+    max-width: 1110px;
     display: grid;
-    grid-template-columns: 120px auto;
+    grid-template-columns: 120px repeat(2, minmax(100px, 540px));
     grid-template-rows: auto;
     column-gap: 16px;
 }
@@ -61,6 +61,17 @@
     color: #FFFFFF;
     justify-self: flex-end;
 }
+.delivery_date {
+    grid-column: 3/4;
+    grid-row: 3/4;
+    justify-self: flex-end;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 0.1px;
+    text-transform: uppercase;
+    color: #FF5253;
+}
 .bookcard__btn:disabled {
     background: #F9F9FA;
     border: 1px solid #BFC4C9;
@@ -73,15 +84,15 @@
     color: #A7A7A7;
 }
 
-@media screen and (min-width: 680px) and (max-width: 1110px) {
+/* @media screen and (min-width: 680px) and (max-width: 1110px) {
     .bookcard__wrapper {
         width: 640px;
     }
-}
+} */
 
-@media screen and (max-width: 679px) {
+@media screen and (max-width: 550px) {
     .bookcard__wrapper {
-        width: 288px;
+        /* width: 288px; */
         padding: 8px 8px 8px 8px;
     }
     .bookcard__container {
@@ -116,5 +127,15 @@
         grid-column: 2/3;
         grid-row: 3/4;
         width: 186px;
+    }
+    .delivery_date {
+        grid-column: 2/3;
+        grid-row: 3/4;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        letter-spacing: 0.2px;
+        text-transform: uppercase;
+        color: #FF5253;
     }
 }
