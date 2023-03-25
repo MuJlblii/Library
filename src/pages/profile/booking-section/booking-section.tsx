@@ -9,17 +9,13 @@ export type BookingSectionPropsType = {
     booking: ProfileBookingType;
 }
 
-export const BookingSection = ({booking} : BookingSectionPropsType) => {
-    console.log('profile booking', booking);
-
-    return (
+export const BookingSection = ({booking} : BookingSectionPropsType) => (
         <div className={parentStyle.profile__booking}>
         <p className={parentStyle.profile__section_title}>Забронированная книга</p>
         <p className={parentStyle.profile__section_comment}>Здесь вы можете просмотреть забронированную книгу, а так же отменить бронь</p>
-        <div className={parentStyle.profile__booking_form_wrapper}>
-            {booking?.book && <ProfileBookcard view='List' bookingId={booking.id} {...booking.book}/>}
+        <div className={style.profile__booking_form_wrapper}>
+            {booking?.book && <ProfileBookcard view='Table' bookingId={booking.id} type='booking' date={booking.dateOrder} {...booking.book}/>}
             {!booking?.book && <ProfileBlueCard text='Забронируйте книгу и она отобразится '/>}
         </div>
     </div>
-    )
-}
+)
