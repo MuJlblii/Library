@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 
 import logo from '../../../assets/img/Ellipse 10.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg';
+import { PATHS } from '../../../constants/path-routing';
 import { IComments } from '../../../interface/interface';
 
 import style from './comment.module.css';
@@ -36,7 +37,7 @@ export const Comment = ({id, createdAt, rating, text, user} : IComments) => {
     return (
         <div className={style.feedback__detailed} data-test-id='comment-wrapper'>
             <div className={style.feedback__detailed_header}>
-                <img className={style.avatar_img} src={user.avatarUrl ? `https://strapi.cleverland.by${user.avatarUrl}` : logo} alt='Logo' />
+                <img className={style.avatar_img} src={user.avatarUrl ? `${PATHS.baseUrl}${user.avatarUrl}` : logo} alt='Logo' />
                 <div className={style.feedback__detailed_text_wrapper}>
                     <p className={style.feedback__detailed_text} data-test-id='comment-author'>{user.firstName} {user.lastName}</p>
                     <p className={style.feedback__detailed_text} data-test-id='comment-date'>{dayjs(createdAt).format('DD MMMM YYYY')}</p>

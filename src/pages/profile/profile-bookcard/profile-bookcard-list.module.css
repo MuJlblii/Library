@@ -84,15 +84,8 @@
     color: #A7A7A7;
 }
 
-/* @media screen and (min-width: 680px) and (max-width: 1110px) {
-    .bookcard__wrapper {
-        width: 640px;
-    }
-} */
-
 @media screen and (max-width: 550px) {
     .bookcard__wrapper {
-        /* width: 288px; */
         padding: 8px 8px 8px 8px;
     }
     .bookcard__container {

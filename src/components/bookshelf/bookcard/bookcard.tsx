@@ -8,6 +8,7 @@ import { selectBookshelfView } from '../../../app/selector-main';
 import { selectUser } from '../../../app/selector-user';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
+import { PATHS } from '../../../constants/path-routing';
 import { IBookCard } from '../../../interface/interface';
 import { useSearchValue } from '../../../layouts/layout-main-page/layout-main-page';
 import { Booking } from '../../booking';
@@ -94,7 +95,7 @@ export const Bookcard = (
         <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link}>
             <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__wrapper} data-test-id='card'>
                 <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__container}>
-                    <img src={image === null ? imageDef : `https://strapi.cleverland.by${image.url}`} alt="Nothing" className={view === 'Table' ? style.bookcard__img : lstyle.bookcard__img}/>
+                    <img src={image === null ? imageDef : `${PATHS.baseUrl}${image.url}`} alt="Nothing" className={view === 'Table' ? style.bookcard__img : lstyle.bookcard__img}/>
                     <div className={view === 'Table' ? style.bookcard__rating : lstyle.bookcard__rating}>
                         {rating === null && <p className={view === 'Table' ? style.bookcard__footer : lstyle.bookcard__footer}>ещё нет оценок</p>}
                         {rating !== null && (<div className={view === 'Table' ? style.bookcard__rating_star : lstyle.bookcard__rating_star}>{ratingStars((rating)).map(el => el)}</div>)}

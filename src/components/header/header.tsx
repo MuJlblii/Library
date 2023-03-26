@@ -88,7 +88,7 @@ export const Header = () => {
             >
                 <p className={style.header__user_name}>Привет, {userProfile?.firstName} {userProfile?.lastName}!</p>
                 {userProfile?.avatar
-                    ? <img className={style.header__avatar} src={`https://strapi.cleverland.by${userProfile.avatar}`} alt="Avatar" />
+                    ? <img className={style.header__avatar} src={`${PATHS.baseUrl}${userProfile.avatar}`} alt="Avatar" />
                     : <img className={style.header__avatar} src={avatar} alt="Avatar" />}
                 <div className={classes({'header__profile': showProfile, 'header__profile_hidden': !showProfile})}>
                     <NavLink to={PATHS.profile} data-test-id='profile-button'>Профиль</NavLink>

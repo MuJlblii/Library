@@ -148,7 +148,6 @@ export const Credentials = ({ username, firstName, lastName, phone, email, id: u
                     <Controller
                         control={control}
                         name="phone"
-                        // defaultValue={phone}
                         rules={{
                             required: 'Поле не может быть пустым',
                             validate: {
@@ -167,7 +166,6 @@ export const Credentials = ({ username, firstName, lastName, phone, email, id: u
                                     inputMode='tel'
                                     mask={PhoneMasks.phoneMask}
                                     placeholderChar='x'
-                                    // defaultValue={phone}
                                     className={classNames(style.input,
                                         {[style.input_without_error_required]: !errors.phone || errors.phone?.message === ''}
                                     )}
