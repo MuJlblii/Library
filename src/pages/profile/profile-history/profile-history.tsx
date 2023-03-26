@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { useAppSelector } from '../../../app/hook';
 import { ProfileCommentType, ProfileHistoryType } from '../../../app/reducer-user';
-import { CommentModal } from '../../book/comment-modal';
+import { CommentModal } from '../../../components/comment-modal';
 import { ProfileBlueCard } from '../profile-blue-card';
 import { ProfileBookcard } from '../profile-bookcard';
 

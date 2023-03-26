@@ -3,15 +3,16 @@ import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 
-import { useAddCommentMutation, useGetBookByIdQuery, useUpdateCommentMutation } from '../../../app/api';
-import { useAppDispatch, useAppSelector } from '../../../app/hook';
-import { setToasterMsg } from '../../../app/reducer';
-import { ProfileCommentType, UserProfileType } from '../../../app/reducer-user';
-import { selectProfile } from '../../../app/selector-user';
-import { ReactComponent as CloseIcon } from '../../../assets/img/Icon_close_toaster.svg';
-import { ReactComponent as Icon } from '../../../assets/img/Star.svg';
-import { Loader } from '../../../components/loader';
-import { IComments } from '../../../interface/interface';
+import { useAddCommentMutation, useGetBookByIdQuery, useUpdateCommentMutation } from '../../app/api';
+import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { setToasterMsg } from '../../app/reducer';
+import { ProfileCommentType, UserProfileType } from '../../app/reducer-user';
+import { selectProfile } from '../../app/selector-user';
+import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
+// import { ReactComponent as CloseIcon } from '../../../assets/img/Icon_close_toaster.svg';
+import { ReactComponent as Icon } from '../../assets/img/Star.svg';
+import { IComments } from '../../interface/interface';
+import { Loader } from '../loader';
 
 import style from './comment-modal.module.css';
 

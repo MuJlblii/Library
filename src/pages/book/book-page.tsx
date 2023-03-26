@@ -17,7 +17,7 @@ import { Rating } from '../../components/rating';
 import { IBookPage, IBooksState,ICategories, IComments } from '../../interface/interface';
 
 import { Comment } from './comment';
-import { CommentModal } from './comment-modal';
+import { CommentModal } from '../../components/comment-modal';
 
 import style from './book-page.module.css';
 import { PATHS } from '../../constants/path-routing';
