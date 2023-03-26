@@ -28,7 +28,7 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
     const {data: BookDataFetch} = useGetBookByIdQuery(bookId.toString());
     const isMobileView = useAppSelector((state) => state.main.isMobileView);
     const [commentText, setCommentText] = useState(commentExisted? commentExisted.text : '');
-    const [rating, setRating] = useState(commentExisted? commentExisted.rating : 0);
+    const [rating, setRating] = useState(commentExisted? commentExisted.rating : 5);
 
     const ratingStars = (rate: number | null) => {
         const result = [];
