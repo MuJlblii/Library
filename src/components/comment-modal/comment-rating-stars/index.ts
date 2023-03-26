@@ -1,0 +1,1 @@
+export { CommentRatingStars } from './comment-rating-stars';
