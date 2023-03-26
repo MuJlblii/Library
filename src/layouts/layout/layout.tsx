@@ -31,6 +31,14 @@ export const Layout = () => {
     const [, {isLoading: isLoadingChangeProfile}] = useChangeProfileInfoMutation();
     const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories, isFetching: isFetchingCategories } = useGetCategoriesQuery(undefined);
     const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching: isFetchingAllBooks } = useGetAllBooksQuery(undefined, {skip: skipFetchBooks});
+    const checkLoading = isLoadingCategories
+        || isLoadingAllBooks
+        || isFetchingAllBooks
+        || isLoadingUserProfile
+        || isFetchingUserProfile
+        || isFetchingCategories
+        || isLoadingImageUpload
+        || isLoadingChangeProfile;
 
     useEffect(() => {
         if (isErrorAllBooks || isErrorCategories) {
@@ -72,16 +80,7 @@ export const Layout = () => {
 
     return (
         <div className={style.layout__wrapper} data-test-id='main-page'>
-            {(
-                isLoadingCategories
-                || isLoadingAllBooks
-                || isFetchingAllBooks
-                || isLoadingUserProfile
-                || isFetchingUserProfile
-                || isFetchingCategories
-                || isLoadingImageUpload
-                || isLoadingChangeProfile
-                ) && <Loader />}
+            {checkLoading && <Loader />}
             {isShowingToaster && toasterMsg && <Toaster message={toasterMsg.message} type={toasterMsg.type}/>}
             <Header />
             <Outlet />
