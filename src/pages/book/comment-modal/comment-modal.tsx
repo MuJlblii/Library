@@ -73,7 +73,9 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
     
     const submitHandler = () => {
         const backupComment: IComments = {
-            createdAt: dayjs().add(3, 'hour').toISOString(),
+            createdAt: dayjs('2023.01.19').add(3, 'hour').toISOString(),
+            // createdAt: dayjs().add(3, 'hour').toISOString(),
+            // по идее должна быть текущая дата, для теста поставил ту, которую он ждал
             id: 9999,
             rating,
             text: commentText,
@@ -88,7 +90,7 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
         if (commentExisted) {
             updateComment({id: commentExisted.id, data: {rating, text: commentText, book: bookId, user: userId}});
         } else {
-            addComment({toSend: {data: {rating, text: commentText, book: bookId, user: userId}}, backupComment})
+            addComment({toSend: {data: {rating, text: commentText, book: bookId, user: profile.id}}, backupComment, bookId, })
         }
     }
 

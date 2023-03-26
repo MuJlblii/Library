@@ -1,8 +1,14 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
-import { IBook, IBookPage, IBooksState, ICategories } from '../interface/interface';
+import { IBook, IBookPage, IBooksState, ICategories, IComments } from '../interface/interface';
 
 import { store } from './store';
+
+type CommentTypePost = {
+  bookId: number,
+  toSend: {data: {rating: number, text: string, user: number, book: number}},
+  backupComment: IComments,
+}
 
 export const libraryApi = createApi({
   reducerPath: 'fetch',
@@ -123,7 +129,7 @@ export const libraryApi = createApi({
       },
       invalidatesTags: ['Book', 'Books', 'User']
     }),
-    addComment: builder.mutation({
+    addComment: builder.mutation<void, Pick<CommentTypePost, 'bookId'> & Partial<CommentTypePost>>({
       query({toSend}) {
         return {
           url: '/api/comments',
@@ -131,12 +137,15 @@ export const libraryApi = createApi({
           body: toSend,
         }
       },
-      async onQueryStarted({toSend: data, backupComment}, {dispatch, queryFulfilled}) {
-        if (data.data.book) {
-          const backupResult = dispatch(libraryApi.util.updateQueryData('getBookById', data.data.book, (draft) => {
+      invalidatesTags: ['Book', 'Books', 'User'],
+      async onQueryStarted({backupComment, bookId}, {dispatch, queryFulfilled}) {
+        if (bookId) {
+          const backupResult = dispatch(libraryApi.util.updateQueryData('getBookById', bookId.toString(), (draft) => {
             if (backupComment && draft?.comments !== null) {
-              draft?.comments.push(backupComment);
+              return {...draft, comments: [...draft.comments, backupComment]};
             }
+
+            return {...draft, comments: null};
           })
           );
 
@@ -147,7 +156,6 @@ export const libraryApi = createApi({
           }
         }
       },
-      invalidatesTags: ['Book', 'Books', 'User']
     }),
     updateComment: builder.mutation({
       query({id, ...body}) {
