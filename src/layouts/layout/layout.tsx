@@ -4,8 +4,9 @@ import { Outlet, useParams } from 'react-router-dom';
 
 import { useChangeProfileInfoMutation, useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery, useImageUploadMutation } from '../../app/api';
 import { useAppDispatch, useCheckDesktopView } from '../../app/hook';
-import { IstateRedux, setCategories, setDataFetch, setDesktopView, setMobileView, setToasterMsg } from '../../app/reducer';
+import { setCategories, setDataFetch, setDesktopView, setMobileView, setToasterMsg } from '../../app/reducer';
 import { setUserProfile } from '../../app/reducer-user';
+import { selectToaster } from '../../app/selector-main';
 import { createBooksState } from '../../app/utils';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
@@ -16,7 +17,7 @@ import style from './layout.module.css';
 
 export const Layout = () => {
     const delayHideToaster = 4;
-    const toasterMsg = useSelector((state: IstateRedux) => state.main.toasterMsg);
+    const toasterMsg = useSelector(selectToaster);
     const [ isShowingToaster, setIsShowingToaster ] = useState(false);
     const params = useParams();
     const skipFetchBooks = params?.bookId ? true : false;

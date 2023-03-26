@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 
-import { UserProfileType, UserStateType } from '../../app/reducer-user';
+import { UserProfileType } from '../../app/reducer-user';
+import { selectProfile } from '../../app/selector-user';
 
 import { BookingSection } from './booking-section';
 import { Credentials } from './credentials';
@@ -12,7 +13,7 @@ import style from './profile.module.css';
 
 
 export const Profile = () => {
-    const profile: UserProfileType = useSelector((state: UserStateType) => state.user.userProfile);
+    const profile: UserProfileType = useSelector(selectProfile);
 
     return (
         <section className={style.profile__section}>

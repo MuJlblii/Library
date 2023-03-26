@@ -6,7 +6,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useBookingMutation, useChangeBookingMutation, useDeleteBookingMutation } from '../../app/api';
 import { useAppDispatch } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
-import { UserStateType } from '../../app/reducer-user';
+import { selectUser } from '../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
 import { IBooking } from '../../interface/interface';
 import { Calendar } from '../calendar';
@@ -26,7 +26,7 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
     const calendarRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch();
     const [selectedDay, setSelectedDay] = useState<Dayjs | null>(bookingObj ? dayjs(bookingObj?.dateOrder) : null);
-    const {User} = useSelector((state: UserStateType) => state.user)
+    const User = useSelector(selectUser)
     const [isCalendarClicked, setIsCalendarClicked] = useState(false);
     const [booking, {isLoading, isError, isSuccess }] = useBookingMutation();
     const [deleteBooking, {isLoading: isLoadingDelete, isError: isErrorDelete, isSuccess: isSuccessDelete}] = useDeleteBookingMutation();

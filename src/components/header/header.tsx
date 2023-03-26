@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import { useAppDispatch, useAppSelector } from '../../app/hook';
-import { setJWTtoken, setUser, UserStateType } from '../../app/reducer-user';
+import { setJWTtoken, setUser } from '../../app/reducer-user';
+import { selectProfile } from '../../app/selector-user';
 import avatar from '../../assets/img/default_avatar.svg';
 import logo from '../../assets/img/logo.png';
 import { PATHS } from '../../constants/path-routing';
@@ -17,7 +18,7 @@ import styleMenu from './menu.module.css';
 
 export const Header = () => {
     const desktopView = useAppSelector((state) => state.main.isDesktopView);
-    const userProfile = useSelector((state: UserStateType) => state.user.userProfile);
+    const userProfile = useSelector(selectProfile);
     const btnBurgerRef = useRef<HTMLDivElement>(null);
     const classes = classNames.bind(style);
     const dispatch = useAppDispatch();

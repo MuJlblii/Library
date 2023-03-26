@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 
 import { useAppSelector } from '../../../app/hook';
-import { UserStateType } from '../../../app/reducer-user';
+import { selectUser } from '../../../app/selector-user';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
 import { IBookCard } from '../../../interface/interface';
@@ -29,7 +29,7 @@ export const Bookcard = (
     }: IBookCard) => {
     const { searchValue } = useSearchValue();
     const [isShowingBooking, setIsShowingBooking] = useState(false);
-    const {User} = useSelector((state: UserStateType) => state.user);
+    const User = useSelector(selectUser);
     const isBookedCurrentUser = isBooked && (isBooked.customerId === User?.id) ? true : false;
     const isBookedAnotherUser = isBooked && (isBooked.customerId !== User?.id) ? true : false;
     const dateDelivery = dayjs(delivery?.dateHandedTo).format('DD.MM');

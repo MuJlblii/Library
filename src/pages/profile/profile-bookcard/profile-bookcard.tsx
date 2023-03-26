@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -7,7 +6,7 @@ import dayjs from 'dayjs';
 import { useDeleteBookingMutation } from '../../../app/api';
 import { useAppDispatch } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
-import { BookProfileType, ProfileCommentType, UserStateType } from '../../../app/reducer-user';
+import { BookProfileType, ProfileCommentType } from '../../../app/reducer-user';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
 import { ProfileBlueCard } from '../profile-blue-card';
@@ -39,7 +38,6 @@ export const ProfileBookcard = (
         bookingId,
         date,
         type,
-        userId,
         setBookIdForComment,
         setIsShowingComment,
         setPreviousComment,
@@ -51,7 +49,6 @@ export const ProfileBookcard = (
     const submitRemoveBooking = () => {
         deleteBooking({id: bookingId});
     }
-    const {User} = useSelector((state: UserStateType) => state.user);
 
     const [windowSize, setWindowSize] = useState(window.innerWidth);
     

@@ -4,15 +4,16 @@ import { NavLink, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import { useAppDispatch, useAppSelector } from '../../app/hook';
-import { currentCategorySet, IstateRedux } from '../../app/reducer';
+import { currentCategorySet } from '../../app/reducer';
 import { setJWTtoken, setUser } from '../../app/reducer-user';
+import { selectMain } from '../../app/selector-main';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler.svg';
+import { PATHS } from '../../constants/path-routing';
 import { IBooksState } from '../../interface/interface';
 import { setJWTtokenToLocalStorage } from '../../utils/jwt-token';
 import { setUserToLocalStorage } from '../../utils/user-local-storage';
 
 import defaultStyle from './sidebar.module.css';
-import { PATHS } from '../../constants/path-routing';
 
 type PropsType = {
     style?: {readonly [key: string]: string},
@@ -22,7 +23,7 @@ type PropsType = {
 export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
     const classes = classNames.bind(style);
     const isDesktopView = useAppSelector((state) => state.main.isDesktopView);
-    const state = useSelector((stateRedux: IstateRedux) => stateRedux.main);
+    const state = useSelector(selectMain);
     const {category} = useParams();
     const dispatch = useAppDispatch();
     const [spoiler, setSpoiler] = useState(category === '' ? false : true);

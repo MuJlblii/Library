@@ -2,7 +2,7 @@ import {Fragment} from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { IstateRedux } from '../../app/reducer';
+import { selectMain } from '../../app/selector-main';
 import { IBook } from '../../interface/interface';
 import { useSearchValue } from '../../layouts/layout-main-page/layout-main-page';
 
@@ -14,7 +14,7 @@ import lstyle from './bookshelf-list.module.css';
 
 export const Bookshelf = () => {
     const { searchValue } = useSearchValue();
-    const {data, sorting, bookShelfView } = useSelector((stateRedux: IstateRedux) => stateRedux.main);
+    const {data, sorting, bookShelfView } = useSelector(selectMain);
     const { category } = useParams();
     const direction = sorting ? -1 : 1;
 

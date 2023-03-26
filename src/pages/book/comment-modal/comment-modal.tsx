@@ -6,7 +6,8 @@ import dayjs from 'dayjs';
 import { useAddCommentMutation, useGetBookByIdQuery, useUpdateCommentMutation } from '../../../app/api';
 import { useAppDispatch, useAppSelector } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
-import { ProfileCommentType, UserProfileType, UserStateType } from '../../../app/reducer-user';
+import { ProfileCommentType, UserProfileType } from '../../../app/reducer-user';
+import { selectProfile } from '../../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../../assets/img/Icon_close_toaster.svg';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg';
 import { Loader } from '../../../components/loader';
@@ -24,7 +25,7 @@ export type CommentModalPropsType = {
 
 export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId, commentExisted}: CommentModalPropsType) => {
     const calendarRef = useRef<HTMLDivElement>(null);
-    const profile: UserProfileType = useSelector((state: UserStateType) => state.user.userProfile);
+    const profile: UserProfileType = useSelector(selectProfile);
     const {data: BookDataFetch} = useGetBookByIdQuery(bookId.toString());
     const isMobileView = useAppSelector((state) => state.main.isMobileView);
     const [commentText, setCommentText] = useState(commentExisted? commentExisted.text : '');
