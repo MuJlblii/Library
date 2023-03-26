@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useChangeImageAvatarMutation, useImageUploadMutation } from '../../../app/api';
+import { useChangeProfileInfoMutation, useImageUploadMutation } from '../../../app/api';
 import { useAppDispatch } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
 import avatarImg from '../../../assets/img/default_avatar.svg';
@@ -20,8 +20,8 @@ export const HeadProfile = ({firstName, lastName, avatar, id: userId} : HeadProf
     const dispatch = useAppDispatch();
     const [file, setFile] = useState<File | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const [imageUpload, {isError: isErrorImage, isSuccess: isSuccessImage}] = useImageUploadMutation()
-    const [changeImageAvatar, {isSuccess, isError}] = useChangeImageAvatarMutation();
+    const [imageUpload, {isError: isErrorImage, isSuccess: isSuccessImageUpload, data}] = useImageUploadMutation()
+    const [changeProfileInfo, {isSuccess, isError}] = useChangeProfileInfoMutation()
     const handleFileClick = () => {
         inputRef?.current?.click();
     }
@@ -37,25 +37,30 @@ export const HeadProfile = ({firstName, lastName, avatar, id: userId} : HeadProf
                 const imageData = new FormData();
     
                 imageData.append('files', file);
-                const res = await imageUpload(imageData);
-    
-                if ('data' in res) {
-                    await changeImageAvatar({userId, avatar: res.data.id });
-                }
+                await imageUpload(imageData);
             }
         }
 
         uploadImage();
-    }, [file, imageUpload, userId, changeImageAvatar]);
+    }, [file, imageUpload, userId]);
 
     useEffect(() => {
-        if (isSuccess || isSuccessImage) {
+        if (isSuccessImageUpload) {
+            const newAvatar = {avatar: data[0].id}
+            
+            changeProfileInfo({ userId, ...newAvatar })
+        }
+    }, [data, isSuccessImageUpload, changeProfileInfo, userId])
+
+    useEffect(() => {
+        if (isSuccess || isSuccessImageUpload) {
             dispatch(setToasterMsg({type: 'success', message: 'Фото успешно сохранено!'}));
+            setFile(null);
         }
         if (isError || isErrorImage) {
             dispatch(setToasterMsg({type: 'error', message: 'Что-то пошло не так, фото не сохранилось. Попробуйте позже!'}));
         }
-    }, [dispatch, isError, isSuccess, isSuccessImage, isErrorImage]);
+    }, [dispatch, isError, isSuccess, isSuccessImageUpload, isErrorImage]);
 
 
     return (
