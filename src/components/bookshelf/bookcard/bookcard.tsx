@@ -9,8 +9,8 @@ import { selectUser } from '../../../app/selector-user';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
 import { PATHS } from '../../../constants/path-routing';
-import { IBookCard } from '../../../interface/interface';
 import { useSearchValue } from '../../../layouts/layout-main-page/layout-main-page';
+import { BookCardType } from '../../../types/types';
 import { Booking } from '../../booking';
 
 import style from './bookcard.module.css';
@@ -27,7 +27,7 @@ export const Bookcard = (
         issueYear: year,
         booking: isBooked,
         delivery
-    }: IBookCard) => {
+    }: BookCardType) => {
     const { searchValue } = useSearchValue();
     const [isShowingBooking, setIsShowingBooking] = useState(false);
     const User = useSelector(selectUser);

@@ -19,7 +19,7 @@ import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
 import { PATHS } from '../../constants/path-routing';
-import { IBookPage, IComments } from '../../interface/interface';
+import { BookPageType, CommentsType } from '../../types/types';
 
 import { Comment } from './comment';
 
@@ -38,7 +38,7 @@ export const BookPage = () => {
   const backupBookData = books?.filter((el) => el.path === category)[0]?.list?.filter((book) => book.id === Number(bookId))[0];
 
   const dispatch = useAppDispatch();
-  const [data, setData] = useState<IBookPage | null>(null);
+  const [data, setData] = useState<BookPageType | null>(null);
   const {data: BookDataFetch, isLoading, isError, isFetching, isSuccess} = useGetBookByIdQuery(bookId as string);
   const isBooked = data?.booking;
   const isBookedCurrentUser = isBooked && (isBooked.customerId === userId) ? true : false;
@@ -60,7 +60,7 @@ export const BookPage = () => {
     const comments = data?.comments && [...data.comments].sort((a, b) => 
         dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1);
 
-    return (comments !== (null || undefined)) && comments?.map((comment: IComments, ind) =>
+    return (comments !== (null || undefined)) && comments?.map((comment: CommentsType, ind) =>
           <Comment {...comment} key={`comment-${Math.random() * ind}_${new Date().getTime()}`} />)
   }
 

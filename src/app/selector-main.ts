@@ -1,9 +1,9 @@
-import { IstateRedux } from './reducer';
+import { StateReduxType } from './reducer';
 
-export const selectMain = (stateRedux: IstateRedux) => stateRedux.main;
-export const selectToaster = (stateRedux: IstateRedux) => stateRedux.main.toasterMsg;
-export const selectIsMobileView = (stateRedux: IstateRedux) => stateRedux.main.isMobileView;
-export const selectBookshelfView = (stateRedux: IstateRedux) => stateRedux.main.bookShelfView;
-export const selectIsDesktopView = (stateRedux: IstateRedux) => stateRedux.main.isDesktopView;
-export const selectCategories = (stateRedux: IstateRedux) => stateRedux.main.categories;
-export const selectBooks = (stateRedux: IstateRedux) => stateRedux.main.data;
+export const selectMain = (stateRedux: StateReduxType) => stateRedux.main;
+export const selectToaster = (stateRedux: StateReduxType) => stateRedux.main.toasterMsg;
+export const selectIsMobileView = (stateRedux: StateReduxType) => stateRedux.main.isMobileView;
+export const selectBookshelfView = (stateRedux: StateReduxType) => stateRedux.main.bookShelfView;
+export const selectIsDesktopView = (stateRedux: StateReduxType) => stateRedux.main.isDesktopView;
+export const selectCategories = (stateRedux: StateReduxType) => stateRedux.main.categories;
+export const selectBooks = (stateRedux: StateReduxType) => stateRedux.main.data;

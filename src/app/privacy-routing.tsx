@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
 import { PATHS, PrivacyREASONS } from '../constants/path-routing';
-import { PrivateRouteProps } from '../interface/privacy-interface';
+import { PrivateRouteProps } from '../types/privacy-type';
 
 export const PrivateRoute = ({ isAvailable, privacyReason }: PrivateRouteProps) => {
   if (privacyReason === PrivacyREASONS.notForUser && !isAvailable) {

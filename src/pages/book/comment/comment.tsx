@@ -3,11 +3,11 @@ import dayjs from 'dayjs';
 import logo from '../../../assets/img/Ellipse 10.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg';
 import { PATHS } from '../../../constants/path-routing';
-import { IComments } from '../../../interface/interface';
+import { CommentsType } from '../../../types/types';
 
 import style from './comment.module.css';
 
-export const Comment = ({id, createdAt, rating, text, user} : IComments) => {
+export const Comment = ({createdAt, rating, text, user} : CommentsType) => {
     const ratingStars = (rate: number | null) => {
         const result = [];
         const size = {

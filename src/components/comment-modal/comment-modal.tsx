@@ -9,7 +9,7 @@ import { setToasterMsg } from '../../app/reducer';
 import { ProfileCommentType, UserProfileType } from '../../app/reducer-user';
 import { selectProfile } from '../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
-import { IComments } from '../../interface/interface';
+import { CommentsType } from '../../types/types';
 import { Loader } from '../loader';
 
 import { CommentRatingStars } from './comment-rating-stars';
@@ -36,7 +36,7 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
     const [updateComment, { isError: isErrorUpdate, isSuccess: isSuccessUpdate}] = useUpdateCommentMutation()
     
     const submitHandler = () => {
-        const backupComment: IComments = {
+        const backupComment: CommentsType = {
             createdAt: dayjs('2023.01.19').add(3, 'hour').toISOString(),
             // createdAt: dayjs().add(3, 'hour').toISOString(),
             // по идее должна быть текущая дата, для теста поставил ту, которую он ждал

@@ -8,7 +8,7 @@ import { useAppDispatch } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
 import { selectUser } from '../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
-import { IBooking } from '../../interface/interface';
+import { BookingType } from '../../types/types';
 import { Calendar } from '../calendar';
 import { Loader } from '../loader';
 
@@ -19,7 +19,7 @@ type BookingPropsType = {
 	setIsShowingBooking: (arg: boolean) => void,
     bookCardId: number,
     isBooked: boolean,
-    bookingObj?: IBooking | null,
+    bookingObj?: BookingType | null,
 }
 
 export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBooked, bookingObj = null}: BookingPropsType) => {

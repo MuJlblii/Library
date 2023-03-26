@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { selectMain } from '../../app/selector-main';
-import { IBook } from '../../interface/interface';
 import { useSearchValue } from '../../layouts/layout-main-page/layout-main-page';
+import { BookType } from '../../types/types';
 
 import { Bookcard } from './bookcard';
 
@@ -18,7 +18,7 @@ export const Bookshelf = () => {
     const { category } = useParams();
     const direction = sorting ? -1 : 1;
 
-    const sortFunc = ({rating: rating1}: IBook, {rating: rating2}: IBook) => {
+    const sortFunc = ({rating: rating1}: BookType, {rating: rating2}: BookType) => {
         switch (true) {
             case (rating1 === null && rating2 === null):
                 return 0;

@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { IBooksState, ICategories, IToaster } from '../interface/interface';
+import { BooksStateType, CategoriesType, ToasterType } from '../types/types';
 
-export interface IstateRedux {
+export type StateReduxType = {
   main: {
     currentCategory: string,
-    categories: ICategories[],
-    data: IBooksState[],
+    categories: CategoriesType[],
+    data: BooksStateType[],
     sorting: boolean,
     searching: string,
     bookShelfView: string,
     isDesktopView: boolean,
     isMobileView: boolean,
-    toasterMsg: IToaster | null,
+    toasterMsg: ToasterType | null,
   }
 }
 

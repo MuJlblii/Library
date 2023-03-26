@@ -26,7 +26,7 @@ export const Layout = () => {
     const checkMobileView = useCheckDesktopView('(max-width: 679px)');
     const dispatch = useAppDispatch();
 
-    const { data: dataUserProfile, isLoading: isLoadingUserProfile, isError: isErrorUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined);
+    const { data: dataUserProfile, isLoading: isLoadingUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined);
     const [, {isLoading: isLoadingImageUpload}] = useImageUploadMutation();
     const [, {isLoading: isLoadingChangeProfile}] = useChangeProfileInfoMutation();
     const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories, isFetching: isFetchingCategories } = useGetCategoriesQuery(undefined);

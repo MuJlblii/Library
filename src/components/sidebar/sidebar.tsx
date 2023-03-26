@@ -9,7 +9,7 @@ import { setJWTtoken, setUser } from '../../app/reducer-user';
 import { selectIsDesktopView, selectMain } from '../../app/selector-main';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler.svg';
 import { PATHS } from '../../constants/path-routing';
-import { IBooksState } from '../../interface/interface';
+import { BooksStateType } from '../../types/types';
 import { setJWTtokenToLocalStorage } from '../../utils/jwt-token';
 import { setUserToLocalStorage } from '../../utils/user-local-storage';
 
@@ -68,7 +68,7 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
                     </div>
                     {state.data.length > 0 && 
                         <ul className={` ${spoiler ? style.unvisible : ''} ${style.sidebar__category_books}`}>
-                            {state.data.map((el: IBooksState) => (
+                            {state.data.map((el: BooksStateType) => (
                                 <li key={el.id}>
                                     <NavLink
                                         onClick={handleClose}

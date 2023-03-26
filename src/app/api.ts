@@ -1,14 +1,14 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { PATHS } from '../constants/path-routing';
 
-import { IBook, IBookPage, IBooksState, ICategories, IComments } from '../interface/interface';
+import { BookType, BookPageType, BooksStateType, CategoriesType, CommentsType } from '../types/types';
 
 import { store } from './store';
 
 type CommentTypePost = {
   bookId: number,
   toSend: {data: {rating: number, text: string, user: number, book: number}},
-  backupComment: IComments,
+  backupComment: CommentsType,
 }
 
 export const libraryApi = createApi({
@@ -25,7 +25,7 @@ export const libraryApi = createApi({
   }),
   tagTypes: ['User', 'Books', 'Book'],
   endpoints: (builder) => ({
-    getBookById: builder.query<IBookPage, string>({
+    getBookById: builder.query<BookPageType, string>({
       query: (id) => `/api/books/${id}`,
       providesTags: ['Book']
     }),
@@ -43,17 +43,17 @@ export const libraryApi = createApi({
         if (categoriesResp.error) {
           return { error: categoriesResp.error as FetchBaseQueryError };
         }
-        const categories = categoriesResp.data as ICategories[];
-        const categorArray: IBooksState[] = categories.map((el) => ({ ...el, list: null }));
+        const categories = categoriesResp.data as CategoriesType[];
+        const categorArray: BooksStateType[] = categories.map((el) => ({ ...el, list: null }));
         const booksResp = await fetchWithBQ('/api/books');
 
         if (booksResp.data) {
           for (let i = 0; i < categorArray.length; i++) {
-            for (let j = 0; j < (booksResp.data as IBook[]).length; j++) {
-              if ((booksResp.data as IBook[])[j].categories.includes(categorArray[i].name)) {
+            for (let j = 0; j < (booksResp.data as BookType[]).length; j++) {
+              if ((booksResp.data as BookType[])[j].categories.includes(categorArray[i].name)) {
                 if (categorArray[i].list == null) {
-                  categorArray[i].list = [(booksResp.data as IBook[])[j]];
-                } else categorArray[i].list = [...(categorArray[i].list as IBook[]), (booksResp.data as IBook[])[j]];
+                  categorArray[i].list = [(booksResp.data as BookType[])[j]];
+                } else categorArray[i].list = [...(categorArray[i].list as BookType[]), (booksResp.data as BookType[])[j]];
               }
             }
           }
