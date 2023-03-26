@@ -1,13 +1,16 @@
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 
 import { useAddCommentMutation, useGetBookByIdQuery, useUpdateCommentMutation } from '../../../app/api';
 import { useAppDispatch, useAppSelector } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
-import { ProfileCommentType } from '../../../app/reducer-user';
+import { ProfileCommentType, UserProfileType, UserStateType } from '../../../app/reducer-user';
 import { ReactComponent as CloseIcon } from '../../../assets/img/Icon_close_toaster.svg';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg';
 import { Loader } from '../../../components/loader';
+import { IComments } from '../../../interface/interface';
 
 import style from './comment-modal.module.css';
 
@@ -21,10 +24,12 @@ export type CommentModalPropsType = {
 
 export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId, commentExisted}: CommentModalPropsType) => {
     const calendarRef = useRef<HTMLDivElement>(null);
+    const profile: UserProfileType = useSelector((state: UserStateType) => state.user.userProfile);
     const {data: BookDataFetch} = useGetBookByIdQuery(bookId.toString());
     const isMobileView = useAppSelector((state) => state.main.isMobileView);
     const [commentText, setCommentText] = useState(commentExisted? commentExisted.text : '');
     const [rating, setRating] = useState(commentExisted? commentExisted.rating : 0);
+
     const ratingStars = (rate: number | null) => {
         const result = [];
         const size = {
@@ -67,10 +72,23 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
     const [updateComment, { isError: isErrorUpdate, isSuccess: isSuccessUpdate}] = useUpdateCommentMutation()
     
     const submitHandler = () => {
+        const backupComment: IComments = {
+            createdAt: dayjs().add(3, 'hour').toISOString(),
+            id: 9999,
+            rating,
+            text: commentText,
+            user: {
+                avatarUrl: profile.avatar,
+                commentUserId: profile.id,
+                firstName: profile.firstName,
+                lastName: profile.lastName,
+            }
+        }
+
         if (commentExisted) {
-            updateComment({id: commentExisted.bookId, data: {rating, text: commentText, book: bookId, user: userId}});
+            updateComment({id: commentExisted.id, data: {rating, text: commentText, book: bookId, user: userId}});
         } else {
-            addComment({data: {rating, text: commentText, book: bookId, user: userId}})
+            addComment({toSend: {data: {rating, text: commentText, book: bookId, user: userId}}, backupComment})
         }
     }
 
@@ -129,6 +147,7 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
                         <textarea
                             className={style.textarea}
                             placeholder='Комментарий'
+                            defaultValue={commentText}
                             onChange={(e) => setCommentText(e.target.value)}
                             data-test-id='comment'
                         />

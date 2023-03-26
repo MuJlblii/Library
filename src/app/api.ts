@@ -124,11 +124,27 @@ export const libraryApi = createApi({
       invalidatesTags: ['Book', 'Books', 'User']
     }),
     addComment: builder.mutation({
-      query(body) {
+      query({toSend}) {
         return {
           url: '/api/comments',
           method: 'POST',
-          body,
+          body: toSend,
+        }
+      },
+      async onQueryStarted({toSend: data, backupComment}, {dispatch, queryFulfilled}) {
+        if (data.data.book) {
+          const backupResult = dispatch(libraryApi.util.updateQueryData('getBookById', data.data.book, (draft) => {
+            if (backupComment && draft?.comments !== null) {
+              draft?.comments.push(backupComment);
+            }
+          })
+          );
+
+          try {
+            await queryFulfilled
+          } catch {
+            backupResult.undo();
+          }
         }
       },
       invalidatesTags: ['Book', 'Books', 'User']

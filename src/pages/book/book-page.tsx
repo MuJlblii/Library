@@ -42,6 +42,14 @@ export const BookPage = () => {
   const dateDelivery = dayjs(data?.delivery?.dateHandedTo).format('DD.MM');
   const isOnDelivery = typeof data?.delivery?.dateHandedTo === 'string';
   const isCommentExist = data?.comments !== null ?  data?.comments && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0 : false;
+  const previousComment = data?.comments && data?.comments.filter((element) => element.user.commentUserId === userId)[0];
+  const extendedPreviousComment = previousComment && bookId 
+    ? {
+      bookId: Number(bookId),
+      id: previousComment.id,
+      rating: previousComment.rating,
+      text: previousComment.text,
+    } : null;
   const categoryCrumbsName = category === 'all' ? 'Все книги' : categories?.filter((el) => el.path === category)[0]?.name;
 
   const ratingsComment = () => {
@@ -86,6 +94,7 @@ export const BookPage = () => {
           setIsShowingModal={setIsShowCommentModal}
           bookId={Number(bookId)}
           userId={userId}
+          commentExisted={extendedPreviousComment}
         />
       }
       {!isError && 
