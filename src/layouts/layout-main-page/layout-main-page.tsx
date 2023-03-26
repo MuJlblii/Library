@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
-import { useAppSelector } from '../../app/hook';
+import { selectIsDesktopView } from '../../app/selector-main';
 import { Sidebar } from '../../components/sidebar';
 
 import style from './layout-main-page.module.css';
@@ -9,7 +10,7 @@ import style from './layout-main-page.module.css';
 type ContextType = {searchValue: string, setSearchValue: (arg: string) => void}
 
 export const LayoutMainPage = () => {
-  const { isDesktopView } = useAppSelector((state) => state.main);
+  const isDesktopView = useSelector(selectIsDesktopView);
   const [searchValue, setSearchValue] = useState<string>('');
 
   return (

@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { useAppSelector } from '../../../app/hook';
 import { ProfileCommentType, ProfileHistoryType } from '../../../app/reducer-user';
+import { selectIsDesktopView, selectIsMobileView } from '../../../app/selector-main';
 import { CommentModal } from '../../../components/comment-modal';
 import { ProfileBlueCard } from '../profile-blue-card';
 import { ProfileBookcard } from '../profile-bookcard';
@@ -27,8 +28,8 @@ export const ProfileHistory = ({ history, id: userId, comments }: ProfileHistory
     const [isShowingComment, setIsShowingComment] = useState(false);
     const [bookIdForComment, setBookIdForComment] = useState<number | null>(null);
     const [previousComment, setPreviousComment] = useState<ProfileCommentType | null>(null);
-    const isDesktopView = useAppSelector((state) => state.main.isDesktopView);
-    const isMobileView = useAppSelector((state) => state.main.isMobileView);
+    const isDesktopView = useSelector(selectIsDesktopView);
+    const isMobileView = useSelector(selectIsMobileView);
 
     const arrayImages = history?.books?.map((el, ind) =>
         <SwiperSlide data-test-id='history-slide' key={`slide-_${Math.random()*ind}`}>

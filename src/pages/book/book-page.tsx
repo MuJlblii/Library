@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
 import { useGetBookByIdQuery } from '../../app/api';
-import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { useAppDispatch } from '../../app/hook';
 import { currentCategorySet, setToasterMsg } from '../../app/reducer';
+import { selectBooks, selectCategories } from '../../app/selector-main';
+import { selectUserId } from '../../app/selector-user';
 import image from '../../assets/img/default_book.png';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler_black.svg';
 import {ReactComponent as SlashIcon} from '../../assets/img/Slash.svg';
 import { Booking } from '../../components/booking';
+import { CommentModal } from '../../components/comment-modal';
 import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
-import { IBookPage, IBooksState,ICategories, IComments } from '../../interface/interface';
+import { PATHS } from '../../constants/path-routing';
+import { IBookPage, IComments } from '../../interface/interface';
 
 import { Comment } from './comment';
-import { CommentModal } from '../../components/comment-modal';
 
 import style from './book-page.module.css';
-import { PATHS } from '../../constants/path-routing';
 
 export const BookPage = () => {
   dayjs.locale('ru');
@@ -28,9 +31,9 @@ export const BookPage = () => {
   const [isSpoiler, setIsSpoiler] = useState(false);
   const [isShowingBooking, setIsShowingBooking] = useState(false);
   const [isShowCommentModal, setIsShowCommentModal] = useState(false);
-  const categories: ICategories[] = useAppSelector((state) => state.main.categories);
-  const books: IBooksState[] = useAppSelector((state) => state.main.data);
-  const userId: number | null = useAppSelector((state) => state.user.User?.id) || null;
+  const categories = useSelector(selectCategories);
+  const books = useSelector(selectBooks);
+  const userId = useSelector(selectUserId) || null;
   const {bookId, category} = useParams();
   const backupBookData = books?.filter((el) => el.path === category)[0]?.list?.filter((book) => book.id === Number(bookId))[0];
 

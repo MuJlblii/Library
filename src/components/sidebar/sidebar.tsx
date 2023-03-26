@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { useAppDispatch } from '../../app/hook';
 import { currentCategorySet } from '../../app/reducer';
 import { setJWTtoken, setUser } from '../../app/reducer-user';
-import { selectMain } from '../../app/selector-main';
+import { selectIsDesktopView, selectMain } from '../../app/selector-main';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler.svg';
 import { PATHS } from '../../constants/path-routing';
 import { IBooksState } from '../../interface/interface';
@@ -22,7 +22,7 @@ type PropsType = {
 
 export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
     const classes = classNames.bind(style);
-    const isDesktopView = useAppSelector((state) => state.main.isDesktopView);
+    const isDesktopView = useSelector(selectIsDesktopView);
     const state = useSelector(selectMain);
     const {category} = useParams();
     const dispatch = useAppDispatch();

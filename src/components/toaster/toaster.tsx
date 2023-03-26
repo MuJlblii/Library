@@ -1,8 +1,10 @@
 import { useLayoutEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { useAppDispatch } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
+import { selectToaster } from '../../app/selector-main';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
 import {ReactComponent as IconError} from '../../assets/img/Icon_error.svg';
 import {ReactComponent as IconSuccess} from '../../assets/img/Icon_success.svg';
@@ -16,7 +18,7 @@ export type ToasterPropsType = {
 
 export const Toaster = ({message, type} : ToasterPropsType) => {
     const calendarRef = useRef<HTMLDivElement>(null);
-    const { toasterMsg } = useAppSelector((state) => state.main);
+    const toasterMsg = useSelector(selectToaster);
     const dispatch = useAppDispatch();
 
 

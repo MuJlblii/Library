@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 
-import { useAppSelector } from '../../../app/hook';
+import { selectBookshelfView } from '../../../app/selector-main';
 import { selectUser } from '../../../app/selector-user';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
@@ -56,7 +56,7 @@ export const Bookcard = (
         );
     };
 
-    const view = useAppSelector((state) => state.main.bookShelfView);
+    const view = useSelector(selectBookshelfView);
     const [windowSize, setWindowSize] = useState(window.innerWidth);
     
       useEffect(() => {

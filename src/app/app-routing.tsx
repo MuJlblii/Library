@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { Terms } from '../components/terms';
@@ -12,11 +13,11 @@ import { BookPage } from '../pages/book';
 import { MainPage } from '../pages/main';
 import { Profile } from '../pages/profile';
 
-import { useAppSelector } from './hook';
 import { PrivateRoute } from './privacy-routing';
+import { selectJWTToken } from './selector-user';
 
 export const App = () => {
-    const { JWTtoken } = useAppSelector((state) => state.user);
+    const JWTtoken = useSelector(selectJWTToken);
 
     return (
         <HashRouter>

@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
+import { useSelector } from 'react-redux';
 
-import { useAppSelector } from '../../app/hook';
+import { selectIsMobileView } from '../../app/selector-main';
 import { ReactComponent as Icon } from '../../assets/img/Star.svg';
 
 type PropsType = {
@@ -13,7 +14,7 @@ type PropsType = {
 };
 
 export const Rating = ({ rating, page, view, style }: PropsType) => {
-  const { isMobileView } = useAppSelector((state) => state.main);
+  const isMobileView = useSelector(selectIsMobileView);
   const ratingStars = (rate: number | null | undefined) => {
     const result = [];
     let size;
