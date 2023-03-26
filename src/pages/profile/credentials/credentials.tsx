@@ -11,6 +11,8 @@ import { EmailRegex, PhoneMasks } from '../../../constants/regex';
 import { loginValidation, passwordValidation } from '../../../utils/validation';
 import { InputProfile } from '../input-profile';
 
+import { getOnlyChangedValues } from './utils';
+
 import styleParent from '../profile.module.css';
 import style from './credentials.module.css';
 
@@ -22,7 +24,7 @@ export type CredentialsPropsType = {
     lastName: string,
     phone: string,
 }
-type FormAuthInputsType = {
+export type FormAuthInputsType = {
     login: string
     password: string,
     firstName: string,
@@ -50,12 +52,9 @@ export const Credentials = ({ username, firstName, lastName, phone, email, id: u
 
     const handleUpdateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); e.stopPropagation();
-        const valueFields = getValues();
-        const arrValueFields = Object.entries(valueFields);
-        const clearArrValueFields = arrValueFields.filter((el: [string, string | undefined]) => el[1] !== undefined);
-        const result = clearArrValueFields.reduce((obj, element) => ({ ...obj, [element[0]]: element[1] }), {})
-
-        await changeProfileInfo({ userId, ...result });
+        const valueFields = getOnlyChangedValues(getValues());
+        
+        await changeProfileInfo({ userId, ...valueFields });
     }
 
     useEffect(() => {
