@@ -9,6 +9,7 @@ export enum PATHS {
     error = '/error',
     profile = '/profile',
     notFound = '*',
+    baseUrl = 'https://strapi.cleverland.by',
   }
   
 export enum PrivacyREASONS {

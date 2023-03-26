@@ -20,6 +20,7 @@ import { Comment } from './comment';
 import { CommentModal } from './comment-modal';
 
 import style from './book-page.module.css';
+import { PATHS } from '../../constants/path-routing';
 
 export const BookPage = () => {
   dayjs.locale('ru');
@@ -116,7 +117,7 @@ export const BookPage = () => {
           <div className={style.basic__content}>
             <div className={style.basic__content_img}>
               {data?.images === null && <img src={image} alt='Book' />}
-              {data?.images?.length === 1 && <img src={`https://strapi.cleverland.by${data?.images[0].url}`} alt='Book' />}
+              {data?.images?.length === 1 && <img src={`${PATHS.baseUrl}${data?.images[0].url}`} alt='Book' />}
               {data?.images?.length && data?.images?.length > 1 && <Gallery images={data?.images} id={data?.id}/>}
             </div>
               <div className={style.basic__content_header}>

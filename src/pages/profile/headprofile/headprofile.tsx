@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
 import avatarImg from '../../../assets/img/default_avatar.svg';
 import {ReactComponent as IconCamera} from '../../../assets/img/Icon_camera.svg';
+import { PATHS } from '../../../constants/path-routing';
 
 import style from './headprofile.module.css';
 
@@ -16,7 +17,7 @@ export type HeadProfileType = {
 }
 
 export const HeadProfile = ({firstName, lastName, avatar, id: userId} : HeadProfileType) => {
-    const avatarFilePath = avatar ? `https://strapi.cleverland.by${avatar}` : avatarImg;
+    const avatarFilePath = avatar ? `${PATHS.baseUrl}${avatar}` : avatarImg;
     const dispatch = useAppDispatch();
     const [file, setFile] = useState<File | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);

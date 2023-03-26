@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { PATHS } from '../constants/path-routing';
 
 import { IBook, IBookPage, IBooksState, ICategories, IComments } from '../interface/interface';
 
@@ -13,7 +14,7 @@ type CommentTypePost = {
 export const libraryApi = createApi({
   reducerPath: 'fetch',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://strapi.cleverland.by',
+    baseUrl: PATHS.baseUrl,
     prepareHeaders: (headers, {getState}) => {
       const { user } = (getState() as ReturnType<typeof store.getState>);
 
