@@ -18,6 +18,7 @@
     flex-direction: column;
 }
 .sidebar__category {
+    display: block;
     padding-top: 42px;
     font-style: normal;
     font-weight: 700;

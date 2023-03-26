@@ -12,6 +12,7 @@ import { setJWTtokenToLocalStorage } from '../../utils/jwt-token';
 import { setUserToLocalStorage } from '../../utils/user-local-storage';
 
 import defaultStyle from './sidebar.module.css';
+import { PATHS } from '../../constants/path-routing';
 
 type PropsType = {
     style?: {readonly [key: string]: string},
@@ -116,7 +117,7 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
             </ul>
             {!isDesktopView &&
                 <ul className={style.sidebar__category_additional}>
-                    <li className={style.sidebar__category}>Профиль</li>
+                    <NavLink to={PATHS.profile} className={style.sidebar__category}>Профиль</NavLink>
                     <button
                         type='button'
                         onClick={handleClickExitBtn}
