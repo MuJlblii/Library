@@ -23,7 +23,6 @@ export type ProfileBookcardType = BookProfileType & {
     userId?: number,
     setBookIdForComment?: (arg: number) => void,
     setIsShowingComment?: (arg: boolean) => void,
-    setPreviousComment?: (arg: ProfileCommentType) => void,
     existComment?: ProfileCommentType
 }
 
@@ -41,7 +40,6 @@ export const ProfileBookcard = (
         type,
         setBookIdForComment,
         setIsShowingComment,
-        setPreviousComment,
         existComment,
     }: ProfileBookcardType) => {
     const [deleteBooking, { isSuccess: isSuccessBooking, isError: isErrorBooking }] = useDeleteBookingMutation();
@@ -137,7 +135,6 @@ export const ProfileBookcard = (
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                if (existComment && setPreviousComment) {setPreviousComment(existComment)}
                                 setBookIdForComment(id);
                                 setIsShowingComment(true);
                             }}

@@ -27,7 +27,6 @@ export type ProfileHistoryPropsType = {
 export const ProfileHistory = ({ history, id: userId, comments }: ProfileHistoryPropsType) => {
     const [isShowingComment, setIsShowingComment] = useState(false);
     const [bookIdForComment, setBookIdForComment] = useState<number | null>(null);
-    const [previousComment, setPreviousComment] = useState<ProfileCommentType | null>(null);
     const isDesktopView = useSelector(selectIsDesktopView);
     const isMobileView = useSelector(selectIsMobileView);
 
@@ -40,7 +39,6 @@ export const ProfileHistory = ({ history, id: userId, comments }: ProfileHistory
                 type='comment'
                 setBookIdForComment={setBookIdForComment}
                 setIsShowingComment={setIsShowingComment}
-                setPreviousComment={setPreviousComment}
                 existComment={comments?.find(comment => comment?.bookId === el.id)}
                 {...el} />
         </SwiperSlide>
@@ -71,8 +69,6 @@ export const ProfileHistory = ({ history, id: userId, comments }: ProfileHistory
                     isShowingModal={isShowingComment}
                     setIsShowingModal={setIsShowingComment}
                     bookId={Number(bookIdForComment)}
-                    userId={userId}
-                    commentExisted={previousComment}
                 />
             }
         </div>

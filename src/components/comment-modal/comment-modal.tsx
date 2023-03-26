@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { useAddCommentMutation, useGetBookByIdQuery, useUpdateCommentMutation } from '../../app/api';
 import { useAppDispatch } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
-import { ProfileCommentType, UserProfileType } from '../../app/reducer-user';
+import { UserProfileType } from '../../app/reducer-user';
 import { selectProfile } from '../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
 import { CommentsType } from '../../types/types';
@@ -19,21 +19,20 @@ import style from './comment-modal.module.css';
 export type CommentModalPropsType = {
     isShowingModal: boolean,
     setIsShowingModal: (arg: boolean) => void,
-    userId: number | null,
     bookId: number,
-    commentExisted?: ProfileCommentType | null
 }
 
-export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId, commentExisted}: CommentModalPropsType) => {
+export const CommentModal = ({isShowingModal, setIsShowingModal, bookId}: CommentModalPropsType) => {
     const calendarRef = useRef<HTMLDivElement>(null);
     const profile: UserProfileType = useSelector(selectProfile);
-    const {data: BookDataFetch} = useGetBookByIdQuery(bookId.toString());
-    const [commentText, setCommentText] = useState(commentExisted? commentExisted.text : '');
-    const [rating, setRating] = useState(commentExisted? commentExisted.rating : 5);
+    const {data: bookDataFetch} = useGetBookByIdQuery(bookId.toString());
+    const [commentExisted, setIsCommentExisted] = useState<CommentsType | null>(null);
+    const [commentText, setCommentText] = useState('');
+    const [rating, setRating] = useState(5);
 
     const dispatch = useAppDispatch();
     const [addComment, {isLoading, isError, isSuccess}] = useAddCommentMutation();
-    const [updateComment, { isError: isErrorUpdate, isSuccess: isSuccessUpdate}] = useUpdateCommentMutation()
+    const [updateComment, { isLoading: isLoadingUpdate, isError: isErrorUpdate, isSuccess: isSuccessUpdate}] = useUpdateCommentMutation();
     
     const submitHandler = () => {
         const backupComment: CommentsType = {
@@ -52,7 +51,7 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
         }
 
         if (commentExisted) {
-            updateComment({id: commentExisted.id, data: {rating, text: commentText, book: bookId, user: userId}});
+            updateComment({id: commentExisted.id, data: {rating, text: commentText, book: bookId, user: profile.id}});
         } else {
             addComment({toSend: {data: {rating, text: commentText, book: bookId, user: profile.id}}, backupComment, bookId, })
         }
@@ -77,6 +76,18 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
         }
     }, [dispatch, isError, isSuccess, setIsShowingModal, isErrorUpdate, isSuccessUpdate]);
 
+    useEffect(() => {
+        if (bookDataFetch && bookDataFetch.comments) {
+            const currentComment = bookDataFetch.comments.filter((element) => element.user.commentUserId === profile.id)[0];
+
+            if (currentComment) {
+                setIsCommentExisted(currentComment);
+                setCommentText(currentComment.text);
+                setRating(currentComment.rating);
+            }
+        }
+    }, [bookDataFetch, profile.id]);
+
     useLayoutEffect(() => {
         const closeModal = (e: Event): void => {
             if (!calendarRef.current?.contains(e.target as Node) && isShowingModal) {
@@ -91,7 +102,7 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, userId, bookId,
 
     return (
         <Fragment>
-            {(isLoading) && <Loader/>}
+            {(isLoading || isLoadingUpdate) && <Loader/>}
             <div className={style.section} data-test-id='modal-outer'>
                 <div className={style.wrapper} ref={calendarRef} data-test-id='modal-rate-book'>
                     <button
