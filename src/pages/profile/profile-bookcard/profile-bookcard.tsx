@@ -10,6 +10,7 @@ import { BookProfileType, ProfileCommentType } from '../../../app/reducer-user';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
 import { PATHS } from '../../../constants/path-routing';
+import { ToasterMsg } from '../../../constants/toaster-message';
 import { ProfileBlueCard } from '../profile-blue-card';
 
 import style from './profile-bookcard.module.css';
@@ -83,10 +84,10 @@ export const ProfileBookcard = (
 
     useEffect (() => {
         if (isSuccessBooking) {
-            dispatch(setToasterMsg({type: 'success', message: 'Бронирование книги успешно отменено!'}));
+            dispatch(setToasterMsg(ToasterMsg.booking.successDelete));
         }
         if (isErrorBooking) {
-            dispatch(setToasterMsg({type: 'error', message: 'Не удалось снять бронирование книги. Попробуйте позже!'}));
+            dispatch(setToasterMsg(ToasterMsg.booking.errorDelete));
         }
     })
 

@@ -6,6 +6,7 @@ import { setToasterMsg } from '../../../app/reducer';
 import avatarImg from '../../../assets/img/default_avatar.svg';
 import {ReactComponent as IconCamera} from '../../../assets/img/Icon_camera.svg';
 import { PATHS } from '../../../constants/path-routing';
+import { ToasterMsg } from '../../../constants/toaster-message';
 
 import style from './headprofile.module.css';
 
@@ -59,11 +60,11 @@ export const HeadProfile = ({firstName, lastName, avatar, id: userId} : HeadProf
 
     useEffect(() => {
         if (isSuccess || isSuccessImageUpload) {
-            dispatch(setToasterMsg({type: 'success', message: 'Фото успешно сохранено!'}));
+            dispatch(setToasterMsg(ToasterMsg.headprofile.success));
             setFile(null);
         }
         if (isError || isErrorImage) {
-            dispatch(setToasterMsg({type: 'error', message: 'Что-то пошло не так, фото не сохранилось. Попробуйте позже!'}));
+            dispatch(setToasterMsg(ToasterMsg.headprofile.error));
         }
     }, [dispatch, isError, isSuccess, isSuccessImageUpload, isErrorImage]);
 

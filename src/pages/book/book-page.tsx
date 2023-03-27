@@ -19,6 +19,7 @@ import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
 import { PATHS } from '../../constants/path-routing';
+import { ToasterMsg } from '../../constants/toaster-message';
 import { BookPageType, CommentsType } from '../../types/types';
 
 import { Comment } from './comment';
@@ -64,7 +65,7 @@ export const BookPage = () => {
 
   useEffect(() => {
     if (isError) {
-      dispatch(setToasterMsg({type: 'error', message: 'Что-то пошло не так. Обновите страницу через некоторое время.'}))
+      dispatch(setToasterMsg(ToasterMsg.books.error))
     }
   }, [isError, dispatch])
 

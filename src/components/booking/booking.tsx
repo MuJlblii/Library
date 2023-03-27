@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import dayjs, { Dayjs } from 'dayjs';
@@ -8,9 +8,9 @@ import { useAppDispatch, useIsLoading } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
 import { selectUser } from '../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
+import { ToasterMsg } from '../../constants/toaster-message';
 import { BookingType } from '../../types/types';
 import { Calendar } from '../calendar';
-import { Loader } from '../loader';
 
 import style from './booking.module.css';
 
@@ -34,7 +34,7 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
     const submitHandler = () => {
         if (isBooked) {
             if (selectedDay?.isSame(bookingObj?.dateOrder, 'day')) {
-                dispatch(setToasterMsg({type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!'}));
+                dispatch(setToasterMsg(ToasterMsg.booking.errorChange));
                 setIsShowingBooking(false);
             } else {
                 changeBooking({id: bookingObj?.id, data: {order: true, dateOrder: selectedDay?.add(3, 'hour')?.toDate(), book: bookCardId, customer: User?.id}}) 
@@ -52,27 +52,27 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
 
     useEffect(() => {
         if (isError) {
-            dispatch(setToasterMsg({type: 'error', message: 'Что-то пошло не так, книга не забронирована. Попробуйте позже!'}));
+            dispatch(setToasterMsg(ToasterMsg.booking.error));
             setIsShowingBooking(false);
         }
         if (isErrorChanges) {
-            dispatch(setToasterMsg({type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!'}));
+            dispatch(setToasterMsg(ToasterMsg.booking.errorChange));
             setIsShowingBooking(false);
         }
         if (isErrorDelete) {
-            dispatch(setToasterMsg({type: 'error', message: 'Не удалось снять бронирование книги. Попробуйте позже!'}));
+            dispatch(setToasterMsg(ToasterMsg.booking.errorDelete));
             setIsShowingBooking(false);
         }
         if (isSuccess) {
-            dispatch(setToasterMsg({type: 'success', message: 'Книга забронирована. Подробности можно посмотреть на странице Профиль'}))
+            dispatch(setToasterMsg(ToasterMsg.booking.success))
             setIsShowingBooking(false);
         }
         if (isSuccessChanges) {
-            dispatch(setToasterMsg({type: 'success', message: 'Изменения успешно сохранены!'}))
+            dispatch(setToasterMsg(ToasterMsg.booking.successChange))
             setIsShowingBooking(false);
         }
         if (isSuccessDelete) {
-            dispatch(setToasterMsg({type: 'success', message: 'Бронирование книги успешно отменено!'}))
+            dispatch(setToasterMsg(ToasterMsg.booking.successDelete))
             setIsShowingBooking(false);
         }
     }, [dispatch, isError, isSuccess, setIsShowingBooking, isErrorChanges, isSuccessChanges, isErrorDelete, isSuccessDelete]);

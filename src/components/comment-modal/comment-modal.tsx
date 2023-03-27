@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -9,8 +9,8 @@ import { setToasterMsg } from '../../app/reducer';
 import { UserProfileType } from '../../app/reducer-user';
 import { selectProfile } from '../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
+import { ToasterMsg } from '../../constants/toaster-message';
 import { CommentsType } from '../../types/types';
-import { Loader } from '../loader';
 
 import { CommentRatingStars } from './comment-rating-stars';
 
@@ -62,19 +62,19 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, bookId}: Commen
 
     useEffect(() => {
         if (isError) {
-            dispatch(setToasterMsg({type: 'error', message: 'Оценка не была отправлена. Попробуйте позже!'}));
+            dispatch(setToasterMsg(ToasterMsg.comment.error));
             setIsShowingModal(false);
         }
         if (isSuccess) {
-            dispatch(setToasterMsg({type: 'success', message: 'Спасибо, что нашли время оценить книгу!'}))
+            dispatch(setToasterMsg(ToasterMsg.comment.success))
             setIsShowingModal(false);
         }
         if (isErrorUpdate) {
-            dispatch(setToasterMsg({type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!'}));
+            dispatch(setToasterMsg(ToasterMsg.comment.errorUpdate));
             setIsShowingModal(false);
         }
         if (isSuccessUpdate) {
-            dispatch(setToasterMsg({type: 'success', message: 'Спасибо, что нашли время изменить оценку!'}))
+            dispatch(setToasterMsg(ToasterMsg.comment.successUpdate))
             setIsShowingModal(false);
         }
     }, [dispatch, isError, isSuccess, setIsShowingModal, isErrorUpdate, isSuccessUpdate]);

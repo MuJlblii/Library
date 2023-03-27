@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -11,16 +11,20 @@ import {ReactComponent as IconSuccess} from '../../assets/img/Icon_success.svg';
 
 import style from './toaster.module.css';
 
-export type ToasterPropsType = {
-    message: string,
-    type: string,
-}
-
-export const Toaster = ({message, type} : ToasterPropsType) => {
+export const Toaster = () => {
+    const [isShowingToaster, setIsShowingToaster] = useState(false);
     const calendarRef = useRef<HTMLDivElement>(null);
+    const delayHideToaster = 4;
     const toasterMsg = useSelector(selectToaster);
     const dispatch = useAppDispatch();
 
+
+    useEffect(() => {
+        if (toasterMsg) {
+          setIsShowingToaster(true);
+          setTimeout(() => {setIsShowingToaster(false); dispatch(setToasterMsg(null))}, delayHideToaster*1000)
+        }
+      }, [toasterMsg, dispatch, setIsShowingToaster]);
 
     useLayoutEffect(() => {
         const closePopUp = (e: Event): void => {
@@ -35,26 +39,31 @@ export const Toaster = ({message, type} : ToasterPropsType) => {
     },[dispatch, toasterMsg])
 
     return (
-        <div className={style.wrapper} >
-            <div
-                className={classNames(style.content, {
-                    [style.content_error]: type === 'error',
-                    [style.content_success]: type === 'success',
-                })}
-                data-test-id='error'
-            >
-                <div className={style.message}>
-                    { type==='error' ? <IconError /> : <IconSuccess />}
-                    <p>{message}</p>
+        <Fragment>
+            {toasterMsg &&
+                <div className={style.wrapper} >
+                    <div
+                        className={classNames(style.content, {
+                            [style.content_error]: toasterMsg.type === 'error',
+                            [style.content_success]: toasterMsg.type === 'success',
+                        })}
+                        data-test-id='error'
+                    >
+                        <div className={style.message}>
+                            { toasterMsg.type==='error' ? <IconError /> : <IconSuccess />}
+                            <p>{toasterMsg.message}</p>
+                        </div>
+                        <button
+                            type='button'
+                            className={style.close_icon}
+                            data-test-id='alert-close'
+                        >
+                            <CloseIcon />
+                        </button>
+                    </div>
                 </div>
-                <button
-                    type='button'
-                    className={style.close_icon}
-                    data-test-id='alert-close'
-                >
-                    <CloseIcon />
-                </button>
-            </div>
-        </div>
+            }
+            {!isShowingToaster && null}
+        </Fragment>
     )
 }

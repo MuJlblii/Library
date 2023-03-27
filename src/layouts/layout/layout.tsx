@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, useParams } from 'react-router-dom';
 
@@ -6,19 +6,17 @@ import { useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery } fr
 import { useAppDispatch, useCheckDesktopView, useIsLoading } from '../../app/hook';
 import { setCategories, setDataFetch, setDesktopView, setMobileView, setToasterMsg } from '../../app/reducer';
 import { setUserProfile } from '../../app/reducer-user';
-import { selectIsLoading, selectToaster } from '../../app/selector-main';
+import { selectIsLoading } from '../../app/selector-main';
 import { createBooksState } from '../../app/utils';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
 import { Loader } from '../../components/loader';
 import { Toaster } from '../../components/toaster';
+import { ToasterMsg } from '../../constants/toaster-message';
 
 import style from './layout.module.css';
 
 export const Layout = () => {
-    const delayHideToaster = 4;
-    const toasterMsg = useSelector(selectToaster);
-    const [ isShowingToaster, setIsShowingToaster ] = useState(false);
     const isLoadingFetching = useSelector(selectIsLoading);
     const params = useParams();
     const skipFetchBooks = params?.bookId ? true : false;
@@ -40,7 +38,7 @@ export const Layout = () => {
 
     useEffect(() => {
         if (isErrorAllBooks || isErrorCategories) {
-            dispatch(setToasterMsg({type:'error', message: 'Что-то пошло не так. Обновите страницу через некоторое время.'}))
+            dispatch(setToasterMsg(ToasterMsg.books.error));
         }
     }, [dispatch, isErrorAllBooks, isErrorCategories])
 
@@ -62,13 +60,6 @@ export const Layout = () => {
     }, [dispatch, dataUserProfile]);
     
     useEffect(() => {
-        if (toasterMsg) {
-          setIsShowingToaster(true);
-          setTimeout(() => {setIsShowingToaster(false); dispatch(setToasterMsg(null))}, delayHideToaster*1000)
-        }
-      }, [toasterMsg, dispatch]);
-
-    useEffect(() => {
         dispatch(setDesktopView(checkDesktopView))
     },[checkDesktopView, dispatch]);
 
@@ -79,7 +70,7 @@ export const Layout = () => {
     return (
         <div className={style.layout__wrapper} data-test-id='main-page'>
             {isLoadingFetching && <Loader />}
-            {isShowingToaster && toasterMsg && <Toaster message={toasterMsg.message} type={toasterMsg.type}/>}
+            <Toaster />
             <Header />
             <Outlet />
             <Footer />

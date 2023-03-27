@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
 import { UserProfileType } from '../../../app/reducer-user';
 import { EmailRegex, PhoneMasks } from '../../../constants/regex';
+import { ToasterMsg } from '../../../constants/toaster-message';
 import { loginValidation, passwordValidation } from '../../../utils/validation';
 import { InputProfile } from '../input-profile';
 
@@ -59,10 +60,10 @@ export const Credentials = ({ username, firstName, lastName, phone, email, id: u
 
     useEffect(() => {
         if (isError) {
-            dispatch(setToasterMsg({ type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!' }))
+            dispatch(setToasterMsg(ToasterMsg.credentials.errorUpdate))
         }
         if (isSuccess) {
-            dispatch(setToasterMsg({ type: 'success', message: 'Изменения успешно сохранены!' }));
+            dispatch(setToasterMsg(ToasterMsg.credentials.successChange));
             setIsDisabled(true);
         }
     }, [dispatch, isError, isSuccess]);
