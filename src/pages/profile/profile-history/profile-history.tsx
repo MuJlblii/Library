@@ -52,7 +52,6 @@ export const ProfileHistory = ({ history, id: userId, comments }: ProfileHistory
                 {history?.books &&
                     <Swiper
                         slidesPerView={isDesktopView? 4 : isMobileView ? 1 : 3}
-                        spaceBetween={30}
                         pagination={{
                         clickable: true,
                         }}

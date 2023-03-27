@@ -2,12 +2,27 @@
     max-width: 1100px;
 }
 
+@media screen and (max-width:1110px) {
+    .profile {
+        max-width: 1000px;
+    }
+}
+@media screen and (max-width:1020px) {
+    .profile {
+        max-width: 900px;
+    }
+}
+@media screen and (max-width:920px) {
+    .profile {
+        max-width: 800px;
+    }
+}
 @media screen and (max-width:768px) {
     .profile {
         max-width: 718px;
     }
 }
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 414px) {
     .profile {
         max-width: 288px;
     }
