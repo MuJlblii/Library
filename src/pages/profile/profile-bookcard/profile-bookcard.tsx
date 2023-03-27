@@ -128,7 +128,8 @@ export const ProfileBookcard = (
                         <button
                             data-test-id='history-review-button'
                             type='submit'
-                            className={classNames(style.bookcard__btn_available, {
+                            className={classNames({
+                                [style.bookcard__btn_available]: existComment,
                                 [style.bookcard__btn]: view === 'Table',
                                 [lstyle.bookcard__btn]: view !== 'Table',
                             })}
