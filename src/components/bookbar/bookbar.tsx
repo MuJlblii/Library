@@ -1,7 +1,9 @@
 import { Fragment, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { useAppDispatch } from '../../app/hook';
 import { setBookShelfView } from '../../app/reducer';
+import { selectMain } from '../../app/selector-main';
 import { ReactComponent as ListIcon } from '../../assets/img/Icon_list.svg';
 import { ReactComponent as TableIcon } from '../../assets/img/Icon_plate.svg';
 import { ReactComponent as SortingIcon } from '../../assets/img/Icon_sort.svg';
@@ -12,7 +14,7 @@ import style from './bookbar.module.css';
 
 
 export const Bookbar = () => {
-    const {sorting, bookShelfView } = useAppSelector((state) => state.main)
+    const {sorting, bookShelfView } = useSelector(selectMain)
     const dispatch = useAppDispatch();
     const [isMobileSearch, setMobileSearch] = useState(false);
     

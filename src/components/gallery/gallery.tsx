@@ -3,6 +3,8 @@ import type { Swiper as SwiperType } from 'swiper';
 import SwiperCore, { FreeMode, Navigation, Pagination, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { PATHS } from '../../constants/path-routing';
+
 import './gallery.css';
 import style from './gallery.module.css';
 
@@ -23,7 +25,7 @@ export const Gallery = ({ images, id }: PropsType) => {
   const arrayImages = images.map((el, ind) => 
     <SwiperSlide data-test-id='slide-mini' key={`slide-${id}-${ind+1}`}>
       <img
-        src={`https://strapi.cleverland.by${el.url}`}
+        src={`${PATHS.baseUrl}${el.url}`}
         alt='Book' 
       />
     </SwiperSlide>

@@ -1,23 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
 import { useGetBookByIdQuery } from '../../app/api';
-import { useAppSelector } from '../../app/hook';
+import { useAppDispatch } from '../../app/hook';
+import { currentCategorySet, setToasterMsg } from '../../app/reducer';
+import { selectBooks, selectCategories } from '../../app/selector-main';
+import { selectUserId } from '../../app/selector-user';
 import image from '../../assets/img/default_book.png';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler_black.svg';
 import {ReactComponent as SlashIcon} from '../../assets/img/Slash.svg';
 import { Booking } from '../../components/booking';
-import { ErrorToaster } from '../../components/error-toaster';
+import { CommentModal } from '../../components/comment-modal';
 import { Gallery } from '../../components/gallery';
 import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
-import { IBooksState, IComments } from '../../interface/interface';
+import { PATHS } from '../../constants/path-routing';
+import { ToasterMsg } from '../../constants/toaster-message';
+import { BookPageType, CommentsType } from '../../types/types';
 
 import { Comment } from './comment';
-import { CommentModal } from './comment-modal';
 
 import style from './book-page.module.css';
 
@@ -27,21 +32,52 @@ export const BookPage = () => {
   const [isSpoiler, setIsSpoiler] = useState(false);
   const [isShowingBooking, setIsShowingBooking] = useState(false);
   const [isShowCommentModal, setIsShowCommentModal] = useState(false);
-  const dataState: IBooksState[] = useAppSelector((state) => state.main.data);
-  const userId: number | null = useAppSelector((state) => state.user.User?.id) || null;
+  const categories = useSelector(selectCategories);
+  const books = useSelector(selectBooks);
+  const userId = useSelector(selectUserId) || null;
   const {bookId, category} = useParams();
-  const {data, isLoading, isError, isFetching} = useGetBookByIdQuery(bookId as string);
+  const backupBookData = books?.filter((el) => el.path === category)[0]?.list?.filter((book) => book.id === Number(bookId))[0];
+
+  const dispatch = useAppDispatch();
+  const [data, setData] = useState<BookPageType | null>(null);
+  const {data: BookDataFetch, isLoading, isError, isFetching, isSuccess} = useGetBookByIdQuery(bookId as string);
   const isBooked = data?.booking;
   const isBookedCurrentUser = isBooked && (isBooked.customerId === userId) ? true : false;
   const isBookedAnotherUser = isBooked && (isBooked.customerId !== userId) ? true : false;
   const dateDelivery = dayjs(data?.delivery?.dateHandedTo).format('DD.MM');
   const isOnDelivery = typeof data?.delivery?.dateHandedTo === 'string';
-  const isCommentExist = data && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0;
+  const isCommentExist = data?.comments !== null ?  data?.comments && data?.comments.filter((element) => element.user.commentUserId === userId).length > 0 : false;
+  const categoryCrumbsName = category === 'all' ? 'Все книги' : categories?.filter((el) => el.path === category)[0]?.name;
+
+  const ratingsComment = () => {
+    const comments = data?.comments && [...data.comments].sort((a, b) => 
+        dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1);
+
+    return (comments !== (null || undefined)) && comments?.map((comment: CommentsType, ind) =>
+          <Comment {...comment} key={`comment-${Math.random() * ind}_${new Date().getTime()}`} />)
+  }
+
+  useEffect(() => {
+    if (BookDataFetch) {
+      setData({...BookDataFetch});
+    }
+  }, [BookDataFetch]);
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(setToasterMsg(ToasterMsg.books.error))
+    }
+  }, [isError, dispatch])
+
+  useEffect(() => {
+    if (category) {
+      dispatch(currentCategorySet(category));
+    }
+  }, [dispatch, category])
 
   return (
     <section className={style.section}>
-      {(isLoading || isFetching) && <Loader />}
-      {isError && <ErrorToaster />}
+      {(isLoading || isFetching ) && <Loader />}
       {isShowingBooking &&
         <Booking
           isShowingBooking={isShowingBooking}
@@ -54,7 +90,6 @@ export const BookPage = () => {
           isShowingModal={isShowCommentModal}
           setIsShowingModal={setIsShowCommentModal}
           bookId={Number(bookId)}
-          userId={userId}
         />
       }
       {!isError && 
@@ -63,25 +98,25 @@ export const BookPage = () => {
             <NavLink
               to={`/books/${category}`}
               data-test-id='breadcrumbs-link'
-            >{dataState.find((el: IBooksState) => el.path === category)?.name}</NavLink>
+            >{categoryCrumbsName}</NavLink>
             <span>
               <SlashIcon />
             </span>
-            <p data-test-id='book-name'>{data?.title}</p>
+            <p data-test-id='book-name'>{data?.title || backupBookData?.title}</p>
           </div>
         </div>
       }
-      {data?.id && 
+      {isSuccess && 
         <div className={`${style.container}`}>
           <div className={style.basic__content}>
             <div className={style.basic__content_img}>
               {data?.images === null && <img src={image} alt='Book' />}
-              {data?.images?.length === 1 && <img src={`https://strapi.cleverland.by${data?.images[0].url}`} alt='Book' />}
+              {data?.images?.length === 1 && <img src={`${PATHS.baseUrl}${data?.images[0].url}`} alt='Book' />}
               {data?.images?.length && data?.images?.length > 1 && <Gallery images={data?.images} id={data?.id}/>}
             </div>
               <div className={style.basic__content_header}>
                 <h3 className={style.basic__content_title} data-test-id='book-title'>
-                  {data?.title}
+                  {data?.title || backupBookData?.title}
                 </h3>
                 <p className={style.basic__content_author}>{data?.authors}, {data?.issueYear}</p>
                 <button
@@ -149,7 +184,7 @@ export const BookPage = () => {
             <div className={style.feedback}>
               <div className={style.feedback__header}>
                 <p className={style.feedback__title}>
-                  Отзывы<span className={style.feedback__title_total}>{data.comments.length}</span>
+                  Отзывы<span className={style.feedback__title_total}>{data?.comments ? data?.comments?.length : 0}</span>
                 </p>
                 <IconSpoiler
                   onClick={() => setIsSpoiler(!isSpoiler)}
@@ -158,17 +193,13 @@ export const BookPage = () => {
                 />
               </div>
                   <div className={style.feedback__detailed_wrapper} data-test-id='reviews'>
-                    {[...data.comments].sort((a, b) => 
-                        dayjs(b.createdAt).isAfter(dayjs(a.createdAt)) === true ? 1 : -1).map((comment: IComments, ind) =>
-                        <Comment {...comment} key={`comment-${Math.random() * ind}_${new Date().getTime()}`}
-                        />)}
+                    {ratingsComment()}
                     <button
                       type='submit'
-                      disabled={isCommentExist}
-                      className={style.feedback_btn}
+                      className={classNames(style.feedback_btn, {[style.feedback_btn_available]: isCommentExist})}
                       data-test-id='button-rate-book'
                       onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsShowCommentModal(true)}}
-                    >оценить книгу</button>
+                    >{isCommentExist ? 'изменить оценку' : 'оценить книгу'}</button>
                   </div>
             </div>
           </div>

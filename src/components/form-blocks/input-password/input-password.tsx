@@ -21,10 +21,12 @@ export type InputPropsType = {
     dirtyFields: {[key: string]: boolean},
     defaultHint: string,
     defaultHintError: string,
+    defaultValue?: string
     showDefaultHint: boolean,
     showCheckMark: boolean,
     onChangeMode: boolean,
     checkOnDirtyEyesIcon: boolean,
+    isDisabled?: boolean,
 }
 
 export const Input = ({
@@ -39,10 +41,12 @@ export const Input = ({
         dirtyFields,
         defaultHint,
         defaultHintError,
+        defaultValue='',
         showDefaultHint,
         showCheckMark,
         onChangeMode,
         checkOnDirtyEyesIcon,
+        isDisabled=false,
     }: InputPropsType) => {
     const classes = classNames.bind(style);
     const [isPassVisible, setIsPassVisible] = useState(false);
@@ -56,10 +60,12 @@ export const Input = ({
                 data-test-id={name}
                 name={name}
                 ref={innerRef}
+                disabled={isDisabled}
                 onFocus={() => {setIsLostedBlurInput(false); setIsInFocus(true)}}
                 onBlur={(event) => {setIsLostedBlurInput(true); setIsInFocus(false); onBlur(event);}}
                 onChange={(event) => {onChange(event); }}
                 type={(inputType === 'text' || isPassVisible) ? 'text' : 'password'}
+                defaultValue={defaultValue}
                 placeholder={placeholder}
                 className={classes(
                     'input',

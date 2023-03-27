@@ -7,7 +7,9 @@ export enum PATHS {
     registration = '/registration',
     restorePass = '/forgot-pass',
     error = '/error',
+    profile = '/profile',
     notFound = '*',
+    baseUrl = 'https://strapi.cleverland.by',
   }
   
 export enum PrivacyREASONS {

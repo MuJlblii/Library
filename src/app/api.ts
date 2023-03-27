@@ -1,13 +1,20 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { PATHS } from '../constants/path-routing';
 
-import { IBook, IBookPage, IBooksState, ICategories } from '../interface/interface';
+import { BookType, BookPageType, BooksStateType, CategoriesType, CommentsType } from '../types/types';
 
 import { store } from './store';
+
+type CommentTypePost = {
+  bookId: number,
+  toSend: {data: {rating: number, text: string, user: number, book: number}},
+  backupComment: CommentsType,
+}
 
 export const libraryApi = createApi({
   reducerPath: 'fetch',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://strapi.cleverland.by',
+    baseUrl: PATHS.baseUrl,
     prepareHeaders: (headers, {getState}) => {
       const { user } = (getState() as ReturnType<typeof store.getState>);
 
@@ -18,7 +25,7 @@ export const libraryApi = createApi({
   }),
   tagTypes: ['User', 'Books', 'Book'],
   endpoints: (builder) => ({
-    getBookById: builder.query<IBookPage, string>({
+    getBookById: builder.query<BookPageType, string>({
       query: (id) => `/api/books/${id}`,
       providesTags: ['Book']
     }),
@@ -36,17 +43,17 @@ export const libraryApi = createApi({
         if (categoriesResp.error) {
           return { error: categoriesResp.error as FetchBaseQueryError };
         }
-        const categories = categoriesResp.data as ICategories[];
-        const categorArray: IBooksState[] = categories.map((el) => ({ ...el, list: null }));
+        const categories = categoriesResp.data as CategoriesType[];
+        const categorArray: BooksStateType[] = categories.map((el) => ({ ...el, list: null }));
         const booksResp = await fetchWithBQ('/api/books');
 
         if (booksResp.data) {
           for (let i = 0; i < categorArray.length; i++) {
-            for (let j = 0; j < (booksResp.data as IBook[]).length; j++) {
-              if ((booksResp.data as IBook[])[j].categories.includes(categorArray[i].name)) {
+            for (let j = 0; j < (booksResp.data as BookType[]).length; j++) {
+              if ((booksResp.data as BookType[])[j].categories.includes(categorArray[i].name)) {
                 if (categorArray[i].list == null) {
-                  categorArray[i].list = [(booksResp.data as IBook[])[j]];
-                } else categorArray[i].list = [...(categorArray[i].list as IBook[]), (booksResp.data as IBook[])[j]];
+                  categorArray[i].list = [(booksResp.data as BookType[])[j]];
+                } else categorArray[i].list = [...(categorArray[i].list as BookType[]), (booksResp.data as BookType[])[j]];
               }
             }
           }
@@ -101,7 +108,7 @@ export const libraryApi = createApi({
           body,
         }
       },
-      invalidatesTags: ['Book', 'Books']
+      invalidatesTags: ['Book', 'Books', 'User']
     }),
     changeBooking: builder.mutation({
       query({id, ...put}) {
@@ -111,7 +118,7 @@ export const libraryApi = createApi({
           body: put,
         }
       },
-      invalidatesTags: ['Book', 'Books']
+      invalidatesTags: ['Book', 'Books', 'User']
     }),
     deleteBooking: builder.mutation({
       query({id, ...put}) {
@@ -121,17 +128,68 @@ export const libraryApi = createApi({
           body: put,
         }
       },
-      invalidatesTags: ['Book', 'Books']
+      invalidatesTags: ['Book', 'Books', 'User']
     }),
-    addComment: builder.mutation({
-      query(body) {
+    addComment: builder.mutation<void, Pick<CommentTypePost, 'bookId'> & Partial<CommentTypePost>>({
+      query({toSend}) {
         return {
           url: '/api/comments',
+          method: 'POST',
+          body: toSend,
+        }
+      },
+      invalidatesTags: ['Book', 'Books', 'User'],
+      async onQueryStarted({backupComment, bookId}, {dispatch, queryFulfilled}) {
+        if (bookId) {
+          const backupResult = dispatch(libraryApi.util.updateQueryData('getBookById', bookId.toString(), (draft) => {
+            if (backupComment && draft?.comments !== null) {
+              return {...draft, comments: [...draft.comments, backupComment]};
+            }
+
+            return {...draft, comments: null};
+          })
+          );
+
+          try {
+            await queryFulfilled
+          } catch {
+            backupResult.undo();
+          }
+        }
+      },
+    }),
+    updateComment: builder.mutation({
+      query({id, ...body}) {
+        return {
+          url: `/api/comments/${id}`,
+          method: 'PUT',
+          body,
+        }
+      },
+      invalidatesTags: ['Book', 'Books', 'User']
+    }),
+    getProfileUser: builder.query({
+      query: () => '/api/users/me',
+      providesTags: ['User']
+    }),
+    imageUpload: builder.mutation({
+      query(body) {
+        return {
+          url: '/api/upload',
           method: 'POST',
           body,
         }
       },
-      invalidatesTags: ['Book', 'Books']
+    }),
+    changeProfileInfo: builder.mutation({
+      query({userId, ...put}) {
+        return {
+          url: `/api/users/${userId}`,
+          method: 'PUT',
+          body: put,
+        }
+      },
+      invalidatesTags: ['User']
     }),
   }),
 });
@@ -149,4 +207,8 @@ export const {
   useChangeBookingMutation,
   useDeleteBookingMutation,
   useAddCommentMutation,
+  useGetProfileUserQuery,
+  useImageUploadMutation,
+  useChangeProfileInfoMutation,
+  useUpdateCommentMutation,
 } = libraryApi;

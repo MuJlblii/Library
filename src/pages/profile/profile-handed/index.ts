@@ -1,0 +1,1 @@
+export { ProfileHanded } from './profile-handed';

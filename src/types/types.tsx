@@ -1,4 +1,4 @@
-export interface IBook {
+export type BookType = {
     issueYear: string,
     rating: number | null,
     title: string,
@@ -8,15 +8,15 @@ export interface IBook {
     }  | null,
     categories: string[],
     id: number,
-    booking: IBooking | null,
-    delivery: IDelivery | null,
-    histories: IHistories[] | null,
+    booking: BookingType | null,
+    delivery: DeliveryType | null,
+    histories: HistoriesType[] | null,
 }
-export interface IBookCard extends IBook {
+export type BookCardType = BookType & {
     category: string | undefined,
 }
 
-export interface IBookPage extends IBook {
+export type BookPageType = BookType & {
     description: string,
     publish: string,
     pages: string,
@@ -26,25 +26,25 @@ export interface IBookPage extends IBook {
     ISBN: string,
     producer: string,
     images: Array<{url: string}> | null,
-    comments: IComments[]
+    comments: CommentsType[] | null
 }
 
-export interface IComments {
+export type CommentsType = {
     id: number,
     rating: number,
     text: string,
     createdAt: string,
-    user: IUserComment
+    user: UserCommentType
 }
 
-export interface IUserComment {
+export type UserCommentType = {
     commentUserId: number,
     firstName: string,
     lastName: string,
     avatarUrl: string
 }
 
-export interface IBooking {
+export type BookingType = {
     id: number,
     order: boolean,
     dateOrder: string,
@@ -53,7 +53,7 @@ export interface IBooking {
     customerLastName: string
 }
 
-export interface IDelivery {
+export type DeliveryType = {
     id: number,
     handed: boolean,
     dateHandedFrom: string,
@@ -63,23 +63,23 @@ export interface IDelivery {
     recipientLastName: string,
 }
 
-export interface IHistories {
+export type HistoriesType = {
     id: number,
     userId: number,
 }
 
-export interface ICategories {
+export type CategoriesType = {
     name: string,
     path: string,
     id: number,
 }
 
-export interface IBooksState extends ICategories {
-    list: IBook[] | null,
+export type BooksStateType = CategoriesType & {
+    list: BookType[] | null,
 
 }
 
-export interface IToaster {
+export type ToasterType = {
     type: string,
     message: string,
 }

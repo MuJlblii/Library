@@ -3,11 +3,13 @@ import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import { useAppDispatch, useAppSelector } from '../../app/hook';
-import { currentCategorySet, IstateRedux } from '../../app/reducer';
+import { useAppDispatch } from '../../app/hook';
+import { currentCategorySet } from '../../app/reducer';
 import { setJWTtoken, setUser } from '../../app/reducer-user';
+import { selectIsDesktopView, selectMain } from '../../app/selector-main';
 import {ReactComponent as IconSpoiler} from '../../assets/img/Icon_spoiler.svg';
-import { IBooksState } from '../../interface/interface';
+import { PATHS } from '../../constants/path-routing';
+import { BooksStateType } from '../../types/types';
 import { setJWTtokenToLocalStorage } from '../../utils/jwt-token';
 import { setUserToLocalStorage } from '../../utils/user-local-storage';
 
@@ -20,8 +22,8 @@ type PropsType = {
 
 export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
     const classes = classNames.bind(style);
-    const isDesktopView = useAppSelector((state) => state.main.isDesktopView);
-    const state = useSelector((stateRedux: IstateRedux) => stateRedux.main);
+    const isDesktopView = useSelector(selectIsDesktopView);
+    const state = useSelector(selectMain);
     const {category} = useParams();
     const dispatch = useAppDispatch();
     const [spoiler, setSpoiler] = useState(category === '' ? false : true);
@@ -66,7 +68,7 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
                     </div>
                     {state.data.length > 0 && 
                         <ul className={` ${spoiler ? style.unvisible : ''} ${style.sidebar__category_books}`}>
-                            {state.data.map((el: IBooksState) => (
+                            {state.data.map((el: BooksStateType) => (
                                 <li key={el.id}>
                                     <NavLink
                                         onClick={handleClose}
@@ -116,7 +118,7 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
             </ul>
             {!isDesktopView &&
                 <ul className={style.sidebar__category_additional}>
-                    <li className={style.sidebar__category}>Профиль</li>
+                    <NavLink to={PATHS.profile} className={style.sidebar__category} onClick={handleClose}>Профиль</NavLink>
                     <button
                         type='button'
                         onClick={handleClickExitBtn}

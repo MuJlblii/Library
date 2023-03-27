@@ -1,17 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { IBooksState, IToaster } from '../interface/interface';
+import { BooksStateType, CategoriesType, ToasterType } from '../types/types';
 
-export interface IstateRedux {
+export type StateReduxType = {
   main: {
     currentCategory: string,
-    data: IBooksState[],
+    categories: CategoriesType[],
+    data: BooksStateType[],
     sorting: boolean,
     searching: string,
     bookShelfView: string,
     isDesktopView: boolean,
     isMobileView: boolean,
-    toasterMsg: IToaster | null,
+    isLoadingFetching: boolean,
+    toasterMsg: ToasterType | null,
   }
 }
 
@@ -19,18 +21,23 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState: {
     currentCategory: 'all',
+    categories: [],
     data: [],
     sorting: false,
     searching: '',
     bookShelfView: 'Table',
     isDesktopView: true,
     isMobileView: false,
+    isLoadingFetching: false,
     toasterMsg: null,
     },
   reducers: {
     setDataFetch(state, action) {
         return {...state, data: action.payload };
     },
+    setCategories(state, action) {
+      return {...state, categories: action.payload };
+  },
     currentCategorySet(state, action) {
         return {...state, currentCategory: action.payload };
     },
@@ -51,8 +58,11 @@ export const mainSlice = createSlice({
     },
     setToasterMsg(state, action) {
       return {...state, toasterMsg: action.payload}
-    }
-}
+    },
+    setIsLoadingFetching(state, action) {
+      return {...state, isLoadingFetching: action.payload}
+    },
+  }
 })
 
 export const {
@@ -64,4 +74,6 @@ export const {
   setDesktopView,
   setMobileView,
   setToasterMsg,
+  setCategories,
+  setIsLoadingFetching,
 } = mainSlice.actions;

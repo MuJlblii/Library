@@ -4,12 +4,13 @@ import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 
-import { useAppSelector } from '../../../app/hook';
-import { UserStateType } from '../../../app/reducer-user';
+import { selectBookshelfView } from '../../../app/selector-main';
+import { selectUser } from '../../../app/selector-user';
 import imageDef from '../../../assets/img/image.png';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg'
-import { IBookCard } from '../../../interface/interface';
+import { PATHS } from '../../../constants/path-routing';
 import { useSearchValue } from '../../../layouts/layout-main-page/layout-main-page';
+import { BookCardType } from '../../../types/types';
 import { Booking } from '../../booking';
 
 import style from './bookcard.module.css';
@@ -26,10 +27,10 @@ export const Bookcard = (
         issueYear: year,
         booking: isBooked,
         delivery
-    }: IBookCard) => {
+    }: BookCardType) => {
     const { searchValue } = useSearchValue();
     const [isShowingBooking, setIsShowingBooking] = useState(false);
-    const {User} = useSelector((state: UserStateType) => state.user);
+    const User = useSelector(selectUser);
     const isBookedCurrentUser = isBooked && (isBooked.customerId === User?.id) ? true : false;
     const isBookedAnotherUser = isBooked && (isBooked.customerId !== User?.id) ? true : false;
     const dateDelivery = dayjs(delivery?.dateHandedTo).format('DD.MM');
@@ -56,7 +57,7 @@ export const Bookcard = (
         );
     };
 
-    const view = useAppSelector((state) => state.main.bookShelfView);
+    const view = useSelector(selectBookshelfView);
     const [windowSize, setWindowSize] = useState(window.innerWidth);
     
       useEffect(() => {
@@ -91,10 +92,10 @@ export const Bookcard = (
 
     return (
         <Fragment>
-        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link} data-test-id='card'>
+        <NavLink to={`/books/${category}/${id}`} className={view === 'Table' ? style.link : lstyle.link}>
             <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__wrapper} data-test-id='card'>
                 <div className={view === 'Table' ? style.bookcard__wrapper : lstyle.bookcard__container}>
-                    <img src={image === null ? imageDef : `https://strapi.cleverland.by${image.url}`} alt="Nothing" className={view === 'Table' ? style.bookcard__img : lstyle.bookcard__img}/>
+                    <img src={image === null ? imageDef : `${PATHS.baseUrl}${image.url}`} alt="Nothing" className={view === 'Table' ? style.bookcard__img : lstyle.bookcard__img}/>
                     <div className={view === 'Table' ? style.bookcard__rating : lstyle.bookcard__rating}>
                         {rating === null && <p className={view === 'Table' ? style.bookcard__footer : lstyle.bookcard__footer}>ещё нет оценок</p>}
                         {rating !== null && (<div className={view === 'Table' ? style.bookcard__rating_star : lstyle.bookcard__rating_star}>{ratingStars((rating)).map(el => el)}</div>)}

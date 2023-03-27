@@ -24,7 +24,11 @@
     border: none;
     background: none;
 }
-
+.avatar_img {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+}
 @media screen and (max-width: 679px) {
     .feedback__detailed {
         gap: 8px;

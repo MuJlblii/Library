@@ -1,0 +1,134 @@
+.link {
+    align-self: end;
+}
+.bookcard__wrapper {
+    max-width: 1110px;
+    display: flex;
+    padding: 24px 16px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18), 0px 1px 5px rgba(191, 196, 201, 0.24);
+    border-radius: 12px;
+    position: relative;
+}
+.bookcard__container {
+    max-width: 1110px;
+    display: grid;
+    grid-template-columns: 120px repeat(2, minmax(100px, 540px));
+    grid-template-rows: auto;
+    column-gap: 16px;
+}
+.bookcard__img {
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+.bookcard__text {
+    grid-column: 2/4;
+    grid-row: 1/2;
+}
+.bookcard__title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 32px;
+    color: #363636;
+}
+.bookcard__footer {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.1px;
+    color: #727272;
+}
+.bookcard__rating {
+    grid-column: 2/3;
+    grid-row: 3/4;
+}
+.bookcard__btn {
+    grid-column: 3/4;
+    grid-row: 3/4;
+    width: 174px;
+    height: 40px;
+    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
+    border-radius: 20px;
+    border: none;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    justify-self: flex-end;
+}
+.delivery_date {
+    grid-column: 3/4;
+    grid-row: 3/4;
+    justify-self: flex-end;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 0.1px;
+    text-transform: uppercase;
+    color: #FF5253;
+}
+.bookcard__btn:disabled {
+    background: #F9F9FA;
+    border: 1px solid #BFC4C9;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #A7A7A7;
+}
+
+@media screen and (max-width: 550px) {
+    .bookcard__wrapper {
+        padding: 8px 8px 8px 8px;
+    }
+    .bookcard__container {
+        display: grid;
+        grid-template-columns: 70px auto;
+        grid-template-rows: auto;
+        column-gap: 16px;
+    }
+    .bookcard__text {
+        grid-column: 2/3;
+        grid-row: 1/2;
+    }
+    .bookcard__title {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.1px;
+        color: #363636;
+    }
+    .bookcard__footer {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: #727272;
+    }
+    .bookcard__rating {
+        grid-column: 2/3;
+        grid-row: 2/3;
+    }
+    .bookcard__btn {
+        grid-column: 2/3;
+        grid-row: 3/4;
+        width: 186px;
+    }
+    .delivery_date {
+        grid-column: 2/3;
+        grid-row: 3/4;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        letter-spacing: 0.2px;
+        text-transform: uppercase;
+        color: #FF5253;
+    }
+}

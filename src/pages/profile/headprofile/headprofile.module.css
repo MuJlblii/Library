@@ -1,0 +1,60 @@
+.head {
+    display: flex;
+    gap: 30px;
+}
+.head_names {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.head__avatar_wrapper {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.head__avatar_img {
+    vertical-align: middle;
+    width: 160px;
+    height: 160px;
+}
+.head__avatar_blur {
+    position: absolute;
+    bottom: 0;
+    left: 5px;
+    width: 150px;
+    height: 42px;
+    opacity: 50%;
+    background: #363636;
+    display: block;
+}
+.head_name {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 52px;
+    line-height: 64px;
+    letter-spacing: 0.2px;
+    color: #363636;
+}
+.head__avatar_camera {
+    position: absolute;
+    bottom: 8px;
+    right: 65px;
+}
+.head__avatar_file {
+    display: none;
+}
+
+@media screen and (max-width: 528px) {
+    .head {
+        flex-direction: column;
+        gap: 24px;
+        align-items: center;
+    }
+    .head_name {
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 36px;
+    }
+}

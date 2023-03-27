@@ -1,7 +1,8 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import { useAppSelector } from '../../../app/hook';
+import { selectIsMobileView } from '../../../app/selector-main';
 import { ReactComponent as SearchIcon } from '../../../assets/img/Icon_Action.svg';
 import { ReactComponent as CloseIcon } from '../../../assets/img/Icon_close.svg';
 import { useSearchValue } from '../../../layouts/layout-main-page/layout-main-page';
@@ -16,7 +17,7 @@ type PropsType = {
 export const SearchBtn = ({isMobileSearch, setMobileSearch} : PropsType) => {
     const {searchValue, setSearchValue} = useSearchValue();
     const [activeSearch, setActiveSearch] = useState(false);
-    const isMobileView = useAppSelector((state) => state.main.isMobileView);
+    const isMobileView = useSelector(selectIsMobileView);
     const refInputSearch = useRef<HTMLInputElement>(null);
     const classes = classNames.bind(style);
 
