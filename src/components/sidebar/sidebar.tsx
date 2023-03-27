@@ -118,7 +118,7 @@ export const Sidebar = ({style = defaultStyle, handleClose}: PropsType) => {
             </ul>
             {!isDesktopView &&
                 <ul className={style.sidebar__category_additional}>
-                    <NavLink to={PATHS.profile} className={style.sidebar__category}>Профиль</NavLink>
+                    <NavLink to={PATHS.profile} className={style.sidebar__category} onClick={handleClose}>Профиль</NavLink>
                     <button
                         type='button'
                         onClick={handleClickExitBtn}
