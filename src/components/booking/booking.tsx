@@ -33,7 +33,12 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
     const [changeBooking, {isLoading: isLoadingChanges, isError: isErrorChanges, isSuccess: isSuccessChanges }] = useChangeBookingMutation();
     const submitHandler = () => {
         if (isBooked) {
-            changeBooking({id: bookingObj?.id, data: {order: true, dateOrder: selectedDay?.add(3, 'hour')?.toDate(), book: bookCardId, customer: User?.id}}) 
+            if (selectedDay?.isSame(bookingObj?.dateOrder, 'day')) {
+                dispatch(setToasterMsg({type: 'error', message: 'Изменения не были сохранены. Попробуйте позже!'}));
+                setIsShowingBooking(false);
+            } else {
+                changeBooking({id: bookingObj?.id, data: {order: true, dateOrder: selectedDay?.add(3, 'hour')?.toDate(), book: bookCardId, customer: User?.id}}) 
+            }
         } else 
         booking({data: {order: true, dateOrder: selectedDay?.add(3, 'hour')?.toDate(), book: bookCardId, customer: User?.id}})
     }
