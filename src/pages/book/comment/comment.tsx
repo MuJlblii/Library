@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import logo from '../../../assets/img/Ellipse 10.png';
+import logo from '../../../assets/img/default_avatar.svg';
 import { ReactComponent as Icon } from '../../../assets/img/Star.svg';
 import { PATHS } from '../../../constants/path-routing';
 import { CommentsType } from '../../../types/types';
