@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { useBookingMutation, useChangeBookingMutation, useDeleteBookingMutation } from '../../app/api';
-import { useAppDispatch } from '../../app/hook';
+import { useAppDispatch, useIsLoading } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
 import { selectUser } from '../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
@@ -46,6 +46,10 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
         deleteBooking({id: bookingObj?.id});
     }
 
+    useIsLoading(isLoading);
+    useIsLoading(isLoadingDelete);
+    useIsLoading(isLoadingChanges);
+
     useEffect(() => {
         if (isError) {
             dispatch(setToasterMsg({type: 'error', message: 'Что-то пошло не так, книга не забронирована. Попробуйте позже!'}));
@@ -86,38 +90,35 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
     },[isShowingBooking, setIsShowingBooking])
 
     return (
-        <Fragment>
-            {(isLoading || isLoadingChanges || isLoadingDelete) && <Loader/>}
-            <div className={style.section} data-test-id='modal-outer'>
-                <div className={style.wrapper} ref={calendarRef} data-test-id='booking-modal'>
+        <div className={style.section} data-test-id='modal-outer'>
+            <div className={style.wrapper} ref={calendarRef} data-test-id='booking-modal'>
+                <button
+                    type='button'
+                    className={style.close_icon}
+                    onClick={() => setIsShowingBooking(false)}
+                    data-test-id='modal-close-button'
+                >
+                    <CloseIcon />
+                </button>
+                <div className={style.modal}>
+                    <h3 className={style.title} data-test-id='modal-title'>{isBooked ? 'Изменение даты бронирования' : 'Выбор даты бронирования'}</h3>
+                    <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} setIsCalendarClicked={setIsCalendarClicked}/>
                     <button
-                        type='button'
-                        className={style.close_icon}
-                        onClick={() => setIsShowingBooking(false)}
-                        data-test-id='modal-close-button'
-                    >
-                        <CloseIcon />
-                    </button>
-                    <div className={style.modal}>
-                        <h3 className={style.title} data-test-id='modal-title'>{isBooked ? 'Изменение даты бронирования' : 'Выбор даты бронирования'}</h3>
-                        <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} setIsCalendarClicked={setIsCalendarClicked}/>
+                        disabled={!isCalendarClicked}
+                        className={classNames(style.btn, style.btn_booking)}
+                        onClick={submitHandler}
+                        type='submit'
+                        data-test-id='booking-button'
+                    >забронировать</button>
+                    {isBooked &&
                         <button
-                            disabled={!isCalendarClicked}
-                            className={classNames(style.btn, style.btn_booking)}
-                            onClick={submitHandler}
+                            className={classNames(style.btn, style.btn_delete)}
+                            onClick={submitRemoveBooking}
                             type='submit'
-                            data-test-id='booking-button'
-                        >забронировать</button>
-                        {isBooked &&
-                            <button
-                                className={classNames(style.btn, style.btn_delete)}
-                                onClick={submitRemoveBooking}
-                                type='submit'
-                                data-test-id='booking-cancel-button'
-                            >отменить бронь</button>}
-                    </div>
+                            data-test-id='booking-cancel-button'
+                        >отменить бронь</button>}
                 </div>
             </div>
-        </Fragment>
+        </div>
     )
 }

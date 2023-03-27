@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, useParams } from 'react-router-dom';
 
-import { useChangeProfileInfoMutation, useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery, useImageUploadMutation } from '../../app/api';
-import { useAppDispatch, useCheckDesktopView } from '../../app/hook';
+import { useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery } from '../../app/api';
+import { useAppDispatch, useCheckDesktopView, useIsLoading } from '../../app/hook';
 import { setCategories, setDataFetch, setDesktopView, setMobileView, setToasterMsg } from '../../app/reducer';
 import { setUserProfile } from '../../app/reducer-user';
-import { selectToaster } from '../../app/selector-main';
+import { selectIsLoading, selectToaster } from '../../app/selector-main';
 import { createBooksState } from '../../app/utils';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
@@ -19,6 +19,7 @@ export const Layout = () => {
     const delayHideToaster = 4;
     const toasterMsg = useSelector(selectToaster);
     const [ isShowingToaster, setIsShowingToaster ] = useState(false);
+    const isLoadingFetching = useSelector(selectIsLoading);
     const params = useParams();
     const skipFetchBooks = params?.bookId ? true : false;
   
@@ -27,18 +28,15 @@ export const Layout = () => {
     const dispatch = useAppDispatch();
 
     const { data: dataUserProfile, isLoading: isLoadingUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined);
-    const [, {isLoading: isLoadingImageUpload}] = useImageUploadMutation();
-    const [, {isLoading: isLoadingChangeProfile}] = useChangeProfileInfoMutation();
     const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories, isFetching: isFetchingCategories } = useGetCategoriesQuery(undefined);
     const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching: isFetchingAllBooks } = useGetAllBooksQuery(undefined, {skip: skipFetchBooks});
-    const checkLoading = isLoadingCategories
-        || isLoadingAllBooks
-        || isFetchingAllBooks
-        || isLoadingUserProfile
-        || isFetchingUserProfile
-        || isFetchingCategories
-        || isLoadingImageUpload
-        || isLoadingChangeProfile;
+
+    useIsLoading(isLoadingUserProfile);
+    useIsLoading(isLoadingCategories);
+    useIsLoading(isLoadingAllBooks);
+    useIsLoading(isFetchingUserProfile);
+    useIsLoading(isFetchingCategories);
+    useIsLoading(isFetchingAllBooks);
 
     useEffect(() => {
         if (isErrorAllBooks || isErrorCategories) {
@@ -80,7 +78,7 @@ export const Layout = () => {
 
     return (
         <div className={style.layout__wrapper} data-test-id='main-page'>
-            {checkLoading && <Loader />}
+            {isLoadingFetching && <Loader />}
             {isShowingToaster && toasterMsg && <Toaster message={toasterMsg.message} type={toasterMsg.type}/>}
             <Header />
             <Outlet />

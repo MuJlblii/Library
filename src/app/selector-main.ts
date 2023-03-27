@@ -7,3 +7,4 @@ export const selectBookshelfView = (stateRedux: StateReduxType) => stateRedux.ma
 export const selectIsDesktopView = (stateRedux: StateReduxType) => stateRedux.main.isDesktopView;
 export const selectCategories = (stateRedux: StateReduxType) => stateRedux.main.categories;
 export const selectBooks = (stateRedux: StateReduxType) => stateRedux.main.data;
+export const selectIsLoading = (stateRedux: StateReduxType) => stateRedux.main.isLoadingFetching;

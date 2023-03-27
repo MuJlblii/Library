@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
+import { setIsLoadingFetching } from './reducer';
 import type { AppDispatch,RootState } from './store';
 
 export const useAppDispatch: () => AppDispatch = useDispatch
@@ -42,4 +43,14 @@ export const useCheckDesktopView = (minWidth: string) => {
   }, [minWidth]);
 
   return matches
+}
+
+export const useIsLoading = (isLoading: boolean) => {
+  const dispatch = useAppDispatch();
+
+  return useEffect(() => {
+    if (isLoading) {
+      dispatch(setIsLoadingFetching(true));
+    } else dispatch(setIsLoadingFetching(false));
+  }, [isLoading, dispatch])
 }

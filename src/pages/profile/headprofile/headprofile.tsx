@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useChangeProfileInfoMutation, useImageUploadMutation } from '../../../app/api';
-import { useAppDispatch } from '../../../app/hook';
+import { useAppDispatch, useIsLoading } from '../../../app/hook';
 import { setToasterMsg } from '../../../app/reducer';
 import avatarImg from '../../../assets/img/default_avatar.svg';
 import {ReactComponent as IconCamera} from '../../../assets/img/Icon_camera.svg';
@@ -21,8 +21,12 @@ export const HeadProfile = ({firstName, lastName, avatar, id: userId} : HeadProf
     const dispatch = useAppDispatch();
     const [file, setFile] = useState<File | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const [imageUpload, {isError: isErrorImage, isSuccess: isSuccessImageUpload, data}] = useImageUploadMutation()
-    const [changeProfileInfo, {isSuccess, isError}] = useChangeProfileInfoMutation()
+    const [imageUpload, {isError: isErrorImage, isSuccess: isSuccessImageUpload, data, isLoading: isLoadingImageUpload}] = useImageUploadMutation()
+    const [changeProfileInfo, {isSuccess, isError, isLoading: LoadingChangeProfile}] = useChangeProfileInfoMutation()
+
+    useIsLoading(isLoadingImageUpload);
+    useIsLoading(LoadingChangeProfile);
+
     const handleFileClick = () => {
         inputRef?.current?.click();
     }

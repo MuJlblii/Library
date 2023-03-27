@@ -12,6 +12,7 @@ export type StateReduxType = {
     bookShelfView: string,
     isDesktopView: boolean,
     isMobileView: boolean,
+    isLoadingFetching: boolean,
     toasterMsg: ToasterType | null,
   }
 }
@@ -27,6 +28,7 @@ export const mainSlice = createSlice({
     bookShelfView: 'Table',
     isDesktopView: true,
     isMobileView: false,
+    isLoadingFetching: false,
     toasterMsg: null,
     },
   reducers: {
@@ -56,8 +58,11 @@ export const mainSlice = createSlice({
     },
     setToasterMsg(state, action) {
       return {...state, toasterMsg: action.payload}
-    }
-}
+    },
+    setIsLoadingFetching(state, action) {
+      return {...state, isLoadingFetching: action.payload}
+    },
+  }
 })
 
 export const {
@@ -70,4 +75,5 @@ export const {
   setMobileView,
   setToasterMsg,
   setCategories,
+  setIsLoadingFetching,
 } = mainSlice.actions;

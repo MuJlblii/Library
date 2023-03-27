@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 
 import { useAddCommentMutation, useGetBookByIdQuery, useUpdateCommentMutation } from '../../app/api';
-import { useAppDispatch } from '../../app/hook';
+import { useAppDispatch, useIsLoading } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
 import { UserProfileType } from '../../app/reducer-user';
 import { selectProfile } from '../../app/selector-user';
@@ -57,6 +57,9 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, bookId}: Commen
         }
     }
 
+    useIsLoading(isLoading);
+    useIsLoading(isLoadingUpdate)
+
     useEffect(() => {
         if (isError) {
             dispatch(setToasterMsg({type: 'error', message: 'Оценка не была отправлена. Попробуйте позже!'}));
@@ -101,8 +104,6 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, bookId}: Commen
     },[isShowingModal, setIsShowingModal])
 
     return (
-        <Fragment>
-            {(isLoading || isLoadingUpdate) && <Loader/>}
             <div className={style.section} data-test-id='modal-outer'>
                 <div className={style.wrapper} ref={calendarRef} data-test-id='modal-rate-book'>
                     <button
@@ -137,6 +138,5 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, bookId}: Commen
                     </div>
                 </div>
             </div>
-        </Fragment>
     )
 }
