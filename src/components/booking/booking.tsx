@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { useBookingMutation, useChangeBookingMutation, useDeleteBookingMutation } from '../../app/api';
-import { useAppDispatch, useIsLoading } from '../../app/hook';
+import { useAppDispatch } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
 import { selectUser } from '../../app/selector-user';
 import { ReactComponent as CloseIcon } from '../../assets/img/Icon_close_toaster.svg';
@@ -28,9 +28,9 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
     const [selectedDay, setSelectedDay] = useState<Dayjs | null>(bookingObj ? dayjs(bookingObj?.dateOrder) : null);
     const User = useSelector(selectUser)
     const [isCalendarClicked, setIsCalendarClicked] = useState(false);
-    const [booking, {isLoading, isError, isSuccess }] = useBookingMutation();
-    const [deleteBooking, {isLoading: isLoadingDelete, isError: isErrorDelete, isSuccess: isSuccessDelete}] = useDeleteBookingMutation();
-    const [changeBooking, {isLoading: isLoadingChanges, isError: isErrorChanges, isSuccess: isSuccessChanges }] = useChangeBookingMutation();
+    const [booking, {isError, isSuccess }] = useBookingMutation();
+    const [deleteBooking, {isError: isErrorDelete, isSuccess: isSuccessDelete}] = useDeleteBookingMutation();
+    const [changeBooking, {isError: isErrorChanges, isSuccess: isSuccessChanges }] = useChangeBookingMutation();
     const submitHandler = () => {
         if (isBooked) {
             if (selectedDay?.isSame(bookingObj?.dateOrder, 'day')) {
@@ -45,10 +45,6 @@ export const Booking = ({isShowingBooking, setIsShowingBooking, bookCardId, isBo
     const submitRemoveBooking = () => {
         deleteBooking({id: bookingObj?.id});
     }
-
-    useIsLoading(isLoading);
-    useIsLoading(isLoadingDelete);
-    useIsLoading(isLoadingChanges);
 
     useEffect(() => {
         if (isError) {

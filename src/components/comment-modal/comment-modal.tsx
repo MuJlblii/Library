@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 
 import { useAddCommentMutation, useGetBookByIdQuery, useUpdateCommentMutation } from '../../app/api';
-import { useAppDispatch, useIsLoading } from '../../app/hook';
+import { useAppDispatch } from '../../app/hook';
 import { setToasterMsg } from '../../app/reducer';
 import { UserProfileType } from '../../app/reducer-user';
 import { selectProfile } from '../../app/selector-user';
@@ -31,8 +31,8 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, bookId}: Commen
     const [rating, setRating] = useState(5);
 
     const dispatch = useAppDispatch();
-    const [addComment, {isLoading, isError, isSuccess}] = useAddCommentMutation();
-    const [updateComment, { isLoading: isLoadingUpdate, isError: isErrorUpdate, isSuccess: isSuccessUpdate}] = useUpdateCommentMutation();
+    const [addComment, {isError, isSuccess}] = useAddCommentMutation();
+    const [updateComment, { isError: isErrorUpdate, isSuccess: isSuccessUpdate}] = useUpdateCommentMutation();
     
     const submitHandler = () => {
         const backupComment: CommentsType = {
@@ -56,9 +56,6 @@ export const CommentModal = ({isShowingModal, setIsShowingModal, bookId}: Commen
             addComment({toSend: {data: {rating, text: commentText, book: bookId, user: profile.id}}, backupComment, bookId, })
         }
     }
-
-    useIsLoading(isLoading);
-    useIsLoading(isLoadingUpdate)
 
     useEffect(() => {
         if (isError) {

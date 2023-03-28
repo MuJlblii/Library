@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
-import { PATHS } from '../constants/path-routing';
 
-import { BookType, BookPageType, BooksStateType, CategoriesType, CommentsType } from '../types/types';
+import { PATHS } from '../constants/path-routing';
+import { BookPageType, BooksStateType, BookType, CategoriesType, CommentsType } from '../types/types';
 
 import { store } from './store';
 

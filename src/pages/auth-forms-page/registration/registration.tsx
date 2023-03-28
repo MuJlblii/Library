@@ -3,7 +3,6 @@ import { SubmitHandler } from 'react-hook-form';
 
 import { useRegisterMutation } from '../../../app/api';
 import { FormStatusBlock } from '../../../components/form-blocks/form-status-block';
-import { Loader } from '../../../components/loader';
 import { PATHS } from '../../../constants/path-routing';
 
 import { FormInputsFirstStepType, RegistrationFirstSection } from './registration-first-section';
@@ -15,7 +14,8 @@ import styleDefault from '../auth-forms-default.module.css';
 export const RegistrationPage = () => {
     const [dataFromForm, setDataFromForm] = useState({});
     const [step, setStep] =useState(1);
-    const [register, {isLoading, isSuccess, error}] = useRegisterMutation();
+    const [register, {isSuccess, error}] = useRegisterMutation();
+
     const [isErrorRegister, setIsErrorRegister] = useState(false);
     const [isErrorResponse, setIsErrorResponse] = useState(false);
     const onSubmitFirstStep: SubmitHandler<FormInputsFirstStepType> = data => {
@@ -51,7 +51,6 @@ export const RegistrationPage = () => {
 
     return (
         <div className={styleDefault.wrapper}>
-            {isLoading && <Loader />}
             {!isErrorRegister && !isErrorResponse &&
                 <Fragment>
                     {!isSuccess && step <= 3 && <p className={styleDefault.title}>Регистрация</p>}
