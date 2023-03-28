@@ -45,12 +45,14 @@ export const useCheckDesktopView = (minWidth: string) => {
   return matches
 }
 
-export const useIsLoading = (isLoading: boolean) => {
+export const useIsLoadingTotal = () => {
   const dispatch = useAppDispatch();
+  const isSomePendingQueries = useSelector((state: RootState) => Object.values(state.fetch.queries).some(query => query?.status === 'pending'));
+  const isSomePendingMutations = useSelector((state: RootState) => Object.values(state.fetch.mutations).some(mutation => mutation?.status === 'pending'));
 
   return useEffect(() => {
-    if (isLoading) {
+    if (isSomePendingQueries || isSomePendingMutations) {
       dispatch(setIsLoadingFetching(true));
     } else dispatch(setIsLoadingFetching(false));
-  }, [isLoading, dispatch])
+  }, [isSomePendingQueries, isSomePendingMutations, dispatch])
 }

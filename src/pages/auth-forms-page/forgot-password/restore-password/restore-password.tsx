@@ -5,7 +5,6 @@ import classNames from 'classnames/bind';
 import { useRestorePasswordMutation } from '../../../../app/api';
 import { FormStatusBlock } from '../../../../components/form-blocks/form-status-block';
 import { Input } from '../../../../components/form-blocks/input-password';
-import { Loader } from '../../../../components/loader';
 import { PATHS } from '../../../../constants/path-routing';
 import { passwordValidation } from '../../../../utils/validation';
 
@@ -25,7 +24,8 @@ export const RestorePassword = ({code} : RestorePasswordPropsType) => {
 
     const {onChange: onChangePass1, onBlur: onBlurPass1, name: namePass1, ref: refPass1} = register('password', passwordValidation);
     const {onChange: onChangePass2, onBlur: onBlurPass2, name: namePass2, ref: refPass2} = register('passwordConfirmation', {validate: {checkLength: (value: string) => value?.length > 0 || 'Поле не может быть пустым', checkTheSame: (value: string) => value === getValues('password') ? true : 'Пароли не совпадают'}});
-    const [restore, {isLoading, isSuccess, isError}] = useRestorePasswordMutation();
+    const [restore, {isSuccess, isError}] = useRestorePasswordMutation();
+
     const onSubmitForm: SubmitHandler<RestorePasswordFormType> = data => {
         restore({...data, code})
     };
@@ -40,7 +40,6 @@ export const RestorePassword = ({code} : RestorePasswordPropsType) => {
 
     return (
         <div className={style.wrapper}>
-            {isLoading && <Loader />}
             {!isSuccess && !isErrorRestoreResponse &&
             <Fragment><p className={style.form_title}>Восстановление пароля</p>
                 <form

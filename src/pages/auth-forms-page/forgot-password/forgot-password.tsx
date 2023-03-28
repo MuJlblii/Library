@@ -8,7 +8,6 @@ import {ReactComponent as IconArrowLeft} from '../../../assets/img/Icon_arrow_le
 import { FormFooter } from '../../../components/form-blocks/form-footer';
 import { FormStatusBlock } from '../../../components/form-blocks/form-status-block';
 import { Input } from '../../../components/form-blocks/input-password';
-import { Loader } from '../../../components/loader';
 import { PATHS } from '../../../constants/path-routing';
 
 import { RestorePassword } from './restore-password';
@@ -23,7 +22,7 @@ export type FormForgotPasswordType = {
 
 export const ForgotPasswordPage = () => {
     const classesDefault = classNames.bind(styleDefault);
-    const [forgot, {isSuccess, isLoading, error}] = useForgotPasswordMutation();
+    const [forgot, {isSuccess, error}] = useForgotPasswordMutation();
     const { register, formState: { errors, isValid, dirtyFields }, handleSubmit } = useForm<FormForgotPasswordType>({mode: 'all'});
     const classes = classNames.bind(style);
     const onSubmit: SubmitHandler<FormForgotPasswordType> = data => {
@@ -49,7 +48,6 @@ export const ForgotPasswordPage = () => {
                         <NavLink to={PATHS.auth} className={style.form_header_link}><IconArrowLeft /><span>вход в личный кабинет</span></NavLink>
                     </div>
                     <div className={style.form_wrapper}>
-                        {isLoading && <Loader />}
                         <p className={styleDefault.title}>Восстановление пароля</p>
                         <form
                             onSubmit={handleSubmit(onSubmit)}

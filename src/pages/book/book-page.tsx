@@ -16,7 +16,6 @@ import {ReactComponent as SlashIcon} from '../../assets/img/Slash.svg';
 import { Booking } from '../../components/booking';
 import { CommentModal } from '../../components/comment-modal';
 import { Gallery } from '../../components/gallery';
-import { Loader } from '../../components/loader';
 import { Rating } from '../../components/rating';
 import { PATHS } from '../../constants/path-routing';
 import { ToasterMsg } from '../../constants/toaster-message';
@@ -40,7 +39,9 @@ export const BookPage = () => {
 
   const dispatch = useAppDispatch();
   const [data, setData] = useState<BookPageType | null>(null);
-  const {data: BookDataFetch, isLoading, isError, isFetching, isSuccess} = useGetBookByIdQuery(bookId as string);
+  const {data: BookDataFetch, isError, isSuccess} = useGetBookByIdQuery(bookId as string);
+
+
   const isBooked = data?.booking;
   const isBookedCurrentUser = isBooked && (isBooked.customerId === userId) ? true : false;
   const isBookedAnotherUser = isBooked && (isBooked.customerId !== userId) ? true : false;
@@ -77,7 +78,6 @@ export const BookPage = () => {
 
   return (
     <section className={style.section}>
-      {(isLoading || isFetching ) && <Loader />}
       {isShowingBooking &&
         <Booking
           isShowingBooking={isShowingBooking}

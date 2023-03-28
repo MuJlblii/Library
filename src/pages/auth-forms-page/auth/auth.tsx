@@ -31,7 +31,7 @@ export const AuthPage = () => {
     const {onChange: onChangeIdent, onBlur: onBlurIdent, name: nameIdent, ref: refIdent} = register('identifier', {validate: {checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым'}});
     const {onChange: onChangePass, onBlur: onBlurPass, name: namePass, ref: refPass} = register('password', {validate: {checkLength: (value: string) => value.length > 0 || 'Поле не может быть пустым'}});
 
-    const [auth, {isLoading, data, error}] = useAuthorizationMutation();
+    const [auth, {data, error}] = useAuthorizationMutation();
     const dispatch = useAppDispatch();
     const onSubmitForm: SubmitHandler<FormAuthInputsType> = ({identifier, password}) => {
         setIsErrorAuth(false);
@@ -60,7 +60,8 @@ export const AuthPage = () => {
 
     return (
         <div className={styleDefault.wrapper}>
-            {isLoading && <Loader />}
+            {/* {isLoading && <Loader />} */}
+            <Loader />
             {!isErrorResponse &&
                 <Fragment>
                     <h3 className={styleDefault.title}>Вход в личный кабинет</h3>

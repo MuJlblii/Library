@@ -1,12 +1,10 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { Outlet, useParams } from 'react-router-dom';
 
 import { useGetAllBooksQuery, useGetCategoriesQuery, useGetProfileUserQuery } from '../../app/api';
-import { useAppDispatch, useCheckDesktopView, useIsLoading } from '../../app/hook';
+import { useAppDispatch, useCheckDesktopView, useIsLoadingTotal } from '../../app/hook';
 import { setCategories, setDataFetch, setDesktopView, setMobileView, setToasterMsg } from '../../app/reducer';
 import { setUserProfile } from '../../app/reducer-user';
-import { selectIsLoading } from '../../app/selector-main';
 import { createBooksState } from '../../app/utils';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
@@ -17,7 +15,6 @@ import { ToasterMsg } from '../../constants/toaster-message';
 import style from './layout.module.css';
 
 export const Layout = () => {
-    const isLoadingFetching = useSelector(selectIsLoading);
     const params = useParams();
     const skipFetchBooks = params?.bookId ? true : false;
   
@@ -25,16 +22,11 @@ export const Layout = () => {
     const checkMobileView = useCheckDesktopView('(max-width: 679px)');
     const dispatch = useAppDispatch();
 
-    const { data: dataUserProfile, isLoading: isLoadingUserProfile, isFetching: isFetchingUserProfile } = useGetProfileUserQuery(undefined);
-    const { data: dataCategories, isLoading: isLoadingCategories, isError: isErrorCategories, isFetching: isFetchingCategories } = useGetCategoriesQuery(undefined);
-    const { data: dataBooks, isLoading: isLoadingAllBooks, isError: isErrorAllBooks, isFetching: isFetchingAllBooks } = useGetAllBooksQuery(undefined, {skip: skipFetchBooks});
+    const { data: dataUserProfile } = useGetProfileUserQuery(undefined);
+    const { data: dataCategories, isError: isErrorCategories } = useGetCategoriesQuery(undefined);
+    const { data: dataBooks, isError: isErrorAllBooks } = useGetAllBooksQuery(undefined, {skip: skipFetchBooks});
 
-    useIsLoading(isLoadingUserProfile);
-    useIsLoading(isLoadingCategories);
-    useIsLoading(isLoadingAllBooks);
-    useIsLoading(isFetchingUserProfile);
-    useIsLoading(isFetchingCategories);
-    useIsLoading(isFetchingAllBooks);
+    useIsLoadingTotal();
 
     useEffect(() => {
         if (isErrorAllBooks || isErrorCategories) {
@@ -69,7 +61,7 @@ export const Layout = () => {
 
     return (
         <div className={style.layout__wrapper} data-test-id='main-page'>
-            {isLoadingFetching && <Loader />}
+            <Loader />
             <Toaster />
             <Header />
             <Outlet />
